@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:exam1/pages/add_photo/add_photo_bloc.dart';
 import 'package:exam1/pages/add_photo/screens/add_photo_screen.dart';
 import 'package:exam1/pages/add_photo/screens/comment_screen.dart';
 import 'package:exam1/pages/add_photo/screens/details_screen.dart';
 import 'package:exam1/pages/add_photo/screens/events_screen.dart';
 import 'package:exam1/pages/add_photo/widgets/location_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class UploadPhotosPage extends StatefulWidget {
   const UploadPhotosPage({super.key});
@@ -30,6 +33,10 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
   late bool _isExistingEvent;
   late int _eventID;
 
+  late AddPhotoBloc _addPhotoBloc;
+
+  late ProgressDialog _progressDialog;
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +58,37 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
 
     _isExistingEvent = true;
     _eventID = 0;
+
+    _addPhotoBloc = AddPhotoBloc();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.normal, isDismissible: false);
+  }
+
+  void diaryDialog(
+      {required String title,
+      required String message,
+      required Function() onPressed}) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: onPressed,
+              child: const Text('OK'),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -68,82 +106,116 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            //Static location only
-            const LocationWidget(
-                location: '20041075 | TAP-NS TAP-North Strathfield'),
+      body: BlocListener<AddPhotoBloc, AddPhotoState>(
+        bloc: _addPhotoBloc,
+        listener: (context, state) async {
+          if (state is UploadDiaryLoading) {
+            if (!_progressDialog.isShowing()) {
+              _progressDialog.show();
+            }
+          } else if (state is UploadDiaryFailed) {
+            if (_progressDialog.isShowing()) {
+              _progressDialog.hide();
 
-            //Start of the form
-            Container(
-              color: Colors.white10,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                child: Column(
-                  children: [
-                    //Header of the form
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Add to site diary',
-                            style: Theme.of(context).textTheme.headlineSmall,
+              diaryDialog(
+                  title: 'Upload Failed',
+                  message: state.errorMessage ?? 'Something went wrong..',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  });
+            }
+          } else if (state is UploadDiarySuccess) {
+            if (_progressDialog.isShowing()) {
+              _progressDialog.hide();
+
+              diaryDialog(
+                  title: 'Upload Success',
+                  message: 'Your diary has beed uploaded!',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  });
+            }
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              //Static location only
+              const LocationWidget(
+                  location: '20041075 | TAP-NS TAP-North Strathfield'),
+
+              //Start of the form
+              Container(
+                color: Colors.white10,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0, vertical: 8.0),
+                  child: Column(
+                    children: [
+                      //Header of the form
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Add to site diary',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
                           ),
-                        ),
-                        const Align(
-                          alignment: Alignment.centerRight,
-                          child: Tooltip(
-                            message: "Fill up to add in site diary",
-                            triggerMode: TooltipTriggerMode.tap,
-                            child: Icon(Icons.help),
+                          const Align(
+                            alignment: Alignment.centerRight,
+                            child: Tooltip(
+                              message: "Fill up to add in site diary",
+                              triggerMode: TooltipTriggerMode.tap,
+                              child: Icon(Icons.help),
+                            ),
+                          )
+                        ],
+                      ),
+
+                      //Adding of photo to site diary
+                      AddPhotoScreen(
+                        imageList: _imageList,
+                        includePhotoGallery: _includeGalleryPhoto,
+                      ),
+
+                      //Comments
+                      CommentScreen(commentController: _commentController),
+
+                      //Details
+                      DetailsScreen(
+                          diaryDateController: _diaryDateController,
+                          areaID: _areaID,
+                          categoryID: _categoryID,
+                          tagsController: _tagsController,
+                          onSelectAreas: (value) {},
+                          onSelectCategory: (value) {}),
+
+                      //Event
+                      EventsScreen(
+                          isLinkExistingEvent: _isExistingEvent,
+                          onSelectEvent: (value) {}),
+
+                      //Button for calling the api
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 4.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 70,
+                          child: ElevatedButton(
+                            child: const Text('Next'),
+                            onPressed: () {
+                              _addPhotoBloc.add(UploadDiary());
+                            },
                           ),
-                        )
-                      ],
-                    ),
-
-                    //Adding of photo to site diary
-                    AddPhotoScreen(
-                      imageList: _imageList,
-                      includePhotoGallery: _includeGalleryPhoto,
-                    ),
-
-                    //Comments
-                    CommentScreen(commentController: _commentController),
-
-                    //Details
-                    DetailsScreen(
-                        diaryDateController: _diaryDateController,
-                        areaID: _areaID,
-                        categoryID: _categoryID,
-                        tagsController: _tagsController,
-                        onSelectAreas: (value) {},
-                        onSelectCategory: (value) {}),
-
-                    //Event
-                    EventsScreen(
-                        isLinkExistingEvent: _isExistingEvent,
-                        onSelectEvent: (value) {}),
-
-                    //Button for calling the api
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 4.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 70,
-                        child: ElevatedButton(
-                          child: const Text('Next'),
-                          onPressed: () {},
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -155,5 +227,7 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
 
     _commentController.dispose();
     _commentController.dispose();
+
+    _addPhotoBloc.close();
   }
 }
