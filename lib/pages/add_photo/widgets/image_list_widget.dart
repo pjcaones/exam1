@@ -1,11 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+typedef RemoveImage = void Function(int index);
 
 class ImageListWidget extends StatelessWidget {
-  final List<File>? imageList;
+  final List<XFile>? imageList;
 
-  const ImageListWidget({super.key, this.imageList});
+  final RemoveImage onRemoveImage;
+
+  const ImageListWidget(
+      {super.key, this.imageList, required this.onRemoveImage});
 
   @override
   Widget build(BuildContext context) {
@@ -15,27 +21,49 @@ class ImageListWidget extends StatelessWidget {
       widgetToDisplay = const Align(
         alignment: Alignment.center,
         child: Text(
-          'No image uploaded yet..',
+          'No images uploaded yet..',
         ),
       );
     } else {
-      widgetToDisplay = ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: imageList?.length ?? 0,
-        itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .2,
-                height: MediaQuery.of(context).size.height * .2,
-                child: Image.file(
-                  imageList![index],
-                  fit: BoxFit.fill,
+      widgetToDisplay = SizedBox(
+        width: double.infinity,
+        height: 80,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: imageList?.length ?? 0,
+          itemBuilder: (context, index) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                  child: Stack(children: [
+                    Image.file(
+                      File(imageList![index].path),
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.fill,
+                    ),
+                    Positioned(
+                        top: 0,
+                        right: 0,
+                        child: GestureDetector(
+                            onTap: () => onRemoveImage(index),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.black),
+                                child: const Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ))))
+                  ]),
                 ),
-              )
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       );
     }
 

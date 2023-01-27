@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:exam1/helpers/image_helper.dart';
 import 'package:exam1/pages/add_photo/add_photo_bloc.dart';
 import 'package:exam1/pages/add_photo/screens/add_photo_screen.dart';
 import 'package:exam1/pages/add_photo/screens/comment_screen.dart';
@@ -7,6 +8,7 @@ import 'package:exam1/pages/add_photo/screens/details_screen.dart';
 import 'package:exam1/pages/add_photo/screens/events_screen.dart';
 import 'package:exam1/pages/add_photo/widgets/location_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
@@ -19,8 +21,10 @@ class UploadPhotosPage extends StatefulWidget {
 }
 
 class _UploadPhotosState extends State<UploadPhotosPage> {
+  late ImageHelper _imageHelper;
+
   late bool _includeGalleryPhoto;
-  List<File>? _imageList;
+  List<XFile>? _imageList;
 
   late TextEditingController _commentController;
 
@@ -42,6 +46,7 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
     super.initState();
 
     DateFormat format = DateFormat('yyyy-MM-dd');
+    _imageHelper = ImageHelper();
 
     _includeGalleryPhoto = true;
     _commentController = TextEditingController();
@@ -68,6 +73,25 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
 
     _progressDialog = ProgressDialog(context,
         type: ProgressDialogType.normal, isDismissible: false);
+  }
+
+  //Callbacks
+  Future<void> _onSelectImage() async {
+    XFile? pickedImage =
+        await _imageHelper.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _imageList ??= [];
+      if (pickedImage != null) {
+        _imageList!.add(pickedImage);
+      }
+    });
+  }
+
+  void _onRemoveImage(int index) {
+    setState(() {
+      _imageList!.removeAt(index);
+    });
   }
 
   void diaryDialog(
@@ -176,6 +200,8 @@ class _UploadPhotosState extends State<UploadPhotosPage> {
                       AddPhotoScreen(
                         imageList: _imageList,
                         includePhotoGallery: _includeGalleryPhoto,
+                        onSelectImage: _onSelectImage,
+                        onRemoveImage: _onRemoveImage,
                       ),
 
                       //Comments

@@ -2,13 +2,24 @@ import 'dart:io';
 
 import 'package:exam1/pages/add_photo/widgets/image_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+typedef SelectImage = Future<void> Function();
+typedef RemoveImage = void Function(int index);
 
 class AddPhotoScreen extends StatelessWidget {
-  final List<File>? imageList;
+  final List<XFile>? imageList;
   final bool includePhotoGallery;
 
+  final SelectImage onSelectImage;
+  final RemoveImage onRemoveImage;
+
   const AddPhotoScreen(
-      {super.key, required this.imageList, required this.includePhotoGallery});
+      {super.key,
+      required this.imageList,
+      required this.includePhotoGallery,
+      required this.onSelectImage,
+      required this.onRemoveImage});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +40,7 @@ class AddPhotoScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: ImageListWidget(
                   imageList: imageList,
+                  onRemoveImage: onRemoveImage,
                 ),
               ),
               Padding(
@@ -37,8 +49,8 @@ class AddPhotoScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 70,
                   child: ElevatedButton(
+                    onPressed: onSelectImage,
                     child: const Text('Add a photo'),
-                    onPressed: () {},
                   ),
                 ),
               ),
