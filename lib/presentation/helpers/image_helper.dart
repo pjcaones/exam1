@@ -25,4 +25,12 @@ class ImageHelper {
 
     return null;
   }
+
+  String sampleFunction({required bool test}) {
+    if (test) {
+      return 'Yehey!';
+    } else {
+      return 'Not yehey!';
+    }
+  }
 }

@@ -17,7 +17,15 @@ class CustomDropdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
-      decoration: InputDecoration(filled: true, labelText: labelText),
+      decoration: InputDecoration(
+          filled: true,
+          labelText: labelText,
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0)),
+      icon: const Icon(
+        Icons.keyboard_arrow_down,
+        color: Color.fromARGB(255, 154, 154, 154),
+      ),
       items: dropdownList
           .map((key, value) {
             return MapEntry(
