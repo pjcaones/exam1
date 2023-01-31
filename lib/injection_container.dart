@@ -7,7 +7,7 @@ import 'package:exam1/presentation/pages/add_photo/add_photo_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
-final serviceLocator = GetIt.asNewInstance();
+final serviceLocator = GetIt.instance;
 
 void init() {
   //Presentation parts

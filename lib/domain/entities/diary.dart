@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Diary extends Equatable {
+class Diary {
   final String location;
 
   //For add photo part
@@ -27,16 +25,4 @@ class Diary extends Equatable {
       required this.taskCategoryID,
       required this.tags,
       required this.eventID});
-
-  @override
-  List<Object?> get props => [
-        location,
-        imageList,
-        comment,
-        diaryDateInMillis,
-        areaID,
-        taskCategoryID,
-        tags,
-        eventID
-      ];
 }

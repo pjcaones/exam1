@@ -1,6 +1,5 @@
+import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/card_title_widget.dart';
 
 class CommentScreen extends StatelessWidget {
   final TextEditingController commentController;

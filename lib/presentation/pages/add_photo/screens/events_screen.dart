@@ -1,4 +1,4 @@
-import 'package:exam1/presentation/components/custom_dropdown.dart';
+import 'package:exam1/presentation/components/components.dart';
 import 'package:flutter/material.dart';
 
 typedef SelectEvent = void Function(int? value);
@@ -56,6 +56,7 @@ class EventsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: CustomDropdownWidget(
+                        dropdownKey: 'event',
                         labelText: 'Select an event',
                         dropdownList: events,
                         onSelectDropdownItem: onSelectEvent),

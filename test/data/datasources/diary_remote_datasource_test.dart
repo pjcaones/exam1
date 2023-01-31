@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:exam1/data/datasources/diary_remote_datasource.dart';
 import 'package:exam1/data/models/diary_model.dart';
-import 'package:exam1/data/models/upload_diary_result_model.dart';
+import 'package:exam1/data/models/uploaded_diary_result_model.dart';
 import 'package:exam1/data/repositories/diary_repository_impl.dart';
 import 'package:exam1/domain/entities/diary.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
+import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
+
+import 'package:http/http.dart' as http;
 
 class MockUploadDiaryRemoteDataSource extends Mock
     implements DiaryRemoteDataSource {}
@@ -52,7 +54,8 @@ void main() {
       taskCategoryID: 1,
       tags: 'Sample tag',
       eventID: 1);
-  final tDiaryModel = DiaryModel(
+
+  DiaryModel tDiaryModel = DiaryModel(
       location: 'Sample location',
       imageList: const [
         'QWERTYUIOP',
@@ -65,17 +68,22 @@ void main() {
       taskCategoryID: 1,
       tags: 'Sample tag',
       eventID: 1);
-  const tUploadedDiaryResultModel = UploadedDiaryResultModel(diaryID: 0);
+
+  const tUploadedDiaryResultModel = UploadedDiaryResultModel(id: '1');
 
   test('should return the remote data source after it was called', () async {
-    when(() => mockUploadDiaryRemoteDataSource.getResultFromUploadedDiary(
-        diary: tDiary)).thenAnswer((_) async => tUploadedDiaryResultModel);
+    when(
+      () => mockUploadDiaryRemoteDataSource.getResultFromUploadedDiary(
+        diary: tDiary,
+      ),
+    ).thenAnswer((_) async => tUploadedDiaryResultModel);
 
-    final result = await repositoryImpl.getResultFromUploadedDiary(tDiary);
+    final result =
+        await repositoryImpl.getResultFromUploadedDiary(diary: tDiary);
 
     verify(() => mockUploadDiaryRemoteDataSource.getResultFromUploadedDiary(
         diary: tDiary));
-    expect(result, tUploadedDiaryResultModel);
+    expect(result, const Right(tUploadedDiaryResultModel));
   });
 
   group('actual uploading of data', () {
@@ -83,18 +91,19 @@ void main() {
       'Content-Type': 'application/json; charset=UTF-8'
     };
 
-    String body = jsonEncode(tDiaryModel.toJson());
+    String uploadedBody = jsonEncode(tDiaryModel.toJson());
+    String resultResponseBody = jsonEncode(tUploadedDiaryResultModel.toJson());
 
     test('should perform uploading of data', () async {
       //Response 201 is response from reqres.in api
-      when(() => mockHttpClient.post(url, headers: header))
-          .thenAnswer((_) async => http.Response(body, 201));
+      when(() => mockHttpClient.post(url, headers: header, body: uploadedBody))
+          .thenAnswer((_) async => http.Response(resultResponseBody, 201));
 
       final result =
           await dataSourceImpl.getResultFromUploadedDiary(diary: tDiary);
-      verify(() => mockHttpClient.post(url, headers: header, body: body));
+      verify(
+          () => mockHttpClient.post(url, headers: header, body: uploadedBody));
 
-      //The result is actually wrong since it returns 0
       expect(result, tUploadedDiaryResultModel);
     });
   });

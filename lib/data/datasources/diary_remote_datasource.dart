@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:exam1/core/errors/errors.dart';
+import 'package:exam1/data/models/models.dart';
+import 'package:exam1/domain/entities/entities.dart';
 import 'package:http/http.dart' as http;
 
-import '../../domain/entities/diary.dart';
-import '../models/diary_model.dart';
-import '../models/upload_diary_result_model.dart';
-
 abstract class DiaryRemoteDataSource {
-  Future<UploadedDiaryResultModel> getResultFromUploadedDiary({Diary? diary});
+  Future<UploadedDiaryResultModel> getResultFromUploadedDiary({
+    required Diary diary,
+  });
 }
 
 class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
@@ -18,28 +18,29 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
 
   @override
   Future<UploadedDiaryResultModel> getResultFromUploadedDiary(
-      {Diary? diary}) async {
+      {required Diary diary}) async {
     final url = Uri.parse('https://reqres.in/api/users/');
     final Map<String, String> header = {
-      'Content-Type': 'application/json; charset=UTF-8'
+      'Content-Type': 'application/json; charset=UTF-8',
     };
-    final DiaryModel diaryModel = DiaryModel(
-        location: diary?.location ?? '',
-        imageList: diary?.imageList ?? [],
-        comment: diary?.comment ?? '',
-        diaryDateInMillis: diary?.diaryDateInMillis ?? 0,
-        areaID: diary?.areaID ?? 0,
-        taskCategoryID: diary?.taskCategoryID ?? 0,
-        tags: diary?.tags ?? '',
-        eventID: diary?.eventID ?? 0);
+
+    final diaryModel = DiaryModel(
+        location: diary.location,
+        imageList: diary.imageList,
+        comment: diary.comment,
+        diaryDateInMillis: diary.diaryDateInMillis,
+        areaID: diary.areaID,
+        taskCategoryID: diary.taskCategoryID,
+        tags: diary.tags,
+        eventID: diary.eventID);
 
     String body = jsonEncode(diaryModel.toJson());
     final response = await client.post(url, headers: header, body: body);
 
     if (response.statusCode == 201) {
       return UploadedDiaryResultModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
     }
-
-    return const UploadedDiaryResultModel(diaryID: 0);
   }
 }

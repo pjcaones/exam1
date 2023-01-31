@@ -1,17 +1,11 @@
 import 'package:exam1/injection_container.dart';
+import 'package:exam1/presentation/helpers/image_helper.dart';
+import 'package:exam1/presentation/pages/add_photo/add_photo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
-
-import '../helpers/image_helper.dart';
-import 'add_photo/add_photo_bloc.dart';
-import 'add_photo/screens/add_photo_screen.dart';
-import 'add_photo/screens/comment_screen.dart';
-import 'add_photo/screens/details_screen.dart';
-import 'add_photo/screens/events_screen.dart';
-import 'add_photo/widgets/location_widget.dart';
 
 class DiaryPage extends StatefulWidget {
   const DiaryPage({super.key});
@@ -170,7 +164,7 @@ class _UploadPhotosState extends State<DiaryPage> {
       ),
       body: BlocProvider<AddPhotoBloc>(
         create: (_) => _addPhotoBloc,
-        child: BlocListener<AddPhotoBloc, AddPhotoState>(
+        child: BlocConsumer<AddPhotoBloc, AddPhotoState>(
           listener: (context, state) async {
             if (state is UploadDiaryLoading) {
               if (!_progressDialog.isShowing()) {
@@ -200,98 +194,122 @@ class _UploadPhotosState extends State<DiaryPage> {
               }
             }
           },
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                //Static location only
-                LocationWidget(
-                  location: _location,
-                ),
+          builder: (context, state) {
+            //Currently we really don't care the states here
+            //because we are just popping up a progress dialog
+            //that cannot be dismissed/closed
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  //Static location only
+                  LocationWidget(
+                    location: _location,
+                  ),
 
-                //Start of the form
-                Container(
-                  color: const Color.fromARGB(255, 242, 245, 247),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0, vertical: 12.0),
-                    child: Column(
-                      children: [
-                        //Header of the form
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 12.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Add to site diary',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                  //Start of the form
+                  Container(
+                    color: const Color.fromARGB(255, 242, 245, 247),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 12.0),
+                      child: Column(
+                        children: [
+                          //Header of the form
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 12.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Add to site diary',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
                                 ),
-                              ),
-                              const Align(
-                                alignment: Alignment.centerRight,
-                                child: Tooltip(
-                                  message: "Fill up to add in site diary",
-                                  triggerMode: TooltipTriggerMode.tap,
-                                  child: Icon(Icons.help,
-                                      color:
-                                          Color.fromARGB(255, 154, 154, 154)),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        //Adding of photo to site diary
-                        AddPhotoScreen(
-                          imageList: _imageList,
-                          includePhotoGallery: _includeGalleryPhoto,
-                          onSelectImage: _onSelectImage,
-                          onRemoveImage: _onRemoveImage,
-                        ),
-
-                        //Comments
-                        CommentScreen(commentController: _commentController),
-
-                        //Details
-                        DetailsScreen(
-                            areas: _areas,
-                            categories: _categories,
-                            diaryDateController: _diaryDateController,
-                            areaID: _areaID,
-                            categoryID: _categoryID,
-                            tagsController: _tagsController,
-                            onSelectAreas: (value) {},
-                            onSelectCategory: (value) {}),
-
-                        //Event
-                        EventsScreen(
-                            events: _events,
-                            isLinkExistingEvent: _isExistingEvent,
-                            onSelectEvent: (value) {}),
-
-                        //Button for calling the api
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 4.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 70,
-                            child: ElevatedButton(
-                              key: const Key('next'),
-                              onPressed: _uploadDiary,
-                              child: const Text('Next'),
+                                const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Tooltip(
+                                    message: "Fill up to add in site diary",
+                                    triggerMode: TooltipTriggerMode.tap,
+                                    child: Icon(Icons.help,
+                                        color:
+                                            Color.fromARGB(255, 154, 154, 154)),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+
+                          //Adding of photo to site diary
+                          AddPhotoScreen(
+                            imageList: _imageList,
+                            includePhotoGallery: _includeGalleryPhoto,
+                            onSelectImage: _onSelectImage,
+                            onRemoveImage: _onRemoveImage,
+                          ),
+
+                          //Comments
+                          CommentScreen(commentController: _commentController),
+
+                          //Details
+                          DetailsScreen(
+                              areas: _areas,
+                              categories: _categories,
+                              diaryDateController: _diaryDateController,
+                              areaID: _areaID,
+                              categoryID: _categoryID,
+                              tagsController: _tagsController,
+                              onSelectAreas: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _areaID = value;
+                                  });
+                                }
+                              },
+                              onSelectCategory: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _categoryID = value;
+                                  });
+                                }
+                              }),
+
+                          //Event
+                          EventsScreen(
+                              events: _events,
+                              isLinkExistingEvent: _isExistingEvent,
+                              onSelectEvent: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _eventID = value;
+                                  });
+                                }
+                              }),
+
+                          //Button for calling the api
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 4.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 70,
+                              child: ElevatedButton(
+                                key: const Key('next'),
+                                onPressed: _uploadDiary,
+                                child: const Text('Next'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
+                  )
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

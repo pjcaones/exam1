@@ -4,12 +4,14 @@ typedef SelectDropdownItem = void Function(int? value);
 
 class CustomDropdownWidget extends StatelessWidget {
   final String labelText;
+  final String dropdownKey;
   final Map<int, String> dropdownList;
 
   final SelectDropdownItem onSelectDropdownItem;
 
   const CustomDropdownWidget(
       {super.key,
+      required this.dropdownKey,
       required this.labelText,
       required this.dropdownList,
       required this.onSelectDropdownItem});
@@ -17,6 +19,7 @@ class CustomDropdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
+      key: Key(dropdownKey),
       decoration: InputDecoration(
           filled: true,
           labelText: labelText,

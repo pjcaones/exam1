@@ -1,7 +1,10 @@
 part of 'add_photo_bloc.dart';
 
 @immutable
-abstract class AddPhotoEvent {}
+abstract class AddPhotoEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class UploadDiaryEvent extends AddPhotoEvent {
   final String location;

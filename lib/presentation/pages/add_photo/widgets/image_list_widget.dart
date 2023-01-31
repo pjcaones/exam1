@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-typedef RemoveImage = void Function(int index);
-
 class ImageListWidget extends StatelessWidget {
-  final List<XFile>? imageList;
+  final ValueChanged<int> onRemoveImage;
 
-  final RemoveImage onRemoveImage;
+  final List<XFile>? imageList;
 
   const ImageListWidget(
       {super.key, this.imageList, required this.onRemoveImage});

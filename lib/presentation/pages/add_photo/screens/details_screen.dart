@@ -1,7 +1,6 @@
 import 'package:exam1/presentation/components/custom_dropdown.dart';
+import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/card_title_widget.dart';
 
 typedef SelectAreas = void Function(int? value);
 typedef SelectCategory = void Function(int? value);
@@ -46,6 +45,7 @@ class DetailsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: TextField(
+                      key: const Key('diary_date'),
                       controller: diaryDateController,
                       enabled: false,
                       decoration: const InputDecoration(
@@ -60,6 +60,7 @@ class DetailsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: CustomDropdownWidget(
+                      dropdownKey: 'area',
                       labelText: 'Select Area',
                       dropdownList: areas,
                       onSelectDropdownItem: onSelectAreas,
@@ -68,6 +69,7 @@ class DetailsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: CustomDropdownWidget(
+                        dropdownKey: 'category',
                         labelText: 'Task Category',
                         dropdownList: categories,
                         onSelectDropdownItem: onSelectCategory),

@@ -1,16 +1,15 @@
 import 'dart:io';
 
+import 'package:exam1/core/helpers/image_to_base64.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-import 'package:exam1/core/helpers/image_to_base64.dart';
 
 class MockFileToBase64 extends Mock implements FileToBase64 {}
 
 void main() {
   late MockFileToBase64 mockFileToBase64;
 
-  setUpAll(() {
+  setUp(() {
     mockFileToBase64 = MockFileToBase64();
     registerFallbackValue(mockFileToBase64);
   });
@@ -47,6 +46,6 @@ void main() {
     when(() => mockFileToBase64.sampleFunction(i: any(named: 'i')))
         .thenAnswer((_) async => '100');
     final result = await mockFileToBase64.sampleFunction(i: 100);
-    print(result);
+    expect(result, '100');
   });
 }

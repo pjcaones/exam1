@@ -1,10 +1,6 @@
-import 'dart:io';
-
+import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../widgets/card_title_widget.dart';
-import '../widgets/image_list_widget.dart';
 
 typedef SelectImage = Future<void> Function();
 typedef RemoveImage = void Function(int index);

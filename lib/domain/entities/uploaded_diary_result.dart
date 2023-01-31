@@ -1,10 +1,5 @@
-import 'package:equatable/equatable.dart';
+class UploadedDiaryResult {
+  final String id;
 
-class UploadedDiaryResult extends Equatable {
-  final int diaryID;
-
-  const UploadedDiaryResult({required this.diaryID});
-
-  @override
-  List<Object?> get props => [diaryID];
+  const UploadedDiaryResult({required this.id});
 }

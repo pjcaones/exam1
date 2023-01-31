@@ -1,14 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:equatable/equatable.dart';
 import 'package:exam1/core/helpers/image_to_base64.dart';
-import 'package:exam1/domain/entities/uploaded_diary_result.dart';
+import 'package:exam1/domain/entities/entities.dart';
 import 'package:exam1/domain/usecases/upload_diary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
-
-import '../../../domain/entities/diary.dart';
 
 part 'add_photo_event.dart';
 part 'add_photo_state.dart';
@@ -25,37 +24,39 @@ class AddPhotoBloc extends Bloc<AddPhotoEvent, AddPhotoState> {
   }
 
   void _uploadDiary(UploadDiaryEvent event, Emitter<AddPhotoState> emit) async {
-    try {
-      emit(UploadDiaryLoading());
+    emit(UploadDiaryLoading());
 
-      List<File> fileList =
-          event.imageList.map<File>((xfile) => File(xfile.path)).toList();
-      List<String> fileListToBase64 =
-          await fileToBase64.listConversion(fileList: fileList);
+    List<File> fileList =
+        event.imageList.map<File>((xfile) => File(xfile.path)).toList();
+    List<String> fileListToBase64 =
+        await fileToBase64.listConversion(fileList: fileList);
 
-      UploadedDiaryResult? uploadedDiaryResult = await uploadDiary(
-          params: Diary(
-              location: event.location,
-              imageList: fileListToBase64,
-              comment: event.comment,
-              diaryDateInMillis: event.diaryDate,
-              areaID: event.areaID,
-              taskCategoryID: event.taskCategoryID,
-              tags: event.tags,
-              eventID: event.eventID));
+    final diary = Diary(
+        location: event.location,
+        imageList: fileListToBase64,
+        comment: event.comment,
+        diaryDateInMillis: event.diaryDate,
+        areaID: event.areaID,
+        taskCategoryID: event.taskCategoryID,
+        tags: event.tags,
+        eventID: event.eventID);
 
-      if (uploadedDiaryResult != null) {
-        if (uploadedDiaryResult.diaryID > 0) {
+    final failureOrUploadedDiaryResult = await uploadDiary(params: diary);
+
+    failureOrUploadedDiaryResult.fold(
+      (failure) {
+        log('_uploadDiary error: $failure');
+        emit(UploadDiaryFailed(errorMessage: 'Failed to upload the diary.'));
+        return;
+      },
+      (uploadedDiaryResult) {
+        if (int.parse(uploadedDiaryResult.id) > 0) {
           emit(UploadDiarySuccess());
           return;
+        } else {
+          emit(UploadDiaryFailed(errorMessage: 'Failed to upload the diary.'));
         }
-      }
-
-      emit(UploadDiaryFailed());
-    } catch (error) {
-      log('_uploadDiary error: $error');
-      emit(UploadDiaryFailed(
-          errorMessage: 'Something went wrong while uploading your diary..'));
-    }
+      },
+    );
   }
 }

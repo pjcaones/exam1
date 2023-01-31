@@ -1,7 +1,8 @@
-import '../../core/usecases/usecase.dart';
-import '../entities/diary.dart';
-import '../entities/uploaded_diary_result.dart';
-import '../repositories/diary_repository.dart';
+import 'package:exam1/core/errors/errors.dart';
+import 'package:exam1/core/usecases/usecases.dart';
+import 'package:exam1/domain/entities/entities.dart';
+import 'package:exam1/domain/repositories/repositories.dart';
+import 'package:fpdart/fpdart.dart';
 
 class UploadDiary implements UseCase<UploadedDiaryResult, Diary> {
   final DiaryRepository diaryRepository;
@@ -9,11 +10,8 @@ class UploadDiary implements UseCase<UploadedDiaryResult, Diary> {
   UploadDiary(this.diaryRepository);
 
   @override
-  Future<UploadedDiaryResult?> call({Diary? params}) async {
-    if (params != null) {
-      return await diaryRepository.getResultFromUploadedDiary(params);
-    }
-
-    return null;
+  Future<Either<Failure, UploadedDiaryResult>> call(
+      {required Diary params}) async {
+    return await diaryRepository.getResultFromUploadedDiary(diary: params);
   }
 }
