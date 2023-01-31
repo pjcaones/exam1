@@ -1,4 +1,4 @@
-import 'package:exam1/presentation/pages/diary_page.dart';
+import 'package:exam1/presentation/pages/diary_form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: objColor, elevation: 8.0)),
           fontFamily: GoogleFonts.roboto().fontFamily),
-      home: const DiaryPage(),
+      home: const DiaryFormPage(),
     );
   }
 }

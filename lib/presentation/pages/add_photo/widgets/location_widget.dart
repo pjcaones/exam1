@@ -15,7 +15,9 @@ class LocationWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 4.0),
             child: Icon(Icons.location_on),
           ),
-          Text(location)
+          Expanded(
+            child: Text(location),
+          )
         ],
       ),
     );
