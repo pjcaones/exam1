@@ -1,16 +1,15 @@
-import 'package:exam1/presentation/helpers/image_helper.dart';
-import 'package:exam1/presentation/pages/add_photo/add_photo_bloc.dart';
-import 'package:exam1/presentation/pages/add_photo/screens/screens.dart';
-import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
+import 'package:exam1/presentation/pages/diary_form/diary_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class DiaryForm extends StatefulWidget {
+  final List<XFile>? imageList;
+
   const DiaryForm({
     super.key,
+    required this.imageList,
   });
 
   @override
@@ -18,11 +17,10 @@ class DiaryForm extends StatefulWidget {
 }
 
 class _DiaryFormState extends State<DiaryForm> {
-  late ImageHelper _imageHelper;
-
   late String _location;
   late bool _includeGalleryPhoto;
-  List<XFile>? _imageList;
+
+  late List<XFile>? _imageList;
 
   late TextEditingController _commentController;
 
@@ -65,7 +63,8 @@ class _DiaryFormState extends State<DiaryForm> {
     //DateFormat should not be here
     //ui page must not have any logics implemented
     DateFormat format = DateFormat('yyyy-MM-dd');
-    _imageHelper = ImageHelper();
+
+    _imageList = widget.imageList;
 
     _includeGalleryPhoto = true;
     _commentController = TextEditingController();
@@ -85,22 +84,23 @@ class _DiaryFormState extends State<DiaryForm> {
   }
 
   //Callbacks
-  Future<void> _onSelectImage() async {
-    XFile? pickedImage =
-        await _imageHelper.pickImage(source: ImageSource.gallery);
+  void _onSelectImage() async {
+    _imageList ??= [];
 
-    setState(() {
-      _imageList ??= [];
-      if (pickedImage != null) {
-        _imageList!.add(pickedImage);
-      }
-    });
+    BlocProvider.of<AddPhotoBloc>(context).add(
+      PickImageEvent(
+        imageList: _imageList!,
+      ),
+    );
   }
 
   void _onRemoveImage(int index) {
-    setState(() {
-      _imageList!.removeAt(index);
-    });
+    BlocProvider.of<AddPhotoBloc>(context).add(
+      RemoveImageEvent(
+        index: index,
+        imageList: _imageList!,
+      ),
+    );
   }
 
   void _uploadDiary() {

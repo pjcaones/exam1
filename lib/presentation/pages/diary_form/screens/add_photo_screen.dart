@@ -1,8 +1,8 @@
-import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
+import 'package:exam1/presentation/pages/diary_form/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-typedef SelectImage = Future<void> Function();
+typedef SelectImage = void Function();
 typedef RemoveImage = void Function(int index);
 
 class AddPhotoScreen extends StatelessWidget {

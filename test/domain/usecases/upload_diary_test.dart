@@ -40,7 +40,7 @@ void main() {
         .thenAnswer((_) async => Right(tUploadedDiaryResult));
 
     //calling the function of usecase for which the result should be tDiaryID
-    final result = await usecase(params: tDiary);
+    final result = await usecase(tDiary);
 
     //expect -> expecting that the actual result is same with tDiaryID
     expect(result, Right(tUploadedDiaryResult));

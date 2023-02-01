@@ -227,43 +227,6 @@ class _$_DiaryModel implements _DiaryModel {
   @override
   final int eventID;
 
-  @override
-  String toString() {
-    return 'DiaryModel(location: $location, imageList: $imageList, comment: $comment, diaryDateInMillis: $diaryDateInMillis, areaID: $areaID, taskCategoryID: $taskCategoryID, tags: $tags, eventID: $eventID)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_DiaryModel &&
-            (identical(other.location, location) ||
-                other.location == location) &&
-            const DeepCollectionEquality()
-                .equals(other._imageList, _imageList) &&
-            (identical(other.comment, comment) || other.comment == comment) &&
-            (identical(other.diaryDateInMillis, diaryDateInMillis) ||
-                other.diaryDateInMillis == diaryDateInMillis) &&
-            (identical(other.areaID, areaID) || other.areaID == areaID) &&
-            (identical(other.taskCategoryID, taskCategoryID) ||
-                other.taskCategoryID == taskCategoryID) &&
-            (identical(other.tags, tags) || other.tags == tags) &&
-            (identical(other.eventID, eventID) || other.eventID == eventID));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      const DeepCollectionEquality().hash(_imageList),
-      comment,
-      diaryDateInMillis,
-      areaID,
-      taskCategoryID,
-      tags,
-      eventID);
-
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

@@ -1,5 +1,5 @@
 import 'package:exam1/presentation/components/custom_dropdown.dart';
-import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
+import 'package:exam1/presentation/pages/diary_form/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 typedef SelectAreas = void Function(int? value);

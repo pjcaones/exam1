@@ -10,8 +10,7 @@ class UploadDiary implements UseCase<UploadedDiaryResult, Diary> {
   UploadDiary(this.diaryRepository);
 
   @override
-  Future<Either<Failure, UploadedDiaryResult>> call(
-      {required Diary params}) async {
+  Future<Either<Failure, UploadedDiaryResult>> call(Diary params) async {
     return await diaryRepository.getResultFromUploadedDiary(diary: params);
   }
 }

@@ -1,9 +1,29 @@
-part of 'add_photo_bloc.dart';
+part of 'diary_form_bloc.dart';
 
 @immutable
 abstract class AddPhotoEvent extends Equatable {
   @override
   List<Object?> get props => [];
+}
+
+class PickImageEvent extends AddPhotoEvent {
+  final List<XFile> imageList;
+  final ImageSource imageSource;
+
+  PickImageEvent({
+    required this.imageList,
+    this.imageSource = ImageSource.gallery,
+  });
+}
+
+class RemoveImageEvent extends AddPhotoEvent {
+  final int index;
+  final List<XFile> imageList;
+
+  RemoveImageEvent({
+    required this.index,
+    required this.imageList,
+  });
 }
 
 class UploadDiaryEvent extends AddPhotoEvent {

@@ -1,12 +1,8 @@
 import 'package:exam1/injection_container.dart';
-import 'package:exam1/presentation/helpers/image_helper.dart';
-import 'package:exam1/presentation/pages/add_photo/add_photo_bloc.dart';
-import 'package:exam1/presentation/pages/add_photo/forms/diary_form.dart';
-import 'package:exam1/presentation/pages/add_photo/widgets/widgets.dart';
+import 'package:exam1/presentation/pages/diary_form/diary_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class DiaryFormPage extends StatelessWidget {
@@ -56,39 +52,43 @@ class DiaryFormPage extends StatelessWidget {
             ProgressDialog progressDialog = ProgressDialog(context,
                 type: ProgressDialogType.normal, isDismissible: false);
 
-            if (state is UploadDiaryLoading) {
+            if (progressDialog.isShowing()) {
+              progressDialog.hide();
+            }
+
+            if (state is UploadDiaryLoading || state is PickImageLoading) {
               if (!progressDialog.isShowing()) {
                 progressDialog.show();
               }
             } else if (state is UploadDiaryFailed) {
-              if (progressDialog.isShowing()) {
-                progressDialog.hide();
-
-                diaryDialog(
-                    context: context,
-                    title: 'Upload Failed',
-                    message: state.errorMessage ?? 'Something went wrong..',
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    });
-              }
+              diaryDialog(
+                  context: context,
+                  title: 'Upload Failed',
+                  message: state.errorMessage ?? 'Something went wrong..',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  });
             } else if (state is UploadDiarySuccess) {
-              if (progressDialog.isShowing()) {
-                progressDialog.hide();
-
-                diaryDialog(
-                    context: context,
-                    title: 'Upload Success',
-                    message: 'Your diary has beed uploaded!',
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    });
-              }
+              diaryDialog(
+                  context: context,
+                  title: 'Upload Success',
+                  message: 'Your diary has beed uploaded!',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  });
             }
           },
           builder: (context, state) {
-            return const SingleChildScrollView(
-              child: DiaryForm(),
+            List<XFile>? test = [];
+
+            if (state is PickImageSuccess) {
+              test = state.updatedImageList;
+            } else if (state is RemoveImageSuccess) {
+              test = state.updatedImageList;
+            }
+
+            return SingleChildScrollView(
+              child: DiaryForm(imageList: test),
             );
           },
         ),

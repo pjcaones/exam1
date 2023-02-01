@@ -10,6 +10,7 @@ class ImageHelper {
       int quality = 80}) async {
     try {
       final ImagePicker picker = ImagePicker();
+
       final XFile? pickedFile = await picker.pickImage(
           source: source,
           maxHeight: maxHeight,
@@ -24,13 +25,5 @@ class ImageHelper {
     }
 
     return null;
-  }
-
-  String sampleFunction({required bool test}) {
-    if (test) {
-      return 'Yehey!';
-    } else {
-      return 'Not yehey!';
-    }
   }
 }
