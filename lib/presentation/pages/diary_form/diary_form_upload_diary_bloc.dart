@@ -1,12 +1,13 @@
 part of 'diary_form_bloc.dart';
 
 extension UploadDiaryBloc on AddPhotoBloc {
-  void _uploadDiary(UploadDiaryEvent event, Emitter<AddPhotoState> emit) async {
+  Future<void> _uploadDiary(
+      UploadDiaryEvent event, Emitter<AddPhotoState> emit) async {
     emit(UploadDiaryLoading());
 
-    List<File> fileList =
+    final List<File> fileList =
         event.imageList.map<File>((xfile) => File(xfile.path)).toList();
-    List<String> fileListToBase64 =
+    final List<String> fileListToBase64 =
         await fileToBase64.listConversion(fileList: fileList);
 
     final diary = Diary(

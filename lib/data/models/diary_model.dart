@@ -1,6 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'package:exam1/domain/entities/entities.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'diary_model.freezed.dart';
 part 'diary_model.g.dart';

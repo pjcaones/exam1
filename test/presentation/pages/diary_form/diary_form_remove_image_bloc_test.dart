@@ -1,9 +1,8 @@
 import 'package:exam1/core/helpers/helpers.dart';
 import 'package:exam1/domain/usecases/usecases.dart';
+import 'package:exam1/injection_container.dart' as get_it;
 import 'package:exam1/presentation/pages/diary_form/diary_form.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:exam1/injection_container.dart' as get_it;
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -16,7 +15,6 @@ class MockPickImage extends Mock implements PickImage {}
 class MockUploadDiary extends Mock implements UploadDiary {}
 
 void main() {
-  late MockImageHelper mockImageHelper;
   late MockFileToBase64 mockFileToBase64;
 
   late MockPickImage mockPickImage;
@@ -27,7 +25,6 @@ void main() {
   get_it.init();
 
   setUp(() {
-    mockImageHelper = MockImageHelper();
     mockFileToBase64 = MockFileToBase64();
 
     mockPickImage = MockPickImage();
@@ -39,8 +36,8 @@ void main() {
         uploadDiary: mockUploadDiary);
   });
 
-  int indexToRemove = 1;
-  List<XFile> imageList = [
+  const int indexToRemove = 1;
+  final List<XFile> imageList = [
     XFile('test1.png'),
     XFile('test2.png'),
     XFile('test3.png'),

@@ -14,8 +14,8 @@ void main() {
     registerFallbackValue(mockFileToBase64);
   });
 
-  File tFile = File('test.png');
-  List<File> tFileList = [
+  final File tFile = File('test.png');
+  final List<File> tFileList = [
     File('test1.png'),
     File('test2.png'),
     File('test3.png'),

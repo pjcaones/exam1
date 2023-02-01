@@ -19,8 +19,8 @@ void main() {
   });
 
   //Test if the value was passed from entity to usecase
-  UploadedDiaryResult tUploadedDiaryResult = const UploadedDiaryResult(id: '1');
-  Diary tDiary = Diary(
+  const UploadedDiaryResult tUploadedDiaryResult = UploadedDiaryResult(id: '1');
+  final Diary tDiary = Diary(
       location: 'Sample location',
       imageList: const [
         'QWERTYUIOP',
@@ -37,13 +37,13 @@ void main() {
   test('Get the diary data from repository', () async {
     //when -> set the result of this repository to tDiaryID
     when(() => mockDiaryRepository.getResultFromUploadedDiary(diary: tDiary))
-        .thenAnswer((_) async => Right(tUploadedDiaryResult));
+        .thenAnswer((_) async => const Right(tUploadedDiaryResult));
 
     //calling the function of usecase for which the result should be tDiaryID
     final result = await usecase(tDiary);
 
     //expect -> expecting that the actual result is same with tDiaryID
-    expect(result, Right(tUploadedDiaryResult));
+    expect(result, const Right(tUploadedDiaryResult));
 
     //verifying if the repository was called
     verify(() => mockDiaryRepository.getResultFromUploadedDiary(diary: tDiary));
@@ -53,8 +53,8 @@ void main() {
   test('Getting the result after uploading', () async {
     const tUploadedDiaryModel = UploadedDiaryResultModel(id: '1');
     final expectedMap = {
-      "id": "267",
-      "createdAt": "2023-01-28T01:59:43.808Z",
+      'id': '267',
+      'createdAt': '2023-01-28T01:59:43.808Z',
     };
 
     expect(tUploadedDiaryModel, isA<UploadedDiaryResult>());

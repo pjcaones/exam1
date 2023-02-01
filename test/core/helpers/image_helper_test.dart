@@ -13,7 +13,7 @@ void main() {
   });
 
   test('should pick a sample image from image picker..', () async {
-    XFile image = XFile('test1.png');
+    final XFile image = XFile('test1.png');
 
     when(() => mockImageHelper.pickImage(source: ImageSource.gallery))
         .thenAnswer((invocation) async => image);

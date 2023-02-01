@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageListWidget extends StatelessWidget {
+  const ImageListWidget(
+      {super.key, this.imageList, required this.onRemoveImage});
   final ValueChanged<int> onRemoveImage;
 
   final List<XFile>? imageList;
-
-  const ImageListWidget(
-      {super.key, this.imageList, required this.onRemoveImage});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,6 @@ class ImageListWidget extends StatelessWidget {
 
     if (imageList == null || imageList!.isEmpty) {
       widgetToDisplay = const Align(
-        alignment: Alignment.center,
         child: Text(
           'No images uploaded yet..',
         ),
@@ -32,9 +30,8 @@ class ImageListWidget extends StatelessWidget {
           itemCount: imageList?.length ?? 0,
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Stack(
                     clipBehavior: Clip.none,

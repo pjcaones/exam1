@@ -1,30 +1,29 @@
+import 'package:exam1/generated/l10n.dart';
 import 'package:exam1/presentation/pages/diary_form/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CommentScreen extends StatelessWidget {
-  final TextEditingController commentController;
-
   const CommentScreen({super.key, required this.commentController});
+  final TextEditingController commentController;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 9.0),
+      margin: const EdgeInsets.symmetric(vertical: 9),
       child: Card(
           child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomCardTitle(title: "Comments"),
+                  CustomCardTitle(title: S.of(context).diaryTitleComments),
                   const Divider(),
                   TextField(
                     controller: commentController,
-                    decoration: const InputDecoration(
-                        labelText: 'Comments',
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0)),
+                    decoration: InputDecoration(
+                        labelText: S.of(context).textfieldLabelComment,
+                        contentPadding: const EdgeInsets.symmetric()),
                   )
                 ],
               ))),

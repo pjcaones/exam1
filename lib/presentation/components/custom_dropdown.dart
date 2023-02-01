@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 typedef SelectDropdownItem = void Function(int? value);
 
 class CustomDropdownWidget extends StatelessWidget {
-  final String labelText;
-  final String dropdownKey;
-  final Map<int, String> dropdownList;
-
-  final SelectDropdownItem onSelectDropdownItem;
-
   const CustomDropdownWidget(
       {super.key,
       required this.dropdownKey,
       required this.labelText,
       required this.dropdownList,
       required this.onSelectDropdownItem});
+  final String labelText;
+  final String dropdownKey;
+  final Map<int, String> dropdownList;
+
+  final SelectDropdownItem onSelectDropdownItem;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class CustomDropdownWidget extends StatelessWidget {
           filled: true,
           labelText: labelText,
           fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 0)),
+          contentPadding: const EdgeInsets.symmetric()),
       icon: const Icon(
         Icons.keyboard_arrow_down,
         color: Color.fromARGB(255, 154, 154, 154),

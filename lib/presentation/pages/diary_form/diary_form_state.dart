@@ -14,18 +14,16 @@ class PickImageLoading extends AddPhotoState {}
 class PickImageFailed extends AddPhotoState {}
 
 class PickImageSuccess extends AddPhotoState {
-  final List<XFile> updatedImageList;
-
   PickImageSuccess({required this.updatedImageList});
+  final List<XFile> updatedImageList;
 }
 
 //For Image Removing
 class RemoveImageLoading extends AddPhotoState {}
 
 class RemoveImageSuccess extends AddPhotoState {
-  final List<XFile> updatedImageList;
-
   RemoveImageSuccess({required this.updatedImageList});
+  final List<XFile> updatedImageList;
 }
 
 class RemoveImageFailed extends AddPhotoState {}
@@ -34,9 +32,8 @@ class RemoveImageFailed extends AddPhotoState {}
 class UploadDiaryLoading extends AddPhotoState {}
 
 class UploadDiaryFailed extends AddPhotoState {
-  final String? errorMessage;
-
   UploadDiaryFailed({this.errorMessage});
+  final String? errorMessage;
 }
 
 class UploadDiarySuccess extends AddPhotoState {}

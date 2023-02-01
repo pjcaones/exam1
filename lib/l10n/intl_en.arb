@@ -1,0 +1,115 @@
+{
+  "@@locale": "en",
+  "appName": "Exam 1",
+  "@appName": {},
+  "buttonAddPhoto": "Add a photo",
+  "@buttonAddPhoto": {
+    "description": "Add photo button"
+  },
+  "buttonNext": "Next",
+  "@buttonNext": {
+    "description": "Next button"
+  },
+  "buttonOK": "OK",
+  "@buttonOK": {
+    "description": "Button OK"
+  },
+  "dateFormatyyyyMMdd": "yyyy-MM-dd",
+  "@dateFormatyyyyMMdd": {
+    "description": "Dateformat for yyyy-MM-dd"
+  },
+  "diaryFormPage": "New Diary",
+  "@diaryFormPage": {},
+  "diaryMessageAddSiteDiary": "Add to site diary",
+  "@diaryMessageAddSiteDiary": {
+    "description": "Text for add to site diary"
+  },
+  "diaryMessageFillUpDiary": "Fill up to add in site diary",
+  "@diaryMessageFillUpDiary": {
+    "description": "Text for fill up to add in site diary"
+  },
+  "diaryMessageIncludePhotoGallery": "Include in photo gallery",
+  "@diaryMessageIncludePhotoGallery": {
+    "description": "Text for include photo gallery"
+  },
+  "diaryTitleAddPhotos": "Add Photos to site diary",
+  "@diaryTitleAddPhotos": {
+    "description": "Add Photos"
+  },
+  "diaryTitleComments": "Comments",
+  "@diaryTitleComments": {
+    "description": "Title comments"
+  },
+  "diaryTitleDetails": "Details",
+  "@diaryTitleDetails": {
+    "description": "diary title for details"
+  },
+  "diaryTitleEvent": "Link to existing event?",
+  "@diaryTitleEvent": {
+    "description": "diary title for events"
+  },
+  "errorMessageDefault": "Something went wrong..",
+  "@errorMessageDefault": {
+    "description": "Default error message"
+  },
+  "errorMessageFailedUpload": "Failed to upload the diary.",
+  "@errorMessageFailedUpload": {
+    "description": "error message for failed upload"
+  },
+  "keyAddPhoto": "add_photo",
+  "@keyAddPhoto": {
+    "description": "Add photo key"
+  },
+  "keyArea": "area",
+  "@keyArea": {
+    "description": "key for area dropdown"
+  },
+  "keyCategory": "category",
+  "@keyCategory": {
+    "description": "key for category dropdown"
+  },
+  "keyDiaryDate": "diary_date",
+  "@keyDiaryDate": {
+    "description": "key for diary date"
+  },
+  "keyEvent": "event",
+  "@keyEvent": {
+    "description": "key for event dropdown"
+  },
+  "keyNext": "next",
+  "@keyNext": {
+    "description": "key for next button"
+  },
+  "textfieldLabelArea": "Select Area",
+  "@textfieldLabelArea": {
+    "description": "Text label for Areas"
+  },
+  "textfieldLabelCategory": "Task Category",
+  "@textfieldLabelCategory": {
+    "description": "Text label for category dropdown"
+  },
+  "textfieldLabelComment": "Comments",
+  "@textfieldLabelComment": {
+    "description": "hint for comment textfield"
+  },
+  "textfieldLabelEvent": "Select an event",
+  "@textfieldLabelEvent": {
+    "description": "text label for event"
+  },
+  "textfieldLabelTags": "Tags",
+  "@textfieldLabelTags": {
+    "description": "text label for tags textfield"
+  },
+  "uploadDiarySuccessMessage": "Your diary has been uploaded!",
+  "@uploadDiarySuccessMessage": {
+    "description": "Message for upload diary success"
+  },
+  "uploadFailed": "Upload Failed",
+  "@uploadFailed": {
+    "description": "Upload Failed"
+  },
+  "uploadSuccess": "Upload Success",
+  "@uploadSuccess": {
+    "description": "Upload Success"
+  }
+}

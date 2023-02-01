@@ -1,3 +1,4 @@
+import 'package:exam1/generated/l10n.dart';
 import 'package:exam1/injection_container.dart';
 import 'package:exam1/presentation/pages/diary_form/diary_form.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,12 @@ import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 class DiaryFormPage extends StatelessWidget {
   const DiaryFormPage({super.key});
 
-  void diaryDialog(
+  Future<void> diaryDialog(
       {required BuildContext context,
       required String title,
       required String message,
-      required Function() onPressed}) async {
-    await showDialog(
+      required void Function() onPressed}) async {
+    return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -22,7 +23,7 @@ class DiaryFormPage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: onPressed,
-              child: const Text('OK'),
+              child: Text(S.of(context).buttonOK),
             )
           ],
         );
@@ -34,12 +35,12 @@ class DiaryFormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Diary'),
+        title: Text(S.of(context).diaryFormPage),
         centerTitle: false,
-        leadingWidth: 30.0,
+        leadingWidth: 30,
         leading: IconButton(
           icon: const Icon(Icons.close_sharp),
-          padding: const EdgeInsets.only(left: 12.0),
+          padding: const EdgeInsets.only(left: 12),
           onPressed: () {
             //Prompt for confirming closing the app
           },
@@ -49,7 +50,7 @@ class DiaryFormPage extends StatelessWidget {
         create: (_) => serviceLocator<AddPhotoBloc>(),
         child: BlocConsumer<AddPhotoBloc, AddPhotoState>(
           listener: (context, state) {
-            ProgressDialog progressDialog = ProgressDialog(context,
+            final ProgressDialog progressDialog = ProgressDialog(context,
                 type: ProgressDialogType.normal, isDismissible: false);
 
             if (progressDialog.isShowing()) {
@@ -63,32 +64,35 @@ class DiaryFormPage extends StatelessWidget {
             } else if (state is UploadDiaryFailed) {
               diaryDialog(
                   context: context,
-                  title: 'Upload Failed',
-                  message: state.errorMessage ?? 'Something went wrong..',
+                  title: S.of(context).uploadFailed,
+                  message:
+                      state.errorMessage ?? S.of(context).errorMessageDefault,
                   onPressed: () {
                     Navigator.of(context).pop();
                   });
             } else if (state is UploadDiarySuccess) {
               diaryDialog(
                   context: context,
-                  title: 'Upload Success',
-                  message: 'Your diary has beed uploaded!',
+                  title: S.of(context).uploadSuccess,
+                  message: S.of(context).uploadDiarySuccessMessage,
                   onPressed: () {
                     Navigator.of(context).pop();
                   });
             }
           },
           builder: (context, state) {
-            List<XFile>? test = [];
+            List<XFile>? updatedImageList = [];
 
             if (state is PickImageSuccess) {
-              test = state.updatedImageList;
+              updatedImageList = state.updatedImageList;
             } else if (state is RemoveImageSuccess) {
-              test = state.updatedImageList;
+              updatedImageList = state.updatedImageList;
             }
 
             return SingleChildScrollView(
-              child: DiaryForm(imageList: test),
+              child: DiaryForm(
+                imageList: updatedImageList,
+              ),
             );
           },
         ),

@@ -1,4 +1,14 @@
 class Diary {
+  const Diary({
+    required this.location,
+    required this.imageList,
+    required this.comment,
+    required this.diaryDateInMillis,
+    required this.areaID,
+    required this.taskCategoryID,
+    required this.tags,
+    required this.eventID,
+  });
   final String location;
 
   //For add photo part
@@ -15,15 +25,4 @@ class Diary {
 
   //for linking event
   final int eventID;
-
-  const Diary({
-    required this.location,
-    required this.imageList,
-    required this.comment,
-    required this.diaryDateInMillis,
-    required this.areaID,
-    required this.taskCategoryID,
-    required this.tags,
-    required this.eventID,
-  });
 }

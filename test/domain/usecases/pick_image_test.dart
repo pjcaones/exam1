@@ -18,7 +18,7 @@ void main() {
 
   test('should add image in image list', () async {
     XFile? imageResult;
-    XFile image = XFile('test1.png');
+    final XFile image = XFile('test1.png');
 
     //always keep this in mind
     //Gagamitin lang si when kapag nag implement tayo ng isang mock class

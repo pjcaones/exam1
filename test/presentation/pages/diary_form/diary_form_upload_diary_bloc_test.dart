@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:exam1/core/errors/failures.dart';
 import 'package:exam1/core/helpers/image_to_base64.dart';
 import 'package:exam1/domain/entities/diary.dart';
@@ -43,16 +41,16 @@ void main() {
   });
 
   //Sample converted base64 from sample selected images
-  List<String> tConvertedFileList = ['Test 1', 'Test 2', 'Test 3'];
+  final List<String> tConvertedFileList = ['Test 1', 'Test 2', 'Test 3'];
 
   //Sample data to be uploaded
-  String location = 'location';
-  String comment = 'comment';
-  int diaryDateInMillis = DateTime.now().millisecondsSinceEpoch;
-  int areaID = 1;
-  int taskCategoryID = 1;
-  String tags = 'Sample Tag';
-  int eventID = 1;
+  const String location = 'location';
+  const String comment = 'comment';
+  final int diaryDateInMillis = DateTime.now().millisecondsSinceEpoch;
+  const int areaID = 1;
+  const int taskCategoryID = 1;
+  const String tags = 'Sample Tag';
+  const int eventID = 1;
 
   final tDiary = Diary(
     location: location,
@@ -127,7 +125,7 @@ void main() {
         UploadDiarySuccess(),
       ];
 
-      expectLater(addPhotoBloc, emitsInOrder(expectedEmits));
+      await expectLater(addPhotoBloc, emitsInOrder(expectedEmits));
       addPhotoBloc.add(UploadDiaryEvent(
           location: location,
           imageList: [

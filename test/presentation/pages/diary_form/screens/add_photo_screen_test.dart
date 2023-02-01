@@ -1,6 +1,7 @@
 import 'package:exam1/core/helpers/helpers.dart';
 import 'package:exam1/domain/usecases/usecases.dart';
 import 'package:exam1/injection_container.dart';
+import 'package:exam1/injection_container.dart' as get_it;
 import 'package:exam1/presentation/pages/diary_form/diary_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,13 +9,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:exam1/injection_container.dart' as get_it;
-
 class MockImageHelper extends Mock implements ImageHelper {}
 
 void main() {
-  XFile tImage = XFile('test1.png');
-  List<XFile> _imageList = [];
+  final XFile tImage = XFile('test1.png');
+  List<XFile> imageList = [];
 
   late MockImageHelper mockImageHelper;
   late AddPhotoBloc addPhotoBloc;
@@ -37,13 +36,13 @@ void main() {
   Future<void> onSelectImage() async {
     addPhotoBloc.add(
       PickImageEvent(
-        imageList: _imageList,
+        imageList: imageList,
       ),
     );
   }
 
   void onRemoveSelectedImage(int index) {
-    _imageList.removeAt(index);
+    imageList.removeAt(index);
   }
 
   Widget widgetUnderTest() {
@@ -51,7 +50,7 @@ void main() {
       home: BlocProvider(
         create: (context) => addPhotoBloc,
         child: AddPhotoScreen(
-            imageList: _imageList,
+            imageList: imageList,
             includePhotoGallery: true,
             onSelectImage: onSelectImage,
             onRemoveImage: onRemoveSelectedImage),
@@ -83,20 +82,20 @@ void main() {
   });
 
   testWidgets('should remove picked image', (tester) async {
-    int indexToRemove = 1;
-    _imageList = [
+    const int indexToRemove = 1;
+    imageList = [
       XFile('test1.png'),
       XFile('test2.png'),
       XFile('test3.png'),
     ];
 
     await tester.pumpWidget(widgetUnderTest());
-    expect(find.byIcon(Icons.close), findsNWidgets(_imageList.length));
+    expect(find.byIcon(Icons.close), findsNWidgets(imageList.length));
 
     addPhotoBloc.add(
       RemoveImageEvent(
         index: indexToRemove,
-        imageList: _imageList,
+        imageList: imageList,
       ),
     );
 

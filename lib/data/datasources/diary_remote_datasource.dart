@@ -12,9 +12,8 @@ abstract class DiaryRemoteDataSource {
 }
 
 class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
-  final http.Client client;
-
   DiaryRemoteDataSourceImpl({required this.client});
+  final http.Client client;
 
   @override
   Future<UploadedDiaryResultModel> getResultFromUploadedDiary(
@@ -34,7 +33,7 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
         tags: diary.tags,
         eventID: diary.eventID);
 
-    String body = jsonEncode(diaryModel.toJson());
+    final String body = jsonEncode(diaryModel.toJson());
     final response = await client.post(url, headers: header, body: body);
 
     if (response.statusCode == 201) {

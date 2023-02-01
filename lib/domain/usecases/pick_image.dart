@@ -7,9 +7,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickImage implements UseCase<XFile, ImageSource> {
-  final ImageHelper imageHelper;
-
   PickImage({required this.imageHelper});
+  final ImageHelper imageHelper;
 
   @override
   Future<Either<Failure, XFile>> call(ImageSource imageSource) async {

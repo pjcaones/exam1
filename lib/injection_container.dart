@@ -14,46 +14,45 @@ void init() {
   //Presentation parts
 
   //Registering Blocs
-  serviceLocator.registerFactory(() => AddPhotoBloc(
-        pickImage: serviceLocator(),
-        fileToBase64: serviceLocator(),
-        uploadDiary: serviceLocator(),
-      ));
+  serviceLocator
+    ..registerFactory(() => AddPhotoBloc(
+          pickImage: serviceLocator(),
+          fileToBase64: serviceLocator(),
+          uploadDiary: serviceLocator(),
+        ))
 
-  //Registering UseCases
-  serviceLocator.registerLazySingleton(
-    () => UploadDiary(
-      serviceLocator(),
-    ),
-  );
+    //Registering UseCases
+    ..registerLazySingleton(
+      () => UploadDiary(
+        serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => PickImage(imageHelper: serviceLocator()),
+    )
 
-  serviceLocator.registerLazySingleton(
-    () => PickImage(imageHelper: serviceLocator()),
-  );
+    //Registering Repositories
+    ..registerLazySingleton<DiaryRepository>(
+      () => DiaryRepositoryImpl(
+        diaryRemoteDataSource: serviceLocator(),
+      ),
+    )
 
-  //Registering Repositories
-  serviceLocator.registerLazySingleton<DiaryRepository>(
-    () => DiaryRepositoryImpl(
-      diaryRemoteDataSource: serviceLocator(),
-    ),
-  );
+    //Registering DataSources
+    ..registerLazySingleton<DiaryRemoteDataSource>(
+      () => DiaryRemoteDataSourceImpl(client: serviceLocator()),
+    )
 
-  //Registering DataSources
-  serviceLocator.registerLazySingleton<DiaryRemoteDataSource>(
-    () => DiaryRemoteDataSourceImpl(client: serviceLocator()),
-  );
+    //Core parts
+    ..registerLazySingleton(
+      FileToBase64.new,
+    )
+    ..registerLazySingleton(
+      ImageHelper.new,
+    )
 
-  //Core parts
-  serviceLocator.registerLazySingleton(
-    () => FileToBase64(),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => ImageHelper(),
-  );
-
-  //Registering external classes
-  serviceLocator.registerLazySingleton(
-    () => http.Client(),
-  );
+    //Registering external classes
+    ..registerLazySingleton(
+      http.Client.new,
+    );
 }

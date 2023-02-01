@@ -5,9 +5,8 @@ import 'package:exam1/domain/repositories/repositories.dart';
 import 'package:fpdart/fpdart.dart';
 
 class DiaryRepositoryImpl implements DiaryRepository {
-  final DiaryRemoteDataSource diaryRemoteDataSource;
-
   DiaryRepositoryImpl({required this.diaryRemoteDataSource});
+  final DiaryRemoteDataSource diaryRemoteDataSource;
 
   @override
   Future<Either<Failure, UploadedDiaryResult>> getResultFromUploadedDiary(

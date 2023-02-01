@@ -3,15 +3,15 @@ import 'dart:io';
 
 class FileToBase64 {
   Future<String> singleConversion({required File file}) async {
-    var bytes = file.readAsBytesSync();
+    final bytes = file.readAsBytesSync();
 
     return base64.encode(bytes);
   }
 
   Future<List<String>> listConversion({required List<File> fileList}) async {
-    late List<String> convertedList = [];
+    final List<String> convertedList = [];
 
-    for (File file in fileList) {
+    for (final File file in fileList) {
       convertedList.add(await singleConversion(file: file));
     }
 

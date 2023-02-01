@@ -5,12 +5,11 @@ import 'package:exam1/domain/repositories/repositories.dart';
 import 'package:fpdart/fpdart.dart';
 
 class UploadDiary implements UseCase<UploadedDiaryResult, Diary> {
-  final DiaryRepository diaryRepository;
-
   UploadDiary(this.diaryRepository);
+  final DiaryRepository diaryRepository;
 
   @override
   Future<Either<Failure, UploadedDiaryResult>> call(Diary params) async {
-    return await diaryRepository.getResultFromUploadedDiary(diary: params);
+    return diaryRepository.getResultFromUploadedDiary(diary: params);
   }
 }

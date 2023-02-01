@@ -17,10 +17,6 @@ part 'diary_form_remove_image_bloc.dart';
 part 'diary_form_upload_diary_bloc.dart';
 
 class AddPhotoBloc extends Bloc<AddPhotoEvent, AddPhotoState> {
-  final FileToBase64 fileToBase64;
-  final PickImage pickImage;
-  final UploadDiary uploadDiary;
-
   AddPhotoBloc({
     required this.fileToBase64,
     required this.pickImage,
@@ -30,4 +26,7 @@ class AddPhotoBloc extends Bloc<AddPhotoEvent, AddPhotoState> {
     on<PickImageEvent>(_pickImage);
     on<RemoveImageEvent>(_removeImage);
   }
+  final FileToBase64 fileToBase64;
+  final PickImage pickImage;
+  final UploadDiary uploadDiary;
 }

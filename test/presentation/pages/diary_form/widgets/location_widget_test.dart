@@ -4,10 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('location widget ...', (tester) async {
-    String location = 'Sample Location';
+    const String location = 'Sample Location';
 
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         home: LocationWidget(location: location),
       ),
     );

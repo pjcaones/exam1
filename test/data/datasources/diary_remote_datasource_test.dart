@@ -7,9 +7,8 @@ import 'package:exam1/data/repositories/diary_repository_impl.dart';
 import 'package:exam1/domain/entities/diary.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:mocktail/mocktail.dart';
-
 import 'package:http/http.dart' as http;
+import 'package:mocktail/mocktail.dart';
 
 class MockUploadDiaryRemoteDataSource extends Mock
     implements DiaryRemoteDataSource {}
@@ -41,7 +40,7 @@ void main() {
     registerFallbackValue(url);
   });
 
-  Diary tDiary = Diary(
+  final Diary tDiary = Diary(
       location: 'Sample location',
       imageList: const [
         'QWERTYUIOP',
@@ -55,7 +54,7 @@ void main() {
       tags: 'Sample tag',
       eventID: 1);
 
-  DiaryModel tDiaryModel = DiaryModel(
+  final DiaryModel tDiaryModel = DiaryModel(
       location: 'Sample location',
       imageList: const [
         'QWERTYUIOP',
@@ -91,8 +90,9 @@ void main() {
       'Content-Type': 'application/json; charset=UTF-8'
     };
 
-    String uploadedBody = jsonEncode(tDiaryModel.toJson());
-    String resultResponseBody = jsonEncode(tUploadedDiaryResultModel.toJson());
+    final String uploadedBody = jsonEncode(tDiaryModel.toJson());
+    final String resultResponseBody =
+        jsonEncode(tUploadedDiaryResultModel.toJson());
 
     test('should perform uploading of data', () async {
       //Response 201 is response from reqres.in api

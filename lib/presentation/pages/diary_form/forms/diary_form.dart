@@ -1,3 +1,4 @@
+import 'package:exam1/generated/l10n.dart';
 import 'package:exam1/presentation/pages/diary_form/diary_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,12 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class DiaryForm extends StatefulWidget {
-  final List<XFile>? imageList;
-
   const DiaryForm({
     super.key,
     required this.imageList,
   });
+  final List<XFile>? imageList;
 
   @override
   State<DiaryForm> createState() => _DiaryFormState();
@@ -62,7 +62,7 @@ class _DiaryFormState extends State<DiaryForm> {
 
     //DateFormat should not be here
     //ui page must not have any logics implemented
-    DateFormat format = DateFormat('yyyy-MM-dd');
+    final DateFormat format = DateFormat('yyyy-MM-dd');
 
     _imageList = widget.imageList;
 
@@ -84,7 +84,7 @@ class _DiaryFormState extends State<DiaryForm> {
   }
 
   //Callbacks
-  void _onSelectImage() async {
+  Future<void> _onSelectImage() async {
     _imageList ??= [];
 
     BlocProvider.of<AddPhotoBloc>(context).add(
@@ -126,27 +126,27 @@ class _DiaryFormState extends State<DiaryForm> {
       Container(
         color: const Color.fromARGB(255, 242, 245, 247),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
           child: Column(
             children: [
               //Header of the form
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 12.0),
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
                 child: Row(
                   children: [
                     Expanded(
                       child: Text(
-                        'Add to site diary',
+                        S.of(context).diaryMessageAddSiteDiary,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
-                    const Align(
+                    Align(
                       alignment: Alignment.centerRight,
                       child: Tooltip(
-                        message: "Fill up to add in site diary",
+                        message: S.of(context).diaryMessageFillUpDiary,
                         triggerMode: TooltipTriggerMode.tap,
-                        child: Icon(Icons.help,
+                        child: const Icon(Icons.help,
                             color: Color.fromARGB(255, 154, 154, 154)),
                       ),
                     )
@@ -203,14 +203,14 @@ class _DiaryFormState extends State<DiaryForm> {
               //Button for calling the api
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
                 child: SizedBox(
                   width: double.infinity,
                   height: 70,
                   child: ElevatedButton(
-                    key: const Key('next'),
+                    key: Key(S.of(context).keyNext),
                     onPressed: _uploadDiary,
-                    child: const Text('Next'),
+                    child: Text(S.of(context).buttonNext),
                   ),
                 ),
               ),

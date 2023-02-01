@@ -1,11 +1,10 @@
 import 'package:exam1/core/helpers/helpers.dart';
 import 'package:exam1/domain/usecases/usecases.dart';
+import 'package:exam1/injection_container.dart' as get_it;
 import 'package:exam1/presentation/pages/diary_form/diary_form_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
-
-import 'package:exam1/injection_container.dart' as get_it;
 
 class MockImageHelper extends Mock implements ImageHelper {}
 
@@ -39,8 +38,8 @@ void main() {
         uploadDiary: mockUploadDiary);
   });
 
-  XFile tImageFile = XFile('test1.png');
-  List<XFile> imageList = [];
+  final XFile tImageFile = XFile('test1.png');
+  final List<XFile> imageList = [];
 
   testWidgets('diary form pick image bloc ...', (tester) async {
     //Need further test

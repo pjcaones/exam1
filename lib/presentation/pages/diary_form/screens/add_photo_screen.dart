@@ -1,3 +1,4 @@
+import 'package:exam1/generated/l10n.dart';
 import 'package:exam1/presentation/pages/diary_form/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,34 +7,33 @@ typedef SelectImage = void Function();
 typedef RemoveImage = void Function(int index);
 
 class AddPhotoScreen extends StatelessWidget {
-  final List<XFile>? imageList;
-  final bool includePhotoGallery;
-
-  final SelectImage onSelectImage;
-  final RemoveImage onRemoveImage;
-
   const AddPhotoScreen(
       {super.key,
       required this.imageList,
       required this.includePhotoGallery,
       required this.onSelectImage,
       required this.onRemoveImage});
+  final List<XFile>? imageList;
+  final bool includePhotoGallery;
+
+  final SelectImage onSelectImage;
+  final RemoveImage onRemoveImage;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 9.0),
+      margin: const EdgeInsets.symmetric(vertical: 9),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomCardTitle(title: "Add Photos to site diary"),
+                CustomCardTitle(title: S.of(context).diaryTitleAddPhotos),
                 const Divider(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   child: ImageListWidget(
                     imageList: imageList,
                     onRemoveImage: onRemoveImage,
@@ -43,18 +43,18 @@ class AddPhotoScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 70,
                   child: ElevatedButton(
-                    key: const Key('add_photo'),
+                    key: Key(S.of(context).keyAddPhoto),
                     onPressed: onSelectImage,
-                    child: const Text('Add a photo'),
+                    child: Text(S.of(context).buttonAddPhoto),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Row(
                     children: [
                       Expanded(
                         child: Text(
-                          'Include in photo gallery',
+                          S.of(context).diaryMessageIncludePhotoGallery,
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                       ),
