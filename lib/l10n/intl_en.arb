@@ -32,6 +32,10 @@
   "@diaryMessageIncludePhotoGallery": {
     "description": "Text for include photo gallery"
   },
+  "diaryMessageNoImageYet": "No images selected yet..",
+  "@diaryMessageNoImageYet": {
+    "description": "Text for No images selected yet"
+  },
   "diaryTitleAddPhotos": "Add Photos to site diary",
   "@diaryTitleAddPhotos": {
     "description": "Add Photos"
@@ -79,6 +83,10 @@
   "keyNext": "next",
   "@keyNext": {
     "description": "key for next button"
+  },
+  "keyRemoveButton": "remove_image_button_",
+  "@keyRemoveButton": {
+    "description": "key for remove image button"
   },
   "textfieldLabelArea": "Select Area",
   "@textfieldLabelArea": {

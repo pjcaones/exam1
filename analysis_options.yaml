@@ -15,7 +15,7 @@ analyzer:
     missing_return: error
     todo: ignore
   language:
-    strict-inference: true
+    # strict-inference: true
     strict-raw-types: true
 
 linter:

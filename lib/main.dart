@@ -1,11 +1,11 @@
+import 'package:exam1/features/diary/presentation/pages/pages.dart';
 import 'package:exam1/generated/l10n.dart';
-import 'package:exam1/presentation/pages/diary_form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localizely_sdk/localizely_sdk.dart';
 
-import 'injection_container.dart' as get_it;
+import 'di.dart' as get_it;
 
 void main() {
   //Initializing things in the project
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: objColor, elevation: 8)),
           fontFamily: GoogleFonts.roboto().fontFamily),
-      home: const DiaryFormPage(),
+      home: const DiaryPage(),
     );
   }
 }

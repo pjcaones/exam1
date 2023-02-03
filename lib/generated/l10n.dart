@@ -64,6 +64,7 @@ class S {
     'diaryMessageAddSiteDiary': [],
     'diaryMessageFillUpDiary': [],
     'diaryMessageIncludePhotoGallery': [],
+    'diaryMessageNoImageYet': [],
     'diaryTitleAddPhotos': [],
     'diaryTitleComments': [],
     'diaryTitleDetails': [],
@@ -76,6 +77,7 @@ class S {
     'keyDiaryDate': [],
     'keyEvent': [],
     'keyNext': [],
+    'keyRemoveButton': [],
     'textfieldLabelArea': [],
     'textfieldLabelCategory': [],
     'textfieldLabelComment': [],
@@ -172,6 +174,16 @@ class S {
       'Include in photo gallery',
       name: 'diaryMessageIncludePhotoGallery',
       desc: 'Text for include photo gallery',
+      args: [],
+    );
+  }
+
+  /// `No images selected yet..`
+  String get diaryMessageNoImageYet {
+    return Intl.message(
+      'No images selected yet..',
+      name: 'diaryMessageNoImageYet',
+      desc: 'Text for No images selected yet',
       args: [],
     );
   }
@@ -292,6 +304,16 @@ class S {
       'next',
       name: 'keyNext',
       desc: 'key for next button',
+      args: [],
+    );
+  }
+
+  /// `remove_image_button_`
+  String get keyRemoveButton {
+    return Intl.message(
+      'remove_image_button_',
+      name: 'keyRemoveButton',
+      desc: 'key for remove image button',
       args: [],
     );
   }

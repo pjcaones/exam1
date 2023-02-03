@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Fill up to add in site diary"),
         "diaryMessageIncludePhotoGallery":
             MessageLookupByLibrary.simpleMessage("Include in photo gallery"),
+        "diaryMessageNoImageYet":
+            MessageLookupByLibrary.simpleMessage("No images selected yet.."),
         "diaryTitleAddPhotos":
             MessageLookupByLibrary.simpleMessage("Add Photos to site diary"),
         "diaryTitleComments": MessageLookupByLibrary.simpleMessage("Comments"),
@@ -51,6 +53,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "keyDiaryDate": MessageLookupByLibrary.simpleMessage("diary_date"),
         "keyEvent": MessageLookupByLibrary.simpleMessage("event"),
         "keyNext": MessageLookupByLibrary.simpleMessage("next"),
+        "keyRemoveButton":
+            MessageLookupByLibrary.simpleMessage("remove_image_button_"),
         "textfieldLabelArea":
             MessageLookupByLibrary.simpleMessage("Select Area"),
         "textfieldLabelCategory":
