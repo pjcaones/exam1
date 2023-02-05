@@ -9,9 +9,9 @@ import 'package:intl/intl.dart';
 class DiaryForm extends StatefulWidget {
   const DiaryForm({
     super.key,
-    required this.imageList,
+    // required this.imageList,
   });
-  final List<XFile>? imageList;
+  // final List<XFile>? imageList;
 
   @override
   State<DiaryForm> createState() => _DiaryFormState();
@@ -31,7 +31,7 @@ class _DiaryFormState extends State<DiaryForm> {
   late int _categoryID;
   late TextEditingController _tagsController;
 
-  late bool _isExistingEvent;
+  late bool _isLinkExistingEvent;
   late int _eventID;
 
   //hardcoded values of objects
@@ -65,7 +65,7 @@ class _DiaryFormState extends State<DiaryForm> {
     //ui page must not have any logics implemented
     final DateFormat format = DateFormat('yyyy-MM-dd');
 
-    _imageList = widget.imageList;
+    _imageList = [];
 
     _includeGalleryPhoto = true;
     _commentController = TextEditingController();
@@ -80,14 +80,12 @@ class _DiaryFormState extends State<DiaryForm> {
 
     _tagsController = TextEditingController();
 
-    _isExistingEvent = true;
+    _isLinkExistingEvent = true;
     _eventID = 0;
   }
 
   //Callbacks
   Future<void> _onSelectImage() async {
-    _imageList ??= [];
-
     BlocProvider.of<DiaryBloc>(context).add(
       PickImageEvent(
         imageList: _imageList!,
@@ -104,6 +102,22 @@ class _DiaryFormState extends State<DiaryForm> {
     );
   }
 
+  void _onIncludePhotoGallery(bool? value) {
+    setState(() {
+      if (value != null) {
+        _includeGalleryPhoto = value;
+      }
+    });
+  }
+
+  void _onLinkExistingEvent(bool? value) {
+    setState(() {
+      if (value != null) {
+        _isLinkExistingEvent = value;
+      }
+    });
+  }
+
   void _uploadDiary() {
     BlocProvider.of<DiaryBloc>(context).add(UploadDiaryEvent(
         location: _location,
@@ -118,97 +132,109 @@ class _DiaryFormState extends State<DiaryForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      //Static location only
-      LocationWidget(
-        location: _location,
-      ),
+    return BlocBuilder<DiaryBloc, DiaryState>(
+      builder: (context, state) {
+        if (state is PickImageSuccess) {
+          _imageList = state.updatedImageList;
+        } else if (state is RemoveImageSuccess) {
+          _imageList = state.updatedImageList;
+        }
 
-      Container(
-        color: const Color.fromARGB(255, 242, 245, 247),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-          child: Column(
-            children: [
-              //Header of the form
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        S.of(context).diaryMessageAddSiteDiary,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Tooltip(
-                        message: S.of(context).diaryMessageFillUpDiary,
-                        triggerMode: TooltipTriggerMode.tap,
-                        child: const Icon(Icons.help,
-                            color: Color.fromARGB(255, 154, 154, 154)),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-              //Adding of photo to site diary
-              AddPhotoScreen(
-                imageList: _imageList,
-                includePhotoGallery: _includeGalleryPhoto,
-                onSelectImage: _onSelectImage,
-                onRemoveImage: _onRemoveImage,
-              ),
-
-              //Comments
-              CommentScreen(commentController: _commentController),
-
-              //Details
-              DetailsScreen(
-                  areas: _areas,
-                  categories: _categories,
-                  diaryDateController: _diaryDateController,
-                  areaID: _areaID,
-                  categoryID: _categoryID,
-                  tagsController: _tagsController,
-                  onSelectAreas: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _areaID = value;
-                      });
-                    }
-                  },
-                  onSelectCategory: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _categoryID = value;
-                      });
-                    }
-                  }),
-
-              //Event
-              EventsScreen(
-                  events: _events,
-                  isLinkExistingEvent: _isExistingEvent,
-                  onSelectEvent: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _eventID = value;
-                      });
-                    }
-                  }),
-
-              //Button for calling the api
-              UploadDiaryWidget(
-                onUploadDiaryForm: _uploadDiary,
-              ),
-            ],
+        return Column(children: [
+          //Static location only
+          LocationWidget(
+            location: _location,
           ),
-        ),
-      ),
-    ]);
+
+          Container(
+            color: const Color.fromARGB(255, 242, 245, 247),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              child: Column(
+                children: [
+                  //Header of the form
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            S.of(context).diaryMessageAddSiteDiary,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Tooltip(
+                            message: S.of(context).diaryMessageFillUpDiary,
+                            triggerMode: TooltipTriggerMode.tap,
+                            child: const Icon(Icons.help,
+                                color: Color.fromARGB(255, 154, 154, 154)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  //Adding of photo to site diary
+                  AddPhotoScreen(
+                    imageList: _imageList,
+                    includePhotoGallery: _includeGalleryPhoto,
+                    onIncludePhotoGallery: _onIncludePhotoGallery,
+                    onSelectImage: _onSelectImage,
+                    onRemoveImage: _onRemoveImage,
+                  ),
+
+                  //Comments
+                  CommentScreen(commentController: _commentController),
+
+                  //Details
+                  DetailsScreen(
+                      areas: _areas,
+                      categories: _categories,
+                      diaryDateController: _diaryDateController,
+                      areaID: _areaID,
+                      categoryID: _categoryID,
+                      tagsController: _tagsController,
+                      onSelectAreas: (value) {
+                        if (value != null) {
+                          setState(() {
+                            _areaID = value;
+                          });
+                        }
+                      },
+                      onSelectCategory: (value) {
+                        if (value != null) {
+                          setState(() {
+                            _categoryID = value;
+                          });
+                        }
+                      }),
+
+                  //Event
+                  EventsScreen(
+                      events: _events,
+                      isLinkExistingEvent: _isLinkExistingEvent,
+                      onLinkExistingEvent: _onLinkExistingEvent,
+                      onSelectEvent: (value) {
+                        if (value != null) {
+                          setState(() {
+                            _eventID = value;
+                          });
+                        }
+                      }),
+
+                  //Button for calling the api
+                  UploadDiaryWidget(
+                    onUploadDiaryForm: _uploadDiary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ]);
+      },
+    );
   }
 }

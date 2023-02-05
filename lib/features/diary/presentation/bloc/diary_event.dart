@@ -14,6 +14,12 @@ class PickImageEvent extends DiaryEvent {
   });
   final List<XFile> imageList;
   final ImageSource imageSource;
+
+  @override
+  List<Object> get props => [
+        imageList,
+        imageSource,
+      ];
 }
 
 class RemoveImageEvent extends DiaryEvent {
@@ -23,6 +29,12 @@ class RemoveImageEvent extends DiaryEvent {
   });
   final int index;
   final List<XFile> imageList;
+
+  @override
+  List<Object> get props => [
+        index,
+        imageList,
+      ];
 }
 
 class UploadDiaryEvent extends DiaryEvent {
@@ -43,4 +55,16 @@ class UploadDiaryEvent extends DiaryEvent {
   final int taskCategoryID;
   final String tags;
   final int eventID;
+
+  @override
+  List<Object> get props => [
+        location,
+        imageList,
+        comment,
+        diaryDate,
+        areaID,
+        taskCategoryID,
+        tags,
+        eventID
+      ];
 }

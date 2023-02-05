@@ -1,29 +1,18 @@
-import 'dart:developer';
-
 import 'package:exam1/core/errors/failures.dart';
-import 'package:exam1/core/helpers/helpers.dart';
 import 'package:exam1/core/usecases/usecases.dart';
+import 'package:exam1/features/diary/domain/entities/entities.dart';
+import 'package:exam1/features/diary/domain/repositories/pick_image_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PickImage implements UseCase<XFile, ImageSource> {
-  PickImage({required this.imageHelper});
-  final ImageHelper imageHelper;
+class PickImage implements UseCase<XFile, ImageDetails> {
+  PickImage({required this.pickImageRepository});
+  final PickImageRepository pickImageRepository;
 
   @override
-  Future<Either<Failure, XFile>> call(ImageSource imageSource) async {
-    //? Should this be in data folder under repository implementations?
-    try {
-      final pickedImage = await imageHelper.pickImage(source: imageSource);
-
-      if (pickedImage != null) {
-        return Right(pickedImage);
-      } else {
-        return Left(PickImageFail());
-      }
-    } catch (error) {
-      log('_pickImage error: $error');
-      return Left(PickImageFail());
-    }
+  Future<Either<Failure, XFile>> call(ImageDetails imageDetails) async {
+    return pickImageRepository.getPickedImage(
+      imageDetails: imageDetails,
+    );
   }
 }

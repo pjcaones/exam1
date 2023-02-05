@@ -26,8 +26,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "buttonAddPhoto": MessageLookupByLibrary.simpleMessage("Add a photo"),
         "buttonNext": MessageLookupByLibrary.simpleMessage("Next"),
         "buttonOK": MessageLookupByLibrary.simpleMessage("OK"),
-        "dateFormatyyyyMMdd":
-            MessageLookupByLibrary.simpleMessage("yyyy-MM-dd"),
         "diaryFormPage": MessageLookupByLibrary.simpleMessage("New Diary"),
         "diaryMessageAddSiteDiary":
             MessageLookupByLibrary.simpleMessage("Add to site diary"),

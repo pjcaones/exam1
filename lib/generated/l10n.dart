@@ -59,7 +59,6 @@ class S {
     'buttonAddPhoto': [],
     'buttonNext': [],
     'buttonOK': [],
-    'dateFormatyyyyMMdd': [],
     'diaryFormPage': [],
     'diaryMessageAddSiteDiary': [],
     'diaryMessageFillUpDiary': [],
@@ -124,16 +123,6 @@ class S {
       'OK',
       name: 'buttonOK',
       desc: 'Button OK',
-      args: [],
-    );
-  }
-
-  /// `yyyy-MM-dd`
-  String get dateFormatyyyyMMdd {
-    return Intl.message(
-      'yyyy-MM-dd',
-      name: 'dateFormatyyyyMMdd',
-      desc: 'Dateformat for yyyy-MM-dd',
       args: [],
     );
   }

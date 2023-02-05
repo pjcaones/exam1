@@ -14,10 +14,6 @@
   "@buttonOK": {
     "description": "Button OK"
   },
-  "dateFormatyyyyMMdd": "yyyy-MM-dd",
-  "@dateFormatyyyyMMdd": {
-    "description": "Dateformat for yyyy-MM-dd"
-  },
   "diaryFormPage": "New Diary",
   "@diaryFormPage": {},
   "diaryMessageAddSiteDiary": "Add to site diary",

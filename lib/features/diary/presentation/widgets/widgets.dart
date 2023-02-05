@@ -4,6 +4,7 @@ export 'comment_screen.dart';
 export 'custom_dropdown_widget.dart';
 export 'details_screen.dart';
 export 'diary_form.dart';
+export 'diary_states_widget.dart';
 export 'events_screen.dart';
 export 'image_list_widget.dart';
 export 'location_widget.dart';

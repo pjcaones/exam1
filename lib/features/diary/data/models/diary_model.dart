@@ -16,7 +16,4 @@ class DiaryModel extends Diary with _$DiaryModel {
     required String tags,
     required int eventID,
   }) = _DiaryModel;
-
-  factory DiaryModel.fromJson(Map<String, dynamic> json) =>
-      _$DiaryModelFromJson(json);
 }

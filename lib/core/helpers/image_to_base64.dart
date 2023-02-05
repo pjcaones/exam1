@@ -17,8 +17,4 @@ class FileToBase64 {
 
     return convertedList;
   }
-
-  Future<String> sampleFunction({required int i}) async {
-    return i.toString();
-  }
 }

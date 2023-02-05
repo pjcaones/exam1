@@ -7,7 +7,6 @@ part 'uploaded_diary_result_model.g.dart';
 @Freezed()
 class UploadedDiaryResultModel extends UploadedDiaryResult
     with _$UploadedDiaryResultModel {
-  @Implements<UploadedDiaryResult>()
   const factory UploadedDiaryResultModel({
     required String id,
   }) = _UploadedDiaryResultModel;

@@ -11,6 +11,7 @@ class AddPhotoScreen extends StatelessWidget {
       {super.key,
       required this.imageList,
       required this.includePhotoGallery,
+      required this.onIncludePhotoGallery,
       required this.onSelectImage,
       required this.onRemoveImage});
   final List<XFile>? imageList;
@@ -18,6 +19,7 @@ class AddPhotoScreen extends StatelessWidget {
 
   final SelectImage onSelectImage;
   final RemoveImage onRemoveImage;
+  final ValueChanged<bool?> onIncludePhotoGallery;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class AddPhotoScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: Checkbox(
                             value: includePhotoGallery,
-                            onChanged: (val) {},
+                            onChanged: onIncludePhotoGallery,
                           ))
                     ],
                   ),

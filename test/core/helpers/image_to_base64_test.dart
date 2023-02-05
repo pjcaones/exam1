@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:exam1/core/helpers/image_to_base64.dart';
@@ -42,10 +43,28 @@ void main() {
     });
   });
 
-  test('just a sample test', () async {
-    when(() => mockFileToBase64.sampleFunction(i: any(named: 'i')))
-        .thenAnswer((_) async => '100');
-    final result = await mockFileToBase64.sampleFunction(i: 100);
-    expect(result, '100');
+  group('sample', () {
+    final actualFile = File(
+        '/Users/jpcaones/Library/Developer/CoreSimulator/Devices/EE8D9367-6B36-4497-9C67-E7A299A373A5/data/Containers/Data/Application/809DDE96-A11B-43C7-B131-4D8EF7E078BF/tmp/image_picker_58AEF2C8-4B90-4A69-B27B-9DBF3C3B3CB8-16576-00000031EA461CE9.jpg');
+    final fileBaseTo64 = FileToBase64();
+
+    test('single conversion', () async {
+      final encodedFile = base64.encode(actualFile.readAsBytesSync());
+
+      final result = await fileBaseTo64.singleConversion(file: actualFile);
+
+      expect(result, encodedFile);
+    });
+
+    test('list conversion', () async {
+      final convertedList = [base64.encode(actualFile.readAsBytesSync())];
+      final List<File> actualListFile = [
+        actualFile,
+      ];
+
+      final result =
+          await fileBaseTo64.listConversion(fileList: actualListFile);
+      expect(result, convertedList);
+    });
   });
 }

@@ -4,7 +4,7 @@ abstract class DiaryState extends Equatable {
   const DiaryState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class DiaryInitial extends DiaryState {}
@@ -17,6 +17,9 @@ class PickImageFailed extends DiaryState {}
 class PickImageSuccess extends DiaryState {
   const PickImageSuccess({required this.updatedImageList});
   final List<XFile> updatedImageList;
+
+  @override
+  List<Object> get props => [updatedImageList];
 }
 
 //For Image Removing
@@ -25,6 +28,9 @@ class RemoveImageLoading extends DiaryState {}
 class RemoveImageSuccess extends DiaryState {
   const RemoveImageSuccess({required this.updatedImageList});
   final List<XFile> updatedImageList;
+
+  @override
+  List<Object> get props => [updatedImageList];
 }
 
 class RemoveImageFailed extends DiaryState {}

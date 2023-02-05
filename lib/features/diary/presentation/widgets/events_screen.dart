@@ -9,12 +9,14 @@ class EventsScreen extends StatelessWidget {
       {super.key,
       required this.events,
       required this.isLinkExistingEvent,
+      required this.onLinkExistingEvent,
       required this.onSelectEvent});
   final Map<int, String> events;
 
   final bool isLinkExistingEvent;
 
   final SelectEvent onSelectEvent;
+  final ValueChanged<bool?> onLinkExistingEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class EventsScreen extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: Checkbox(
                               value: true,
-                              onChanged: (val) {},
+                              onChanged: onLinkExistingEvent,
                             ))
                       ],
                     ),

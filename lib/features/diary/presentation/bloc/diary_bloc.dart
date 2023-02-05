@@ -30,7 +30,11 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     emit(PickImageLoading());
 
     final List<XFile> imageList = event.imageList;
-    final failOrImage = await pickImage(ImageSource.gallery);
+    final failOrImage = await pickImage(
+      const ImageDetails(
+        imageSource: ImageSource.gallery,
+      ),
+    );
 
     failOrImage.fold((fail) {
       log('_uploadDiary error: $fail');

@@ -2,6 +2,7 @@ import 'package:exam1/features/diary/presentation/pages/pages.dart';
 import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localizely_sdk/localizely_sdk.dart';
 
@@ -19,7 +20,12 @@ void main() {
     distributionId,
   );
   Localizely.setPreRelease(true);
-  runApp(const MyApp());
+  runApp(
+    ModularApp(
+      module: DiaryModule(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +37,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       onGenerateTitle: (context) => S.of(context).appName,
       localizationsDelegates: const [
         S.delegate,
@@ -55,7 +61,21 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: objColor, elevation: 8)),
           fontFamily: GoogleFonts.roboto().fontFamily),
-      home: const DiaryPage(),
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
     );
   }
+}
+
+class DiaryModule extends Module {
+  @override
+  List<Bind<Object>> get binds => [];
+
+  @override
+  List<ModularRoute> get routes => [
+        ChildRoute(
+          '/',
+          child: (context, args) => const DiaryPage(),
+        ),
+      ];
 }
