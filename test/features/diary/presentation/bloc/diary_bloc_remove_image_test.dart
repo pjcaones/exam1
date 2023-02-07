@@ -1,6 +1,5 @@
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
-import 'package:exam1/di.dart' as get_it;
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,8 +18,6 @@ void main() {
   late MockUploadDiary mockUploadDiary;
 
   late DiaryBloc diaryBloc;
-
-  get_it.init();
 
   setUp(() {
     mockFileToBase64 = MockFileToBase64();
@@ -41,10 +38,9 @@ void main() {
     XFile('test3.png'),
   ];
 
-  test('diary form remove image bloc ...', () async {
+  test('remove image success', () async {
     indexToRemove = 1;
 
-    //Need further test
     diaryBloc.add(
       RemoveImageEvent(
         index: indexToRemove,
@@ -53,12 +49,11 @@ void main() {
     );
 
     await expectLater(
-      diaryBloc.state,
-      DiaryInitial(),
-    );
-
-    imageList.removeAt(indexToRemove);
-    expect(diaryBloc.state, RemoveImageSuccess(updatedImageList: imageList));
+        diaryBloc.stream,
+        emitsInOrder([
+          RemoveImageLoading(),
+          RemoveImageSuccess(updatedImageList: imageList)
+        ]));
   });
 
   test('diary remove image bloc error', () async {
@@ -72,10 +67,10 @@ void main() {
     );
 
     await expectLater(
-      diaryBloc.state,
-      DiaryInitial(),
-    );
-
-    expect(diaryBloc.state, RemoveImageFailed());
+        diaryBloc.stream,
+        emitsInOrder([
+          RemoveImageLoading(),
+          RemoveImageFailed(),
+        ]));
   });
 }

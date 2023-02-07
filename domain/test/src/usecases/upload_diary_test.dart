@@ -7,8 +7,13 @@ import 'package:mocktail/mocktail.dart';
 class MockUploadDiaryRepository extends Mock implements DiaryRepository {}
 
 void main() {
-  final mockUploadDiaryRepository = MockUploadDiaryRepository();
-  const uploadDiaryResult = UploadedDiaryResult(id: '1');
+  late MockUploadDiaryRepository mockUploadDiaryRepository;
+  late UploadDiary uploadDiary;
+
+  setUp(() {
+    mockUploadDiaryRepository = MockUploadDiaryRepository();
+    uploadDiary = UploadDiary(mockUploadDiaryRepository);
+  });
 
   const Diary tDiary = Diary(
     location: 'Sample location',
@@ -25,43 +30,44 @@ void main() {
     eventID: 1,
   );
 
-  test('should upload diary', () async {
-    when(
-      () => mockUploadDiaryRepository.getResultFromUploadedDiary(
-        diary: tDiary,
-      ),
-    ).thenAnswer((_) async => const Right(uploadDiaryResult));
+  const uploadDiaryResult = UploadedDiaryResult(id: '1');
 
-    final result = await mockUploadDiaryRepository.getResultFromUploadedDiary(
-      diary: tDiary,
-    );
+  group('upload diary usecase', () {
+    void stubUploadDiaryRepository(
+        Either<Failure, UploadedDiaryResult> result) {
+      when(
+        () => mockUploadDiaryRepository.getResultFromUploadedDiary(
+          diary: tDiary,
+        ),
+      ).thenAnswer((_) async => result);
+    }
 
-    verify(
-      () => mockUploadDiaryRepository.getResultFromUploadedDiary(
-        diary: tDiary,
-      ),
-    );
+    test('should upload diary success', () async {
+      stubUploadDiaryRepository(const Right(uploadDiaryResult));
 
-    expect(result, const Right(uploadDiaryResult));
-  });
+      final result = await uploadDiary(tDiary);
 
-  test('should fail upload', () async {
-    when(
-      () => mockUploadDiaryRepository.getResultFromUploadedDiary(
-        diary: tDiary,
-      ),
-    ).thenAnswer((_) async => Left(ServerFailure()));
+      verify(
+        () => mockUploadDiaryRepository.getResultFromUploadedDiary(
+          diary: tDiary,
+        ),
+      );
 
-    final result = await mockUploadDiaryRepository.getResultFromUploadedDiary(
-      diary: tDiary,
-    );
+      expect(result, const Right(uploadDiaryResult));
+    });
 
-    verify(
-      () => mockUploadDiaryRepository.getResultFromUploadedDiary(
-        diary: tDiary,
-      ),
-    );
+    test('should upload diary fail', () async {
+      stubUploadDiaryRepository(Left(ServerFailure()));
 
-    expect(result, Left(ServerFailure()));
+      final result = await uploadDiary(tDiary);
+
+      verify(
+        () => mockUploadDiaryRepository.getResultFromUploadedDiary(
+          diary: tDiary,
+        ),
+      );
+
+      expect(result, Left(ServerFailure()));
+    });
   });
 }

@@ -59,6 +59,20 @@ void main() {
     eventID: eventID,
   );
 
+  final uploadDiaryEvent = UploadDiaryEvent(
+      location: location,
+      imageList: [
+        XFile('Test1.png'),
+        XFile('Test2.png'),
+        XFile('Test3.png'),
+      ],
+      comment: comment,
+      diaryDate: diaryDateInMillis,
+      areaID: areaID,
+      taskCategoryID: taskCategoryID,
+      tags: tags,
+      eventID: eventID);
+
   const tUploadedDiaryResult = UploadedDiaryResult(id: '1');
 
   group('For pressing the next button', () {
@@ -70,99 +84,70 @@ void main() {
       ).thenAnswer((_) async => tConvertedFileList);
     }
 
-    void stubDiaryResult() {
+    void stubDiaryResult(Either<Failure, UploadedDiaryResult> result) {
       when(
         () => mockUploadDiary(tDiary),
-      ).thenAnswer((_) async => const Right(tUploadedDiaryResult));
+      ).thenAnswer((_) async => result);
     }
 
-    test('should call the upload diary usecase first for checking', () async {
-      stubDiaryResult();
-      final mockResult = await mockUploadDiary(tDiary);
-      verify(() => mockUploadDiary(tDiary));
-
-      expect(mockResult, const Right(tUploadedDiaryResult));
-    });
-
-    test('should get the from use case function', () async {
+    test('should success the upload diary', () async {
       stubBase64List();
-      stubDiaryResult();
+      stubDiaryResult(const Right(tUploadedDiaryResult));
 
-      expect(diaryBloc, isA<DiaryBloc>());
-      expect(tDiary, isA<Diary>());
+      diaryBloc.add(uploadDiaryEvent);
 
-      diaryBloc.add(UploadDiaryEvent(
-          location: location,
-          imageList: [
-            XFile('Test1.png'),
-            XFile('Test2.png'),
-            XFile('Test3.png'),
-          ],
-          comment: comment,
-          diaryDate: diaryDateInMillis,
-          areaID: areaID,
-          taskCategoryID: taskCategoryID,
-          tags: tags,
-          eventID: eventID));
+      await expectLater(
+          diaryBloc.stream,
+          emitsInOrder([
+            UploadDiaryLoading(),
+            UploadDiarySuccess(),
+          ]));
 
-      await untilCalled(
-        () => mockUploadDiary(tDiary),
-      );
+      verify(() => mockFileToBase64.listConversion(
+            fileList: any(named: 'fileList'),
+          ));
+
       verify(() => mockUploadDiary(tDiary));
     });
 
-    test('should emit states from loading to success', () async* {
-      stubDiaryResult();
+    test('should fail the upload diary', () async {
+      stubBase64List();
+      stubDiaryResult(Left(PickImageFailure()));
 
-      //expected emits
-      final expectedEmits = [
-        DiaryInitial(),
-        UploadDiaryLoading(),
-        UploadDiarySuccess(),
-      ];
+      diaryBloc.add(uploadDiaryEvent);
 
-      await expectLater(diaryBloc, emitsInOrder(expectedEmits));
-      diaryBloc.add(UploadDiaryEvent(
-          location: location,
-          imageList: [
-            XFile('Test1.png'),
-            XFile('Test2.png'),
-            XFile('Test3.png')
-          ],
-          comment: comment,
-          diaryDate: diaryDateInMillis,
-          areaID: areaID,
-          taskCategoryID: taskCategoryID,
-          tags: tags,
-          eventID: eventID));
+      await expectLater(
+          diaryBloc.stream,
+          emitsInOrder([
+            UploadDiaryLoading(),
+            const UploadDiaryFailed(),
+          ]));
+
+      verify(() => mockFileToBase64.listConversion(
+            fileList: any(named: 'fileList'),
+          ));
+
+      verify(() => mockUploadDiary(tDiary));
     });
-  });
 
-  test('should emit states from loading to failed', () async* {
-    when(
-      () => mockUploadDiary(tDiary),
-    ).thenAnswer((_) async => Left(ServerFailure()));
+    test('should fail the upload diary when id = 0', () async {
+      stubBase64List();
+      stubDiaryResult(const Right(UploadedDiaryResult(id: '0')));
 
-    //expected emits
-    final expectedEmits = [
-      DiaryInitial(),
-      UploadDiaryLoading(),
-      const UploadDiaryFailed(),
-    ];
+      diaryBloc.add(uploadDiaryEvent);
 
-    await expectLater(diaryBloc, emitsInOrder(expectedEmits));
-    diaryBloc.add(UploadDiaryEvent(
-        location: location,
-        imageList: [
-          XFile('Test1.png'),
-          XFile('Test2.png'),
-          XFile('Test3.png'),
-        ],
-        comment: comment,
-        diaryDate: diaryDateInMillis,
-        areaID: areaID,
-        taskCategoryID: taskCategoryID,
-        tags: tags,
-        eventID: eventID));
+      await expectLater(
+          diaryBloc.stream,
+          emitsInOrder([
+            UploadDiaryLoading(),
+            const UploadDiaryFailed(),
+          ]));
+
+      verify(() => mockFileToBase64.listConversion(
+            fileList: any(named: 'fileList'),
+          ));
+
+      verify(() => mockUploadDiary(tDiary));
+    });
   });
 }

@@ -13,12 +13,14 @@ class MockDiaryBloc extends MockBloc<DiaryEvent, DiaryState>
     implements DiaryBloc {}
 
 void main() {
-  late MockDiaryBloc mockDiaryBloc;
+  DiaryState? returnedState;
+
+  late DiaryBloc diaryBloc;
   setUp(() {
-    mockDiaryBloc = MockDiaryBloc();
+    diaryBloc = MockDiaryBloc();
   });
 
-  Widget widgetUnderTest() {
+  Widget widgetUnderTest({List<XFile>? imageList}) {
     return MaterialApp(
         localizationsDelegates: const [
           S.delegate,
@@ -28,9 +30,16 @@ void main() {
         ],
         supportedLocales: S.delegate.supportedLocales,
         home: BlocProvider<DiaryBloc>.value(
-          value: mockDiaryBloc,
-          child: const SingleChildScrollView(
-            child: DiaryForm(),
+          value: diaryBloc,
+          child: BlocListener<DiaryBloc, DiaryState>(
+            listener: (context, state) {
+              returnedState = state;
+            },
+            child: SingleChildScrollView(
+              child: DiaryForm(
+                imageList: imageList,
+              ),
+            ),
           ),
         ));
   }
@@ -46,9 +55,15 @@ void main() {
 
       //Picking of image
       final btnAddPhotoFinder = find.byKey(const Key('add_photo'));
-      when(() => mockDiaryBloc.state).thenReturn(PickImageSuccess(
-        updatedImageList: tUpdatedImageList,
-      ));
+      whenListen(
+          diaryBloc,
+          Stream.fromIterable(
+            [
+              PickImageLoading(),
+              PickImageSuccess(updatedImageList: tUpdatedImageList)
+            ],
+          ),
+          initialState: DiaryInitial());
 
       await tester.pumpWidget(widgetUnderTest());
       expect(btnAddPhotoFinder, findsOneWidget);
@@ -57,23 +72,36 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(Image), findsOneWidget);
+    });
 
-      //Removing of picked image
+    testWidgets('removing of image', (tester) async {
+      tUpdatedImageList = [
+        tImage,
+      ];
+
+      whenListen(
+          diaryBloc,
+          Stream.fromIterable(
+            [
+              RemoveImageLoading(),
+              const RemoveImageSuccess(updatedImageList: [])
+            ],
+          ),
+          initialState: DiaryInitial());
+
       final removePhotoFinder = find.byKey(const Key('remove_image_button_0'));
-      when(() => mockDiaryBloc.state).thenReturn(const RemoveImageSuccess(
-        updatedImageList: [],
-      ));
+      await tester.pumpWidget(widgetUnderTest(imageList: tUpdatedImageList));
 
       expect(removePhotoFinder, findsOneWidget);
       await tester.tap(removePhotoFinder);
       await tester.pumpAndSettle();
 
-      expect(find.byType(Image), findsNWidgets(tUpdatedImageList.length));
+      expect(find.byType(Image), findsNothing);
     });
 
     testWidgets('include photo gallery', (tester) async {
       final checkboxFinder = find.byKey(const Key('include_gallery'));
-      when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+      when(() => diaryBloc.state).thenReturn(DiaryInitial());
 
       await tester.pumpWidget(widgetUnderTest());
       expect(checkboxFinder, findsOneWidget);
@@ -89,7 +117,7 @@ void main() {
 
   testWidgets('for link event', (tester) async {
     final checkboxFinder = find.byKey(const Key('existing_event'));
-    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+    when(() => diaryBloc.state).thenReturn(DiaryInitial());
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(checkboxFinder);
@@ -105,7 +133,7 @@ void main() {
 
   testWidgets('for dropdown area', (tester) async {
     final dropdownFinder = find.byKey(const Key('area'));
-    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+    when(() => diaryBloc.state).thenReturn(DiaryInitial());
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(dropdownFinder);
@@ -125,7 +153,7 @@ void main() {
 
   testWidgets('for category', (tester) async {
     final dropdownFinder = find.byKey(const Key('category'));
-    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+    when(() => diaryBloc.state).thenReturn(DiaryInitial());
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(dropdownFinder);
@@ -145,7 +173,7 @@ void main() {
 
   testWidgets('for event', (tester) async {
     final dropdownFinder = find.byKey(const Key('event'));
-    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+    when(() => diaryBloc.state).thenReturn(DiaryInitial());
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(dropdownFinder);
@@ -161,5 +189,27 @@ void main() {
 
     //became title of textfield
     expect(find.text('Select an event'), findsOneWidget);
+  });
+
+  testWidgets('should return state as expected', (tester) async {
+    final buttonFinder = find.byKey(const Key('next'));
+
+    whenListen(
+        diaryBloc,
+        Stream.fromIterable(
+          [
+            UploadDiarySuccess(),
+          ],
+        ),
+        initialState: DiaryInitial());
+
+    await tester.pumpWidget(widgetUnderTest());
+    expect(buttonFinder, findsOneWidget);
+
+    await tester.ensureVisible(buttonFinder);
+    await tester.tap(buttonFinder);
+    await tester.pumpAndSettle();
+
+    expect(returnedState, isA<UploadDiarySuccess>());
   });
 }

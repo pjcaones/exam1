@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core/core.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,9 +41,9 @@ void main() {
   final Diary tDiary = Diary(
       location: 'Sample location',
       imageList: const [
-        'QWERTYUIOP',
-        'ASDFGHJKL',
-        'ZXCVBNM'
+        'test1',
+        'test2',
+        'test3'
       ], //Sample converted base64 image
       comment: 'Sample Comment',
       diaryDateInMillis: DateTime.now().millisecondsSinceEpoch,
@@ -54,9 +55,9 @@ void main() {
   final DiaryModel tDiaryModel = DiaryModel(
       location: 'Sample location',
       imageList: const [
-        'QWERTYUIOP',
-        'ASDFGHJKL',
-        'ZXCVBNM'
+        'test1',
+        'test2',
+        'test3'
       ], //Sample converted base64 image
       comment: 'Sample Comment',
       diaryDateInMillis: DateTime.now().millisecondsSinceEpoch,
@@ -91,7 +92,7 @@ void main() {
     final String resultResponseBody =
         jsonEncode(tUploadedDiaryResultModel.toJson());
 
-    test('should perform uploading of data', () async {
+    test('should perform success uploading of data', () async {
       //Response 201 is response from reqres.in api
       when(() => mockHttpClient.post(url, headers: header, body: uploadedBody))
           .thenAnswer((_) async => http.Response(resultResponseBody, 201));
@@ -102,6 +103,21 @@ void main() {
           () => mockHttpClient.post(url, headers: header, body: uploadedBody));
 
       expect(result, tUploadedDiaryResultModel);
+    });
+
+    test('should perform failed uploading of data', () async {
+      //Response 413 is an example of failed response
+      when(() => mockHttpClient.post(url, headers: header, body: uploadedBody))
+          .thenAnswer((_) async => http.Response(resultResponseBody, 413));
+
+      final methodCall = dataSourceImpl.getResultFromUploadedDiary;
+
+      expect(
+        methodCall(diary: tDiary),
+        throwsA(
+          const TypeMatcher<ServerException>(),
+        ),
+      );
     });
   });
 }

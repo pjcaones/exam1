@@ -75,32 +75,6 @@ void main() {
   group('with mock bloc', () {
     List<XFile> tUpdatedImageList = [];
 
-    testWidgets('should open progress dialog', (tester) async {
-      tUpdatedImageList = [
-        tImage,
-      ];
-
-      when(() => mockDiaryBloc.state).thenReturn(PickImageLoading());
-
-      await tester.pumpWidget(widgetUnderTest());
-      expect(btnFinder, findsOneWidget);
-
-      await tester.tap(btnFinder);
-      await tester.pumpAndSettle();
-
-      verify(
-        () => mockDiaryBloc.add(
-          PickImageEvent(
-            imageList: imageList,
-          ),
-        ),
-      ).called(1);
-
-      //Issue concerning opening a prompt
-      //Cannot detect by the UI
-      // expect(find.text('Loading...'), findsOneWidget);
-    });
-
     testWidgets('should add photo when success', (tester) async {
       tUpdatedImageList = [
         tImage,
@@ -127,7 +101,7 @@ void main() {
       expect(find.byType(Image), findsOneWidget);
     });
 
-    testWidgets('should add photo when failed', (tester) async {
+    testWidgets('should not add photo when failed', (tester) async {
       when(() => mockDiaryBloc.state).thenReturn(PickImageFailed());
 
       await tester.pumpWidget(widgetUnderTest());

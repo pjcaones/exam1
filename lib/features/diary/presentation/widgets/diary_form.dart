@@ -9,9 +9,9 @@ import 'package:intl/intl.dart';
 class DiaryForm extends StatefulWidget {
   const DiaryForm({
     super.key,
-    // required this.imageList,
+    this.imageList,
   });
-  // final List<XFile>? imageList;
+  final List<XFile>? imageList;
 
   @override
   State<DiaryForm> createState() => _DiaryFormState();
@@ -65,7 +65,7 @@ class _DiaryFormState extends State<DiaryForm> {
     //ui page must not have any logics implemented
     final DateFormat format = DateFormat('yyyy-MM-dd');
 
-    _imageList = [];
+    _imageList = widget.imageList ?? [];
 
     _includeGalleryPhoto = true;
     _commentController = TextEditingController();

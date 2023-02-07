@@ -1,6 +1,5 @@
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
-import 'package:exam1/di.dart' as get_it;
 
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,8 +23,6 @@ void main() {
 
   late DiaryBloc diaryBloc;
 
-  get_it.init();
-
   setUp(() {
     mockFileToBase64 = MockFileToBase64();
 
@@ -45,42 +42,45 @@ void main() {
     imageSource: ImageSource.gallery,
   );
 
-  test('diary form pick image success', () async {
-    when(
-      () => mockPickImage(tImageDetails),
-    ).thenAnswer((_) async => Right(tImageFile));
+  group('pick image', () {
+    void stubMockPickImage(Either<PickImageFailure, XFile> result) {
+      when(
+        () => mockPickImage(tImageDetails),
+      ).thenAnswer((_) async => result);
+    }
 
-    diaryBloc.add(PickImageEvent(imageList: imageList));
-    await untilCalled(
-      () => mockPickImage(tImageDetails),
-    );
+    test('should success', () async {
+      stubMockPickImage(Right(tImageFile));
 
-    await expectLater(
-      diaryBloc.state,
-      PickImageLoading(),
-    );
-    verify(() => mockPickImage(tImageDetails));
+      diaryBloc.add(PickImageEvent(imageList: imageList));
 
-    imageList.add(tImageFile);
-    expect(diaryBloc.state, PickImageSuccess(updatedImageList: imageList));
-  });
+      await expectLater(
+          diaryBloc.stream,
+          emitsInOrder(
+            [
+              PickImageLoading(),
+              PickImageSuccess(updatedImageList: imageList),
+            ],
+          ));
 
-  test('diary form pick image fail', () async {
-    when(
-      () => mockPickImage(tImageDetails),
-    ).thenAnswer((_) async => Left(PickImageFailure()));
+      verify(() => mockPickImage(tImageDetails));
+    });
 
-    diaryBloc.add(PickImageEvent(imageList: imageList));
-    await untilCalled(
-      () => mockPickImage(tImageDetails),
-    );
+    test('should fail', () async {
+      stubMockPickImage(Left(PickImageFailure()));
 
-    await expectLater(
-      diaryBloc.state,
-      PickImageLoading(),
-    );
-    verify(() => mockPickImage(tImageDetails));
+      diaryBloc.add(PickImageEvent(imageList: imageList));
 
-    expect(diaryBloc.state, PickImageFailed());
+      await expectLater(
+          diaryBloc.stream,
+          emitsInOrder(
+            [
+              PickImageLoading(),
+              PickImageFailed(),
+            ],
+          ));
+
+      verify(() => mockPickImage(tImageDetails));
+    });
   });
 }
