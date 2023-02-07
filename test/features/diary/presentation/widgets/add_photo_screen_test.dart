@@ -1,9 +1,5 @@
-import 'package:exam1/core/errors/failures.dart';
-import 'package:exam1/core/helpers/helpers.dart';
-import 'package:exam1/di.dart' as get_it;
-import 'package:exam1/di.dart';
-import 'package:exam1/features/diary/domain/entities/entities.dart';
-import 'package:exam1/features/diary/domain/usecases/usecases.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:domain/domain.dart';
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:exam1/features/diary/presentation/widgets/widgets.dart';
 import 'package:exam1/generated/l10n.dart';
@@ -11,118 +7,144 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class MockPickImage extends Mock implements PickImage {}
+
+class MockDiaryBloc extends MockBloc<DiaryEvent, DiaryState>
+    implements DiaryBloc {}
 
 void main() {
   final XFile tImage = XFile('test1.png');
   List<XFile> imageList = [];
 
-  late DiaryBloc diaryBloc;
-
-  late MockPickImage pickImageUseCase;
+  late MockDiaryBloc mockDiaryBloc;
 
   setUp(() {
-    pickImageUseCase = MockPickImage();
-
-    diaryBloc = DiaryBloc(
-      fileToBase64: serviceLocator<FileToBase64>(),
-      pickImage: pickImageUseCase,
-      uploadDiary: serviceLocator<UploadDiary>(),
-    );
+    mockDiaryBloc = MockDiaryBloc();
   });
 
-  Widget widgetUnderTest() {
+  final btnFinder = find.byKey(const Key('add_photo'));
+  Widget widgetUnderTest({WidgetTester? tester}) {
     return MaterialApp(
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      home: BlocProvider(
-        create: (context) => diaryBloc,
-        child: BlocBuilder<DiaryBloc, DiaryState>(
-          builder: (context, state) {
-            if (state is PickImageSuccess) {
-              imageList = state.updatedImageList;
-            }
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        home: BlocProvider<DiaryBloc>.value(
+          value: mockDiaryBloc,
+          child: BlocListener<DiaryBloc, DiaryState>(
+            listener: (context, state) {
+              if (state is PickImageLoading) {
+                ProgressDialog(
+                  tester!.element(btnFinder),
+                  type: ProgressDialogType.normal,
+                  isDismissible: false,
+                ).show();
+              }
+            },
+            child: BlocBuilder<DiaryBloc, DiaryState>(
+              builder: (context, state) {
+                if (state is PickImageSuccess) {
+                  imageList = state.updatedImageList;
+                }
 
-            return AddPhotoScreen(
-                imageList: imageList,
-                includePhotoGallery: true,
-                onIncludePhotoGallery: (value) => true,
-                onSelectImage: () {
-                  diaryBloc.add(
-                    PickImageEvent(
-                      imageList: imageList,
-                    ),
-                  );
-                },
-                onRemoveImage: (index) {});
-          },
-        ),
-      ),
-    );
+                return AddPhotoScreen(
+                    imageList: imageList,
+                    includePhotoGallery: true,
+                    onIncludePhotoGallery: (value) => true,
+                    onSelectImage: () {
+                      context.read<DiaryBloc>().add(
+                            PickImageEvent(
+                              imageList: imageList,
+                            ),
+                          );
+                    },
+                    onRemoveImage: (index) {});
+              },
+            ),
+          ),
+        ));
   }
 
-  get_it.init();
+  group('with mock bloc', () {
+    List<XFile> tUpdatedImageList = [];
 
-  testWidgets('should add photo when success', (tester) async {
-    final btnFinder = find.byKey(const Key('add_photo'));
-    const ImageDetails tImageDetails = ImageDetails(
-      imageSource: ImageSource.gallery,
-    );
+    testWidgets('should open progress dialog', (tester) async {
+      tUpdatedImageList = [
+        tImage,
+      ];
 
-    when(() => pickImageUseCase(tImageDetails))
-        .thenAnswer((_) async => Right(tImage));
+      when(() => mockDiaryBloc.state).thenReturn(PickImageLoading());
 
-    await tester.pumpWidget(widgetUnderTest());
-    expect(btnFinder, findsOneWidget);
+      await tester.pumpWidget(widgetUnderTest());
+      expect(btnFinder, findsOneWidget);
 
-    await tester.tap(btnFinder);
-    await tester.pumpAndSettle();
+      await tester.tap(btnFinder);
+      await tester.pumpAndSettle();
 
-    await untilCalled(
-      () => pickImageUseCase(tImageDetails),
-    );
+      verify(
+        () => mockDiaryBloc.add(
+          PickImageEvent(
+            imageList: imageList,
+          ),
+        ),
+      ).called(1);
 
-    verify(
-      () => pickImageUseCase(tImageDetails),
-    );
+      //Issue concerning opening a prompt
+      //Cannot detect by the UI
+      // expect(find.text('Loading...'), findsOneWidget);
+    });
 
-    // print(addPhotoBloc.state);
-    // print(imageList.length);
-  });
+    testWidgets('should add photo when success', (tester) async {
+      tUpdatedImageList = [
+        tImage,
+      ];
 
-  testWidgets('should be as is when failed', (tester) async {
-    final btnFinder = find.byKey(const Key('add_photo'));
-    const ImageDetails tImageDetails = ImageDetails(
-      imageSource: ImageSource.gallery,
-    );
+      when(() => mockDiaryBloc.state).thenReturn(PickImageSuccess(
+        updatedImageList: tUpdatedImageList,
+      ));
 
-    when(() => pickImageUseCase(tImageDetails))
-        .thenAnswer((_) async => Left(PickImageFailure()));
+      await tester.pumpWidget(widgetUnderTest());
+      expect(btnFinder, findsOneWidget);
 
-    await tester.pumpWidget(widgetUnderTest());
-    expect(btnFinder, findsOneWidget);
+      await tester.tap(btnFinder);
+      await tester.pumpAndSettle();
 
-    await tester.tap(btnFinder);
-    await tester.pumpAndSettle();
+      verify(
+        () => mockDiaryBloc.add(
+          PickImageEvent(
+            imageList: imageList,
+          ),
+        ),
+      ).called(1);
 
-    await untilCalled(
-      () => pickImageUseCase(tImageDetails),
-    );
+      expect(find.byType(Image), findsOneWidget);
+    });
 
-    verify(
-      () => pickImageUseCase(tImageDetails),
-    );
+    testWidgets('should add photo when failed', (tester) async {
+      when(() => mockDiaryBloc.state).thenReturn(PickImageFailed());
 
-    // print(addPhotoBloc.state);
-    // print(imageList.length);
+      await tester.pumpWidget(widgetUnderTest());
+      expect(btnFinder, findsOneWidget);
+
+      await tester.tap(btnFinder);
+      await tester.pumpAndSettle();
+
+      verify(
+        () => mockDiaryBloc.add(
+          PickImageEvent(
+            imageList: imageList,
+          ),
+        ),
+      ).called(1);
+
+      expect(find.byType(Image), findsNWidgets(imageList.length));
+    });
   });
 }

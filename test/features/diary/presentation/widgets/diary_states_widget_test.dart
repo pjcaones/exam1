@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:exam1/features/diary/domain/entities/entities.dart';
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:exam1/features/diary/presentation/widgets/widgets.dart';
 import 'package:exam1/generated/l10n.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart' as di;
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
@@ -14,38 +14,17 @@ import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 class MockDiaryBloc extends MockBloc<DiaryEvent, DiaryState>
     implements DiaryBloc {}
 
-class FakeDiaryEvent extends Fake implements DiaryEvent {}
-
-class FakeDiaryState extends Fake implements DiaryState {}
-
 void main() {
   late MockDiaryBloc mockDiaryBloc;
-  late DiaryBloc diaryBloc;
-  late GetIt di;
-
-  di = GetIt.instance
-    ..registerFactory(
-      () => mockDiaryBloc,
-    );
+  final GetIt di = GetIt.instance;
 
   setUp(() {
     mockDiaryBloc = MockDiaryBloc();
-  });
 
-  const Diary tDiary = Diary(
-    location: 'Sample location',
-    imageList: [
-      'test1.png',
-      'test2.png',
-      'test3.png',
-    ],
-    comment: 'Sample comment',
-    diaryDateInMillis: 11111,
-    areaID: 1,
-    taskCategoryID: 1,
-    tags: 'sample tag',
-    eventID: 1,
-  );
+    di.registerFactory<DiaryBloc>(
+      () => mockDiaryBloc,
+    );
+  });
 
   Widget widgetUnderTest() {
     return MaterialApp(
@@ -57,37 +36,25 @@ void main() {
         ],
         supportedLocales: S.delegate.supportedLocales,
         home: BlocProvider<DiaryBloc>.value(
-          value: mockDiaryBloc,
+          value: di<DiaryBloc>(),
           child: const DiaryStatesWidget(),
         ));
   }
 
   group('test for diary states', () {
+    final buttonFinder = find.byKey(const Key('next'));
+
     testWidgets('upload diary loading state', (tester) async {
-      // final buttonFinder = find.byKey(const Key('next'));
-      // when(() => mockDiaryBloc.state).thenReturn(UploadDiaryLoading());
-      when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+      when(() => di<DiaryBloc>().state).thenReturn(UploadDiaryLoading());
 
-      final expectedStates = [
-        DiaryInitial(),
-        UploadDiaryLoading(),
-      ];
+      await tester.pumpWidget(widgetUnderTest());
 
-      whenListen(mockDiaryBloc, Stream.fromIterable(expectedStates));
+      expect(buttonFinder, findsOneWidget);
+      await tester.ensureVisible(buttonFinder);
+      await tester.tap(buttonFinder);
+      await tester.pump();
 
-      await tester.runAsync(() async {
-        await tester.pumpWidget(widgetUnderTest());
-
-        final state = mockDiaryBloc.state;
-        expect(state, UploadDiaryLoading());
-      });
-
-      // await expectLater(find.text('Loading...'), findsOneWidget);
-
-      // expect(buttonFinder, findsOneWidget);
-      // await tester.ensureVisible(buttonFinder);
-      // await tester.tap(buttonFinder);
-      // await tester.pumpAndSettle();
+      expect(find.text('Loading...'), findsOneWidget);
     });
 
     testWidgets('upload diary success state', (tester) async {
@@ -95,10 +62,11 @@ void main() {
 
       await tester.pumpWidget(widgetUnderTest());
 
-      final state = mockDiaryBloc.state;
-      expect(state, UploadDiarySuccess());
+      expect(buttonFinder, findsOneWidget);
+      await tester.ensureVisible(buttonFinder);
+      await tester.tap(buttonFinder);
+      await tester.pumpAndSettle();
 
-      // await tester.pumpAndSettle(const Duration(seconds: 3));
       // expect(find.text('Your diary has been uploaded!'), findsOneWidget);
     });
 
@@ -109,20 +77,17 @@ void main() {
         ),
       );
 
+      when(() => mockDiaryBloc.state).thenReturn(UploadDiarySuccess());
+
       await tester.pumpWidget(widgetUnderTest());
 
-      final state = mockDiaryBloc.state;
-      expect(
-        state,
-        const UploadDiaryFailed(
-          errorMessage: 'upload failed',
-        ),
-      );
+      expect(buttonFinder, findsOneWidget);
+      await tester.ensureVisible(buttonFinder);
+      await tester.tap(buttonFinder);
+      await tester.pumpAndSettle();
 
-      // expect(find.byType(Dialog), findsOneWidget);
-
-      // expect(find.byType(LinearProgressIndicator), findsOneWidget);
-      // expect(find.text('Loading...'), findsOneWidget);
+      // expect(find.byType(AlertDialog), findsOneWidget);
+      // expect(find.text('Upload Failed'), findsOneWidget);
     });
   });
 
@@ -170,7 +135,7 @@ void main() {
     await tester.pumpAndSettle();
 
     //For progress dialog
-    // expect(find.text('Loading...'), findsOneWidget);
+    expect(find.text('Loading...'), findsOneWidget);
 
     //For dialog test
     // expect(find.byType(AlertDialog), findsOneWidget);

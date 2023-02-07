@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
-import 'package:exam1/core/helpers/helpers.dart';
-import 'package:exam1/features/diary/domain/entities/entities.dart';
-import 'package:exam1/features/diary/domain/usecases/usecases.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 

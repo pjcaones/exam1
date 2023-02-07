@@ -56,6 +56,10 @@
   "@errorMessageFailedUpload": {
     "description": "error message for failed upload"
   },
+  "keyAddExistingEvent": "existing_event",
+  "@keyAddExistingEvent": {
+    "description": "key for add existing event"
+  },
   "keyAddPhoto": "add_photo",
   "@keyAddPhoto": {
     "description": "Add photo key"
@@ -75,6 +79,10 @@
   "keyEvent": "event",
   "@keyEvent": {
     "description": "key for event dropdown"
+  },
+  "keyIncludeGallery": "include_gallery",
+  "@keyIncludeGallery": {
+    "description": "key for include gallery"
   },
   "keyNext": "next",
   "@keyNext": {

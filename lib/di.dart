@@ -1,9 +1,6 @@
-import 'package:exam1/core/helpers/helpers.dart';
-import 'package:exam1/features/diary/data/datasources/datasources.dart';
-import 'package:exam1/features/diary/data/repositories/pick_image_repository_impl.dart';
-import 'package:exam1/features/diary/data/repositories/repositories.dart';
-import 'package:exam1/features/diary/domain/repositories/repositories.dart';
-import 'package:exam1/features/diary/domain/usecases/usecases.dart';
+import 'package:core/core.dart';
+import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;

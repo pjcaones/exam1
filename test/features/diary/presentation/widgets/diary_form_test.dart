@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockDiaryBloc extends MockBloc<DiaryEvent, DiaryState>
@@ -14,13 +14,6 @@ class MockDiaryBloc extends MockBloc<DiaryEvent, DiaryState>
 
 void main() {
   late MockDiaryBloc mockDiaryBloc;
-  late GetIt di;
-
-  di = GetIt.instance
-    ..registerFactory(
-      () => mockDiaryBloc,
-    );
-
   setUp(() {
     mockDiaryBloc = MockDiaryBloc();
   });
@@ -42,9 +35,131 @@ void main() {
         ));
   }
 
-  testWidgets('diary form ...', (tester) async {
+  final XFile tImage = XFile('test1.png');
+  List<XFile> tUpdatedImageList = [];
+
+  group('add photo section', () {
+    testWidgets('diary form pick and remove image', (tester) async {
+      tUpdatedImageList = [
+        tImage,
+      ];
+
+      //Picking of image
+      final btnAddPhotoFinder = find.byKey(const Key('add_photo'));
+      when(() => mockDiaryBloc.state).thenReturn(PickImageSuccess(
+        updatedImageList: tUpdatedImageList,
+      ));
+
+      await tester.pumpWidget(widgetUnderTest());
+      expect(btnAddPhotoFinder, findsOneWidget);
+
+      await tester.tap(btnAddPhotoFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Image), findsOneWidget);
+
+      //Removing of picked image
+      final removePhotoFinder = find.byKey(const Key('remove_image_button_0'));
+      when(() => mockDiaryBloc.state).thenReturn(const RemoveImageSuccess(
+        updatedImageList: [],
+      ));
+
+      expect(removePhotoFinder, findsOneWidget);
+      await tester.tap(removePhotoFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Image), findsNWidgets(tUpdatedImageList.length));
+    });
+
+    testWidgets('include photo gallery', (tester) async {
+      final checkboxFinder = find.byKey(const Key('include_gallery'));
+      when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+
+      await tester.pumpWidget(widgetUnderTest());
+      expect(checkboxFinder, findsOneWidget);
+
+      expect(tester.firstWidget<Checkbox>(checkboxFinder).value, true);
+
+      await tester.tap(checkboxFinder);
+      await tester.pumpAndSettle();
+
+      expect(tester.firstWidget<Checkbox>(checkboxFinder).value, false);
+    });
+  });
+
+  testWidgets('for link event', (tester) async {
+    final checkboxFinder = find.byKey(const Key('existing_event'));
     when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
 
     await tester.pumpWidget(widgetUnderTest());
+    await tester.ensureVisible(checkboxFinder);
+    expect(checkboxFinder, findsOneWidget);
+
+    expect(tester.firstWidget<Checkbox>(checkboxFinder).value, true);
+
+    await tester.tap(checkboxFinder);
+    await tester.pumpAndSettle();
+
+    expect(tester.firstWidget<Checkbox>(checkboxFinder).value, false);
+  });
+
+  testWidgets('for dropdown area', (tester) async {
+    final dropdownFinder = find.byKey(const Key('area'));
+    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+
+    await tester.pumpWidget(widgetUnderTest());
+    await tester.ensureVisible(dropdownFinder);
+    expect(dropdownFinder, findsOneWidget);
+
+    await tester.tap(dropdownFinder);
+    await tester.pump();
+
+    await tester.tap(find.text('Area 3').last);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(find.text('Area 3'), findsOneWidget);
+
+    //became title of textfield
+    expect(find.text('Select Area'), findsOneWidget);
+  });
+
+  testWidgets('for category', (tester) async {
+    final dropdownFinder = find.byKey(const Key('category'));
+    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+
+    await tester.pumpWidget(widgetUnderTest());
+    await tester.ensureVisible(dropdownFinder);
+    expect(dropdownFinder, findsOneWidget);
+
+    await tester.tap(dropdownFinder);
+    await tester.pump();
+
+    await tester.tap(find.text('Task Category 3').last);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(find.text('Task Category 3'), findsOneWidget);
+
+    //became title of textfield
+    expect(find.text('Task Category'), findsOneWidget);
+  });
+
+  testWidgets('for event', (tester) async {
+    final dropdownFinder = find.byKey(const Key('event'));
+    when(() => mockDiaryBloc.state).thenReturn(DiaryInitial());
+
+    await tester.pumpWidget(widgetUnderTest());
+    await tester.ensureVisible(dropdownFinder);
+    expect(dropdownFinder, findsOneWidget);
+
+    await tester.tap(dropdownFinder);
+    await tester.pump();
+
+    await tester.tap(find.text('Event 3').last);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(find.text('Event 3'), findsOneWidget);
+
+    //became title of textfield
+    expect(find.text('Select an event'), findsOneWidget);
   });
 }

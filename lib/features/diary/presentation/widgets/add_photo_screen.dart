@@ -63,6 +63,7 @@ class AddPhotoScreen extends StatelessWidget {
                       Align(
                           alignment: Alignment.centerRight,
                           child: Checkbox(
+                            key: Key(S.of(context).keyIncludeGallery),
                             value: includePhotoGallery,
                             onChanged: onIncludePhotoGallery,
                           ))

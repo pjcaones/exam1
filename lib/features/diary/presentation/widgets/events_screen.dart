@@ -47,7 +47,8 @@ class EventsScreen extends StatelessWidget {
                         Align(
                             alignment: Alignment.centerRight,
                             child: Checkbox(
-                              value: true,
+                              key: Key(S.of(context).keyAddExistingEvent),
+                              value: isLinkExistingEvent,
                               onChanged: onLinkExistingEvent,
                             ))
                       ],

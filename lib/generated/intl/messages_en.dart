@@ -45,11 +45,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Something went wrong.."),
         "errorMessageFailedUpload":
             MessageLookupByLibrary.simpleMessage("Failed to upload the diary."),
+        "keyAddExistingEvent":
+            MessageLookupByLibrary.simpleMessage("existing_event"),
         "keyAddPhoto": MessageLookupByLibrary.simpleMessage("add_photo"),
         "keyArea": MessageLookupByLibrary.simpleMessage("area"),
         "keyCategory": MessageLookupByLibrary.simpleMessage("category"),
         "keyDiaryDate": MessageLookupByLibrary.simpleMessage("diary_date"),
         "keyEvent": MessageLookupByLibrary.simpleMessage("event"),
+        "keyIncludeGallery":
+            MessageLookupByLibrary.simpleMessage("include_gallery"),
         "keyNext": MessageLookupByLibrary.simpleMessage("next"),
         "keyRemoveButton":
             MessageLookupByLibrary.simpleMessage("remove_image_button_"),

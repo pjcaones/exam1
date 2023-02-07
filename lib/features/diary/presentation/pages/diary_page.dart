@@ -25,8 +25,8 @@ class DiaryPage extends StatelessWidget {
           },
         ),
       ),
-      body: BlocProvider(
-        create: (_) => serviceLocator<DiaryBloc>(),
+      body: BlocProvider<DiaryBloc>.value(
+        value: serviceLocator<DiaryBloc>(),
         child: const DiaryStatesWidget(),
       ),
     );

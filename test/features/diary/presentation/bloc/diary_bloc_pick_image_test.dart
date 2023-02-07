@@ -1,7 +1,7 @@
-import 'package:exam1/core/helpers/helpers.dart';
+import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:exam1/di.dart' as get_it;
-import 'package:exam1/features/diary/domain/entities/entities.dart';
-import 'package:exam1/features/diary/domain/usecases/usecases.dart';
+
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -45,7 +45,7 @@ void main() {
     imageSource: ImageSource.gallery,
   );
 
-  test('diary form pick image bloc ...', () async {
+  test('diary form pick image success', () async {
     when(
       () => mockPickImage(tImageDetails),
     ).thenAnswer((_) async => Right(tImageFile));
@@ -63,5 +63,24 @@ void main() {
 
     imageList.add(tImageFile);
     expect(diaryBloc.state, PickImageSuccess(updatedImageList: imageList));
+  });
+
+  test('diary form pick image fail', () async {
+    when(
+      () => mockPickImage(tImageDetails),
+    ).thenAnswer((_) async => Left(PickImageFailure()));
+
+    diaryBloc.add(PickImageEvent(imageList: imageList));
+    await untilCalled(
+      () => mockPickImage(tImageDetails),
+    );
+
+    await expectLater(
+      diaryBloc.state,
+      PickImageLoading(),
+    );
+    verify(() => mockPickImage(tImageDetails));
+
+    expect(diaryBloc.state, PickImageFailed());
   });
 }

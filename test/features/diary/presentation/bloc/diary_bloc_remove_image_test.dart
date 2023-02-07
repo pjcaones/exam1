@@ -1,6 +1,6 @@
-import 'package:exam1/core/helpers/helpers.dart';
+import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:exam1/di.dart' as get_it;
-import 'package:exam1/features/diary/domain/usecases/usecases.dart';
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';

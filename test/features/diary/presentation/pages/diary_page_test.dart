@@ -24,7 +24,7 @@ void main() {
     );
   }
 
-  testWidgets('diary form page ...', (tester) async {
+  testWidgets('diary form page', (tester) async {
     await tester.pumpWidget(widgetUnderTest());
 
     final appbarFinder = find.byType(AppBar);

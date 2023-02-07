@@ -86,20 +86,20 @@ class _DiaryFormState extends State<DiaryForm> {
 
   //Callbacks
   Future<void> _onSelectImage() async {
-    BlocProvider.of<DiaryBloc>(context).add(
-      PickImageEvent(
-        imageList: _imageList!,
-      ),
-    );
+    context.read<DiaryBloc>().add(
+          PickImageEvent(
+            imageList: _imageList!,
+          ),
+        );
   }
 
   void _onRemoveImage(int index) {
-    BlocProvider.of<DiaryBloc>(context).add(
-      RemoveImageEvent(
-        index: index,
-        imageList: _imageList!,
-      ),
-    );
+    context.read<DiaryBloc>().add(
+          RemoveImageEvent(
+            index: index,
+            imageList: _imageList!,
+          ),
+        );
   }
 
   void _onIncludePhotoGallery(bool? value) {
@@ -119,7 +119,7 @@ class _DiaryFormState extends State<DiaryForm> {
   }
 
   void _uploadDiary() {
-    BlocProvider.of<DiaryBloc>(context).add(UploadDiaryEvent(
+    context.read<DiaryBloc>().add(UploadDiaryEvent(
         location: _location,
         imageList: _imageList ?? [],
         comment: _commentController.text,

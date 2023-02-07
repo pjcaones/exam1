@@ -177,6 +177,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  core:
+    dependency: "direct main"
+    description:
+      path: core
+      relative: true
+    source: path
+    version: "1.0.1+2"
   coverage:
     dependency: transitive
     description:
@@ -217,6 +224,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.4"
+  data:
+    dependency: "direct main"
+    description:
+      path: data
+      relative: true
+    source: path
+    version: "1.0.0+1"
   diff_match_patch:
     dependency: transitive
     description:
@@ -225,6 +239,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
+  domain:
+    dependency: "direct main"
+    description:
+      path: domain
+      relative: true
+    source: path
+    version: "1.0.0+1"
   equatable:
     dependency: "direct main"
     description:

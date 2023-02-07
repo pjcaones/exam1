@@ -70,11 +70,13 @@ class S {
     'diaryTitleEvent': [],
     'errorMessageDefault': [],
     'errorMessageFailedUpload': [],
+    'keyAddExistingEvent': [],
     'keyAddPhoto': [],
     'keyArea': [],
     'keyCategory': [],
     'keyDiaryDate': [],
     'keyEvent': [],
+    'keyIncludeGallery': [],
     'keyNext': [],
     'keyRemoveButton': [],
     'textfieldLabelArea': [],
@@ -237,6 +239,16 @@ class S {
     );
   }
 
+  /// `existing_event`
+  String get keyAddExistingEvent {
+    return Intl.message(
+      'existing_event',
+      name: 'keyAddExistingEvent',
+      desc: 'key for add existing event',
+      args: [],
+    );
+  }
+
   /// `add_photo`
   String get keyAddPhoto {
     return Intl.message(
@@ -283,6 +295,16 @@ class S {
       'event',
       name: 'keyEvent',
       desc: 'key for event dropdown',
+      args: [],
+    );
+  }
+
+  /// `include_gallery`
+  String get keyIncludeGallery {
+    return Intl.message(
+      'include_gallery',
+      name: 'keyIncludeGallery',
+      desc: 'key for include gallery',
       args: [],
     );
   }

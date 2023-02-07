@@ -1,7 +1,5 @@
-import 'package:exam1/core/errors/failures.dart';
-import 'package:exam1/core/helpers/image_to_base64.dart';
-import 'package:exam1/features/diary/domain/entities/entities.dart';
-import 'package:exam1/features/diary/domain/usecases/usecases.dart';
+import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
