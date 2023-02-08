@@ -1,7 +1,8 @@
 name: Basic Flutter Actions
 on: 
   pull_request:
-    types: [closed]
+    branches: [master]
+    types: [merged]
 
 jobs:
   basic-flutter-actions:
@@ -12,7 +13,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
         with:
-          channel: "stable"
+          flutter-version: '3.7.0'
+          channel: 'stable'
       - run: flutter pub get
 
       # skip this part since we still have warnings here..
