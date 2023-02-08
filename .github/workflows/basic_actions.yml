@@ -4,4 +4,10 @@ jobs:
   basic-flutter-actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Just a sample job by the $ event."
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "3.7.0"
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      # - run: echo "Just a sample job by the $ event."
