@@ -1,0 +1,7 @@
+name: Basic Flutter Actions
+on: [push]
+jobs:
+  basic-flutter-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Just a sample job by the $ event."
