@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: subosito/flutter-action@v1
         with:
-          channel: "3.7.0"
+          flutter-version: "3.7.0"
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
