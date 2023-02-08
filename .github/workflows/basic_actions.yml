@@ -16,8 +16,5 @@ jobs:
           flutter-version: '3.7.0'
           channel: 'stable'
       - run: flutter pub get
-
-      # skip this part since we still have warnings here..
-      # - run: flutter analyze
-
+      - run: flutter analyze
       - run: flutter test
