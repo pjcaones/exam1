@@ -8,7 +8,7 @@ import 'package:localizely_sdk/localizely_sdk.dart';
 
 import 'di.dart' as get_it;
 
-//Just a sample comment for testing of github actions 2
+//Just a sample comment for testing of github actions 3
 void main() {
   //Initializing things in the project
   get_it.init();
