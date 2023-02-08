@@ -1,8 +1,10 @@
 name: Basic Flutter Actions
 on: 
   pull_request:
-    branches: [master]
-    types: [merged]
+    branches: 
+      - master
+    types: 
+      - closed
 
 jobs:
   basic-flutter-actions:
