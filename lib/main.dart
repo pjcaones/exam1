@@ -8,6 +8,7 @@ import 'package:localizely_sdk/localizely_sdk.dart';
 
 import 'di.dart' as get_it;
 
+//Just a sample comment to test our conventional commit
 void main() {
   //Initializing things in the project
   get_it.init();
