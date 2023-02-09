@@ -1,6 +1,6 @@
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
-import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
+import 'package:exam1/features/diary/bloc/diary_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';

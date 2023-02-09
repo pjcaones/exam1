@@ -1,4 +1,4 @@
-import 'package:exam1/features/diary/presentation/pages/pages.dart';
+import 'package:exam1/features/diary/pages/pages.dart';
 import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,9 +6,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localizely_sdk/localizely_sdk.dart';
 
-import 'di.dart' as get_it;
+import 'features/diary/di.dart' as get_it;
 
-//Just a sample comment for testing of github actions 3
 void main() {
   //Initializing things in the project
   get_it.init();

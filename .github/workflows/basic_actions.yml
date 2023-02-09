@@ -8,7 +8,10 @@ jobs:
   basic-flutter-actions:
     # will run only after pr has been merged
     if: github.event.pull_request.merged == true
+
+    # will run in the selected os
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1

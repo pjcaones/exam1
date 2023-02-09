@@ -1,7 +1,8 @@
 import 'package:core/core.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
-import 'package:exam1/features/diary/presentation/bloc/diary_bloc.dart';
+import 'package:exam1/features/diary/bloc/diary_bloc.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -9,17 +10,24 @@ import 'package:image_picker/image_picker.dart';
 final serviceLocator = GetIt.instance;
 
 void init() {
-  //Presentation parts
+  registerPresentationInstances();
+  registerDomainInstances();
+  registerDataInstances();
+  registerCoreInstances();
+  registerThirdPartyInstances();
+}
 
-  //Registering Blocs
+void registerPresentationInstances() {
+  serviceLocator.registerFactory(() => DiaryBloc(
+        pickImage: serviceLocator(),
+        fileToBase64: serviceLocator(),
+        uploadDiary: serviceLocator(),
+      ));
+}
+
+void registerDomainInstances() {
+  //Use cases
   serviceLocator
-    ..registerFactory(() => DiaryBloc(
-          pickImage: serviceLocator(),
-          fileToBase64: serviceLocator(),
-          uploadDiary: serviceLocator(),
-        ))
-
-    //Registering UseCases
     ..registerLazySingleton(
       () => UploadDiary(
         serviceLocator(),
@@ -31,7 +39,7 @@ void init() {
       ),
     )
 
-    //Registering Repositories
+    //Repositories
     ..registerLazySingleton<DiaryRepository>(
       () => DiaryRepositoryImpl(
         diaryRemoteDataSource: serviceLocator(),
@@ -41,22 +49,27 @@ void init() {
       () => PickedImageRepositoryImpl(
         pickImageDataSource: serviceLocator(),
       ),
-    )
+    );
+}
 
-    //Registering DataSources
+void registerDataInstances() {
+  serviceLocator
     ..registerLazySingleton<DiaryRemoteDataSource>(
       () => DiaryRemoteDataSourceImpl(client: serviceLocator()),
     )
     ..registerLazySingleton<PickImageDataSource>(
       () => PickImageDataSourceImpl(picker: serviceLocator()),
-    )
+    );
+}
 
-    //Core parts
-    ..registerLazySingleton(
-      FileToBase64.new,
-    )
+void registerCoreInstances() {
+  serviceLocator.registerLazySingleton(
+    FileToBase64.new,
+  );
+}
 
-    //Registering external classes
+void registerThirdPartyInstances() {
+  serviceLocator
     ..registerLazySingleton(
       http.Client.new,
     )

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:exam1/di.dart' as get_it;
-import 'package:exam1/features/diary/presentation/pages/pages.dart';
+import 'package:exam1/features/diary/di.dart' as get_it;
+import 'package:exam1/features/diary/pages/pages.dart';
 import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
