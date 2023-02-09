@@ -2,7 +2,7 @@ name: Basic Flutter Actions
 on: 
   push:
     branches:
-      - master
+      - main
       
 #   pull_request:
 #     types: 
