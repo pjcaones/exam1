@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "presentation",
-        "report"
+        "report",
+        "event"
     ]
 }
