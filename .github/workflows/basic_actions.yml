@@ -1,14 +1,14 @@
 name: Basic Flutter Actions
-on: [push]  
-  # pull_request:
-  #   types: [closed]
-  #   branches:
-  #     - main
+on: 
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   basic-flutter-actions:
     # will run only after pr has been merged
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
 
     # will run in the selected os
     runs-on: ubuntu-latest
