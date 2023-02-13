@@ -2,8 +2,7 @@ name: Basic Flutter Actions
 on:   
   push:
     branches:
-      # - main
-      - jp/ci/generate-lcov-report
+      - main
   # pull_request:
   #   types: [closed]
   #   branches:
