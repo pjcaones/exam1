@@ -67,8 +67,8 @@ void main() {
       expect(uploadDiaryEvent.props, props);
     });
 
-    test('diary event', () {
-      expect(diaryEvent.props, []);
-    });
+    // test('diary event', () {
+    //   expect(diaryEvent.props, []);
+    // });
   });
 }

@@ -1,7 +1,7 @@
 SF:lib/features/diary/bloc/diary_event.dart
 DA:4,7
-DA:6,1
-DA:7,1
+DA:6,0
+DA:7,0
 DA:11,4
 DA:18,2
 DA:19,2
@@ -24,7 +24,7 @@ DA:66,1
 DA:67,1
 DA:68,1
 LF:24
-LH:24
+LH:22
 end_of_record
 SF:lib/features/diary/bloc/diary_state.dart
 DA:4,25
