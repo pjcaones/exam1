@@ -32,6 +32,11 @@ jobs:
       - name: Run tests
         run: flutter test
 
+      - name: Generate LCOV report
+        run: |
+          flutter test --coverage
+          genhtml coverage/lcov.info -o coverage/html
+          
       - name: Upload coverage reports to Codecov
         # uses: codecov/codecov-action@v3
         run: |
