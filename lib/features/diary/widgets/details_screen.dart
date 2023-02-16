@@ -75,6 +75,7 @@ class DetailsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: TextField(
+                      key: Key(S.of(context).keyTags),
                       controller: tagsController,
                       decoration: InputDecoration(
                         labelText: S.of(context).textfieldLabelTags,

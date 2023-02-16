@@ -50,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "keyAddPhoto": MessageLookupByLibrary.simpleMessage("add_photo"),
         "keyArea": MessageLookupByLibrary.simpleMessage("area"),
         "keyCategory": MessageLookupByLibrary.simpleMessage("category"),
+        "keyComment": MessageLookupByLibrary.simpleMessage("comment"),
         "keyDiaryDate": MessageLookupByLibrary.simpleMessage("diary_date"),
         "keyEvent": MessageLookupByLibrary.simpleMessage("event"),
         "keyIncludeGallery":
@@ -57,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "keyNext": MessageLookupByLibrary.simpleMessage("next"),
         "keyRemoveButton":
             MessageLookupByLibrary.simpleMessage("remove_image_button_"),
+        "keyTags": MessageLookupByLibrary.simpleMessage("tag"),
         "textfieldLabelArea":
             MessageLookupByLibrary.simpleMessage("Select Area"),
         "textfieldLabelCategory":
