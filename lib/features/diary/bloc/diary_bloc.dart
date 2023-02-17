@@ -36,7 +36,6 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     );
 
     failOrImage.fold((fail) {
-      log('_uploadDiary error: $fail');
       emit(PickImageFailed());
     }, (imageFile) {
       imageList.add(imageFile);
@@ -85,6 +84,7 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     failureOrUploadedDiaryResult.fold(
       (failure) {
         log('_uploadDiary error: $failure');
+        print(failure);
         emit(
           const UploadDiaryFailed(
             errorMessage: 'Failed to upload the diary.',

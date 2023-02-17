@@ -4,12 +4,18 @@ import 'package:exam1/features/diary/widgets/widgets.dart';
 import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class DiaryStatesWidget extends StatelessWidget {
   const DiaryStatesWidget({
     super.key,
+    this.isTestMode = false,
+    this.testImageList,
   });
+
+  final bool isTestMode;
+  final List<XFile>? testImageList;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +69,10 @@ class DiaryStatesWidget extends StatelessWidget {
               });
         }
       },
-      child: const SingleChildScrollView(
-        child: DiaryForm(),
+      child: SingleChildScrollView(
+        child: DiaryForm(
+          imageList: isTestMode ? testImageList : null,
+        ),
       ),
     );
   }
