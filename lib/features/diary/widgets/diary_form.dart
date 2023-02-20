@@ -50,6 +50,7 @@ class _DiaryFormState extends State<DiaryForm> {
     _commentController = TextEditingController();
 
     _diaryDateController = TextEditingController();
+    _diaryDate = 0;
     _areas = {};
     _areaID = 0;
     _categories = {};
