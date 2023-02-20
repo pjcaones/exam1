@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:exam1/presentation.dart';
 import 'package:exam1/presentation.dart' as get_it;

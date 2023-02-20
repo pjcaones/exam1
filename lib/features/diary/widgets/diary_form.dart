@@ -43,45 +43,29 @@ class _DiaryFormState extends State<DiaryForm> {
   void initState() {
     super.initState();
 
-    //hardcoded values for test
-    _location = '20041075 | TAP-NS TAP-North Strathfield';
-    _areas = {
-      1: 'Area 1',
-      2: 'Area 2',
-      3: 'Area 3',
-    };
-    _categories = {
-      1: 'Task Category 1',
-      2: 'Task Category 2',
-      3: 'Task Category 3',
-    };
-    _events = {
-      1: 'Event 1',
-      2: 'Event 2',
-      3: 'Event 3',
-    };
-
-    //DateFormat should not be here
-    //ui page must not have any logics implemented
-    final DateFormat format = DateFormat('yyyy-MM-dd');
-
+    _location = '';
     _imageList = widget.imageList ?? [];
 
     _includeGalleryPhoto = true;
     _commentController = TextEditingController();
 
-    _diaryDate = DateTime.now().millisecondsSinceEpoch;
     _diaryDateController = TextEditingController();
-    _diaryDateController.text =
-        format.format(DateTime.fromMillisecondsSinceEpoch(_diaryDate));
-
+    _areas = {};
     _areaID = 0;
+    _categories = {};
     _categoryID = 0;
-
     _tagsController = TextEditingController();
 
     _isLinkExistingEvent = true;
+    _events = {};
     _eventID = 0;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    context.read<DiaryBloc>().add(DiaryInitialEvent());
   }
 
   //Callbacks
@@ -134,7 +118,15 @@ class _DiaryFormState extends State<DiaryForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<DiaryBloc, DiaryState>(
       builder: (context, state) {
-        if (state is PickImageSuccess) {
+        if (state is DiaryInitialLoadSuccess) {
+          _location = state.location;
+          _areas = state.areas;
+          _categories = state.categories;
+          _events = state.events;
+          _diaryDate = state.diaryDate;
+          _diaryDateController.text = DateFormat('yyyy-MM-dd')
+              .format(DateTime.fromMillisecondsSinceEpoch(_diaryDate));
+        } else if (state is PickImageSuccess) {
           _imageList = state.updatedImageList;
         } else if (state is RemoveImageSuccess) {
           _imageList = state.updatedImageList;

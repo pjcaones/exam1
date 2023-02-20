@@ -6,6 +6,7 @@ import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 part 'diary_event.dart';
 part 'diary_state.dart';
@@ -16,6 +17,7 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     required this.pickImage,
     required this.uploadDiary,
   }) : super(DiaryInitial()) {
+    on<DiaryInitialEvent>(_getInitialDiaryInformation);
     on<UploadDiaryEvent>(_uploadDiary);
     on<PickImageEvent>(_pickImage);
     on<RemoveImageEvent>(_removeImage);
@@ -24,8 +26,49 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
   final PickImage pickImage;
   final UploadDiary uploadDiary;
 
+  Future<void> _getInitialDiaryInformation(
+    DiaryInitialEvent event,
+    Emitter<DiaryState> emit,
+  ) async {
+    emit(DiaryInitialLoading());
+
+    const String location = '20041075 | TAP-NS TAP-North Strathfield';
+
+    Map<int, String> areas = {};
+    Map<int, String> categories = {};
+    Map<int, String> events = {};
+
+    final int diaryDate = DateTime.now().millisecondsSinceEpoch;
+
+    areas = {
+      1: 'Area 1',
+      2: 'Area 2',
+      3: 'Area 3',
+    };
+    categories = {
+      1: 'Task Category 1',
+      2: 'Task Category 2',
+      3: 'Task Category 3',
+    };
+    events = {
+      1: 'Event 1',
+      2: 'Event 2',
+      3: 'Event 3',
+    };
+
+    emit(DiaryInitialLoadSuccess(
+      location: location,
+      areas: areas,
+      categories: categories,
+      events: events,
+      diaryDate: diaryDate,
+    ));
+  }
+
   Future<void> _pickImage(
-      PickImageEvent event, Emitter<DiaryState> emit) async {
+    PickImageEvent event,
+    Emitter<DiaryState> emit,
+  ) async {
     emit(PickImageLoading());
 
     final List<XFile> imageList = event.imageList;
@@ -46,7 +89,9 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
   }
 
   Future<void> _removeImage(
-      RemoveImageEvent event, Emitter<DiaryState> emit) async {
+    RemoveImageEvent event,
+    Emitter<DiaryState> emit,
+  ) async {
     try {
       emit(RemoveImageLoading());
 
@@ -61,7 +106,9 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
   }
 
   Future<void> _uploadDiary(
-      UploadDiaryEvent event, Emitter<DiaryState> emit) async {
+    UploadDiaryEvent event,
+    Emitter<DiaryState> emit,
+  ) async {
     emit(UploadDiaryLoading());
 
     final List<File> fileList =
@@ -84,7 +131,6 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
     failureOrUploadedDiaryResult.fold(
       (failure) {
         log('_uploadDiary error: $failure');
-        print(failure);
         emit(
           const UploadDiaryFailed(
             errorMessage: 'Failed to upload the diary.',
