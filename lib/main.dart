@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:localizely_sdk/localizely_sdk.dart';
 
 import 'features/diary/di.dart' as get_it;
@@ -68,6 +69,14 @@ class MyApp extends StatelessWidget {
 }
 
 class DiaryModule extends Module {
+  DiaryModule({
+    this.isTestMode = false,
+    this.testImageList,
+  });
+
+  final bool isTestMode;
+  final List<XFile>? testImageList;
+
   @override
   List<Bind<Object>> get binds => [];
 
@@ -75,7 +84,10 @@ class DiaryModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/',
-          child: (context, args) => const DiaryPage(),
+          child: (context, args) => DiaryPage(
+            isTestMode: isTestMode,
+            testImageList: testImageList,
+          ),
         ),
       ];
 }

@@ -5,9 +5,17 @@ import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DiaryPage extends StatelessWidget {
-  const DiaryPage({super.key});
+  const DiaryPage({
+    super.key,
+    this.isTestMode = false,
+    this.testImageList,
+  });
+
+  final bool isTestMode;
+  final List<XFile>? testImageList;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +35,10 @@ class DiaryPage extends StatelessWidget {
       ),
       body: BlocProvider<DiaryBloc>.value(
         value: serviceLocator<DiaryBloc>(),
-        child: const DiaryStatesWidget(),
+        child: DiaryStatesWidget(
+          isTestMode: isTestMode,
+          testImageList: isTestMode ? testImageList : null,
+        ),
       ),
     );
   }

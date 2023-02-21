@@ -74,11 +74,13 @@ class S {
     'keyAddPhoto': [],
     'keyArea': [],
     'keyCategory': [],
+    'keyComment': [],
     'keyDiaryDate': [],
     'keyEvent': [],
     'keyIncludeGallery': [],
     'keyNext': [],
     'keyRemoveButton': [],
+    'keyTags': [],
     'textfieldLabelArea': [],
     'textfieldLabelCategory': [],
     'textfieldLabelComment': [],
@@ -279,6 +281,16 @@ class S {
     );
   }
 
+  /// `comment`
+  String get keyComment {
+    return Intl.message(
+      'comment',
+      name: 'keyComment',
+      desc: 'key for comment textfield',
+      args: [],
+    );
+  }
+
   /// `diary_date`
   String get keyDiaryDate {
     return Intl.message(
@@ -325,6 +337,16 @@ class S {
       'remove_image_button_',
       name: 'keyRemoveButton',
       desc: 'key for remove image button',
+      args: [],
+    );
+  }
+
+  /// `tag`
+  String get keyTags {
+    return Intl.message(
+      'tag',
+      name: 'keyTags',
+      desc: 'key for tags textfield',
       args: [],
     );
   }

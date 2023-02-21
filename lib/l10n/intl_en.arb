@@ -72,6 +72,10 @@
   "@keyCategory": {
     "description": "key for category dropdown"
   },
+  "keyComment": "comment",
+  "@keyComment": {
+    "description": "key for comment textfield"
+  },
   "keyDiaryDate": "diary_date",
   "@keyDiaryDate": {
     "description": "key for diary date"
@@ -91,6 +95,10 @@
   "keyRemoveButton": "remove_image_button_",
   "@keyRemoveButton": {
     "description": "key for remove image button"
+  },
+  "keyTags": "tag",
+  "@keyTags": {
+    "description": "key for tags textfield"
   },
   "textfieldLabelArea": "Select Area",
   "@textfieldLabelArea": {

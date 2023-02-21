@@ -20,6 +20,7 @@ class CommentScreen extends StatelessWidget {
                   CustomCardTitle(title: S.of(context).diaryTitleComments),
                   const Divider(),
                   TextField(
+                    key: Key(S.of(context).keyComment),
                     controller: commentController,
                     decoration: InputDecoration(
                         labelText: S.of(context).textfieldLabelComment,
