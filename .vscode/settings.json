@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "presentation",
         "report",
-        "event"
+        "event",
+        "diary-form"
     ]
 }

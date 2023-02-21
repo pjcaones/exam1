@@ -42,14 +42,19 @@ class DiaryStatesWidget extends StatelessWidget {
 
     return BlocListener<DiaryBloc, DiaryState>(
       listener: (context, state) {
-        final ProgressDialog progressDialog = ProgressDialog(context,
-            type: ProgressDialogType.normal, isDismissible: false);
+        final ProgressDialog progressDialog = ProgressDialog(
+          context,
+          type: ProgressDialogType.normal,
+          isDismissible: false,
+        );
 
         if (progressDialog.isShowing()) {
           progressDialog.hide();
         }
 
-        if (state is UploadDiaryLoading || state is PickImageLoading) {
+        if (state is UploadDiaryLoading ||
+            state is PickImageLoading ||
+            state is DiaryInitialEvent) {
           if (!progressDialog.isShowing()) {
             progressDialog.show();
           }

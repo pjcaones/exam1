@@ -47,6 +47,29 @@ void main() {
   final XFile tImage = XFile('test1.png');
   List<XFile> tUpdatedImageList = [];
 
+  void setMockDiaryInitialSuccessState() {
+    when(() => diaryBloc.state).thenReturn(
+      DiaryInitialLoadSuccess(
+          location: '20041075 | TAP-NS TAP-North Strathfield',
+          areas: const {
+            1: 'Area 1',
+            2: 'Area 2',
+            3: 'Area 3',
+          },
+          categories: const {
+            1: 'Task Category 1',
+            2: 'Task Category 2',
+            3: 'Task Category 3',
+          },
+          events: const {
+            1: 'Event 1',
+            2: 'Event 2',
+            3: 'Event 3',
+          },
+          diaryDate: DateTime.now().millisecondsSinceEpoch),
+    );
+  }
+
   group('add photo section', () {
     testWidgets('diary form pick and remove image', (tester) async {
       tUpdatedImageList = [
@@ -133,7 +156,7 @@ void main() {
 
   testWidgets('for dropdown area', (tester) async {
     final dropdownFinder = find.byKey(const Key('area'));
-    when(() => diaryBloc.state).thenReturn(DiaryInitial());
+    setMockDiaryInitialSuccessState();
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(dropdownFinder);
@@ -153,7 +176,7 @@ void main() {
 
   testWidgets('for category', (tester) async {
     final dropdownFinder = find.byKey(const Key('category'));
-    when(() => diaryBloc.state).thenReturn(DiaryInitial());
+    setMockDiaryInitialSuccessState();
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(dropdownFinder);
@@ -173,7 +196,7 @@ void main() {
 
   testWidgets('for event', (tester) async {
     final dropdownFinder = find.byKey(const Key('event'));
-    when(() => diaryBloc.state).thenReturn(DiaryInitial());
+    setMockDiaryInitialSuccessState();
 
     await tester.pumpWidget(widgetUnderTest());
     await tester.ensureVisible(dropdownFinder);

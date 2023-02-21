@@ -9,6 +9,25 @@ abstract class DiaryState extends Equatable {
 
 class DiaryInitial extends DiaryState {}
 
+//For loading of diary page
+class DiaryInitialLoading extends DiaryState {}
+
+class DiaryInitialLoadSuccess extends DiaryState {
+  const DiaryInitialLoadSuccess({
+    required this.location,
+    required this.areas,
+    required this.categories,
+    required this.events,
+    required this.diaryDate,
+  });
+
+  final String location;
+  final Map<int, String> areas;
+  final Map<int, String> categories;
+  final Map<int, String> events;
+  final int diaryDate;
+}
+
 //For Image Picking
 class PickImageLoading extends DiaryState {}
 

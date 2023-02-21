@@ -7,6 +7,8 @@ abstract class DiaryEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class DiaryInitialEvent extends DiaryEvent {}
+
 class PickImageEvent extends DiaryEvent {
   const PickImageEvent({
     required this.imageList,
