@@ -2,7 +2,7 @@ name: Build Version Actions
 on:
   push:
     branches:
-      - jp/ci/build-apk
+      - main
 
 jobs:
   build-version-actions:
