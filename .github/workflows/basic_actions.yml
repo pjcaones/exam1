@@ -1,19 +1,11 @@
 name: Basic Flutter Actions
 on:   
-  push:
+  pull_request:
     branches:
       - main
-  # pull_request:
-  #   types: [closed]
-  #   branches:
-  #     - main
 
 jobs:
-  basic-flutter-actions:
-    # will run only after pr has been merged
-    # if: github.event.pull_request.merged == true
-
-    # will run in the selected os
+  basic-flutter-actions: 
     runs-on: ubuntu-latest
 
     steps:
@@ -48,3 +40,4 @@ jobs:
           
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+
