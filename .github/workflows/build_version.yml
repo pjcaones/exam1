@@ -2,7 +2,8 @@ name: Build Version Actions
 on:
   push:
     branches:
-      - main
+      - jp/ci/update-main-workflow
+      # - main
 
 jobs:
   build-version-actions:
@@ -38,20 +39,36 @@ jobs:
           sudo apt-get update
           sudo apt-get install lcov
 
-      - name: Check test coverage
-        run: flutter test --coverage
+      - name: Check test coverage for presentation layer
+        run: |
+          flutter test --coverage
+          lcov --remove coverage/lcov.info 'lib/generated/*' -o coverage/lcov.info
+          genhtml coverage/lcov.info -o coverage/html
 
-      - name: generate html lcov report
-        run: genhtml coverage/lcov.info -o coverage/html
+      - name: Check test coverage for domain layer
+        run: |
+          flutter test --coverage
+          genhtml coverage/lcov.info -o coverage/html
+
+      - name: Check test coverage for data layer
+        run: |
+          flutter test --coverage
+          lcov --remove coverage/lcov.info 'lib/src/models/*.freezed.dart' 'lib/src/models/*.g.dart' -o coverage/lcov.info
+          genhtml coverage/lcov.info -o coverage/html
+
+      - name: Check test coverage for core layer
+        run: |
+          flutter test --coverage
+          genhtml coverage/lcov.info -o coverage/html
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
 
-      - name: Build apk
-        run: flutter build apk
+      # - name: Build apk
+      #   run: flutter build apk
 
-      - name: Upload apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+      # - name: Upload apk
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: release-apk
+      #     path: build/app/outputs/apk/release/app-release.apk
