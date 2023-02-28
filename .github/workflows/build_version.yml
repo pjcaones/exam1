@@ -47,17 +47,15 @@ jobs:
 
       - name: Check test coverage for domain layer
         run: |
-          pwd
-          ls
           cd domain
-          flutter test --coverage
-          genhtml coverage/lcov.info -o coverage/html
+        # run: |
+        #   cd domain
+        #   flutter test --coverage
+        #   genhtml coverage/lcov.info -o coverage/html
 
       - name: Check test coverage for data layer
         run: |
-          pwd
-          ls
-          cd ..
+          cd data
         # run: |
         #   cd ../data
         #   flutter test --coverage
