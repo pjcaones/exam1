@@ -7,15 +7,17 @@ class EventScreenRobot {
   final WidgetTester tester;
 
   Future<void> selectEvent({String? eventSelected}) async {
+    final Future<void> pumpWidget = tester.pump();
+
     final eventFinder = find.byKey(const Key('event'));
     final String event = eventSelected ?? 'Event 1';
 
     expect(eventFinder, findsOneWidget);
     await tester.ensureVisible(eventFinder);
     await tester.tap(eventFinder);
-    await tester.pump();
+    await pumpWidget;
 
     await tester.tap(find.text(event).last);
-    await tester.pump();
+    await pumpWidget;
   }
 }

@@ -10,7 +10,9 @@ class MockDiaryBloc extends MockBloc<DiaryEvent, DiaryState>
     implements DiaryBloc {}
 
 void main() {
-  Widget widgetUnderTest({WidgetTester? tester}) {
+  String? returnValueFromUploadButton;
+
+  Widget widgetUnderTest() {
     return MaterialApp(
       title: 'Exam 1',
       localizationsDelegates: const [
@@ -21,7 +23,9 @@ void main() {
       ],
       supportedLocales: S.delegate.supportedLocales,
       home: UploadDiaryWidget(
-        onUploadDiaryForm: () {},
+        onUploadDiaryForm: () {
+          returnValueFromUploadButton = 'Tapped';
+        },
       ),
     );
   }
@@ -35,14 +39,20 @@ void main() {
 
     final buttonNext = tester.firstWidget<ElevatedButton>(buttonFinder);
     expect(
-        find.ancestor(
-          of: buttonFinder,
-          matching: find.byType(SizedBox),
-        ),
-        findsOneWidget);
+      find.ancestor(
+        of: buttonFinder,
+        matching: find.byType(SizedBox),
+      ),
+      findsOneWidget,
+    );
 
     final buttonChildWidget = buttonNext.child;
     expect(buttonChildWidget, isA<Text>());
     expect((buttonChildWidget as Text).data, 'Next');
+
+    await tester.tap(buttonFinder);
+    await tester.pump();
+
+    expect(returnValueFromUploadButton, 'Tapped');
   });
 }

@@ -70,7 +70,7 @@ class _DiaryFormState extends State<DiaryForm> {
   }
 
   //Callbacks
-  Future<void> _onSelectImage() async {
+  void _onSelectImage() {
     context.read<DiaryBloc>().add(
           PickImageEvent(
             imageList: _imageList!,
@@ -105,14 +105,15 @@ class _DiaryFormState extends State<DiaryForm> {
 
   void _uploadDiary() {
     context.read<DiaryBloc>().add(UploadDiaryEvent(
-        location: _location,
-        imageList: _imageList ?? [],
-        comment: _commentController.text,
-        diaryDate: _diaryDate,
-        areaID: _areaID,
-        taskCategoryID: _categoryID,
-        tags: _tagsController.text,
-        eventID: _eventID));
+          location: _location,
+          imageList: _imageList ?? [],
+          comment: _commentController.text,
+          diaryDate: _diaryDate,
+          areaID: _areaID,
+          taskCategoryID: _categoryID,
+          tags: _tagsController.text,
+          eventID: _eventID,
+        ));
   }
 
   @override
@@ -162,10 +163,12 @@ class _DiaryFormState extends State<DiaryForm> {
                           child: Tooltip(
                             message: S.of(context).diaryMessageFillUpDiary,
                             triggerMode: TooltipTriggerMode.tap,
-                            child: const Icon(Icons.help,
-                                color: Color.fromARGB(255, 154, 154, 154)),
+                            child: const Icon(
+                              Icons.help,
+                              color: Color.fromARGB(255, 154, 154, 154),
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -184,39 +187,41 @@ class _DiaryFormState extends State<DiaryForm> {
 
                   //Details
                   DetailsScreen(
-                      areas: _areas,
-                      categories: _categories,
-                      diaryDateController: _diaryDateController,
-                      areaID: _areaID,
-                      categoryID: _categoryID,
-                      tagsController: _tagsController,
-                      onSelectAreas: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _areaID = value;
-                          });
-                        }
-                      },
-                      onSelectCategory: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _categoryID = value;
-                          });
-                        }
-                      }),
+                    areas: _areas,
+                    categories: _categories,
+                    diaryDateController: _diaryDateController,
+                    areaID: _areaID,
+                    categoryID: _categoryID,
+                    tagsController: _tagsController,
+                    onSelectAreas: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _areaID = value;
+                        });
+                      }
+                    },
+                    onSelectCategory: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _categoryID = value;
+                        });
+                      }
+                    },
+                  ),
 
                   //Event
                   EventsScreen(
-                      events: _events,
-                      isLinkExistingEvent: _isLinkExistingEvent,
-                      onLinkExistingEvent: _onLinkExistingEvent,
-                      onSelectEvent: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _eventID = value;
-                          });
-                        }
-                      }),
+                    events: _events,
+                    isLinkExistingEvent: _isLinkExistingEvent,
+                    onLinkExistingEvent: _onLinkExistingEvent,
+                    onSelectEvent: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _eventID = value;
+                        });
+                      }
+                    },
+                  ),
 
                   //Button for calling the api
                   UploadDiaryWidget(

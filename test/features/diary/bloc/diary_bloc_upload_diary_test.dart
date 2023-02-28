@@ -60,18 +60,19 @@ void main() {
   );
 
   final uploadDiaryEvent = UploadDiaryEvent(
-      location: location,
-      imageList: [
-        XFile('Test1.png'),
-        XFile('Test2.png'),
-        XFile('Test3.png'),
-      ],
-      comment: comment,
-      diaryDate: diaryDateInMillis,
-      areaID: areaID,
-      taskCategoryID: taskCategoryID,
-      tags: tags,
-      eventID: eventID);
+    location: location,
+    imageList: [
+      XFile('Test1.png'),
+      XFile('Test2.png'),
+      XFile('Test3.png'),
+    ],
+    comment: comment,
+    diaryDate: diaryDateInMillis,
+    areaID: areaID,
+    taskCategoryID: taskCategoryID,
+    tags: tags,
+    eventID: eventID,
+  );
 
   const tUploadedDiaryResult = UploadedDiaryResult(id: '1');
 
@@ -97,11 +98,12 @@ void main() {
       diaryBloc.add(uploadDiaryEvent);
 
       await expectLater(
-          diaryBloc.stream,
-          emitsInOrder([
-            UploadDiaryLoading(),
-            UploadDiarySuccess(),
-          ]));
+        diaryBloc.stream,
+        emitsInOrder([
+          UploadDiaryLoading(),
+          UploadDiarySuccess(),
+        ]),
+      );
 
       verify(() => mockFileToBase64.listConversion(
             fileList: any(named: 'fileList'),
@@ -117,11 +119,12 @@ void main() {
       diaryBloc.add(uploadDiaryEvent);
 
       await expectLater(
-          diaryBloc.stream,
-          emitsInOrder([
-            UploadDiaryLoading(),
-            const UploadDiaryFailed(),
-          ]));
+        diaryBloc.stream,
+        emitsInOrder([
+          UploadDiaryLoading(),
+          const UploadDiaryFailed(),
+        ]),
+      );
 
       verify(() => mockFileToBase64.listConversion(
             fileList: any(named: 'fileList'),
@@ -137,11 +140,12 @@ void main() {
       diaryBloc.add(uploadDiaryEvent);
 
       await expectLater(
-          diaryBloc.stream,
-          emitsInOrder([
-            UploadDiaryLoading(),
-            const UploadDiaryFailed(),
-          ]));
+        diaryBloc.stream,
+        emitsInOrder([
+          UploadDiaryLoading(),
+          const UploadDiaryFailed(),
+        ]),
+      );
 
       verify(() => mockFileToBase64.listConversion(
             fileList: any(named: 'fileList'),

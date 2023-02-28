@@ -30,9 +30,10 @@ void main() {
     mockUploadDiary = MockUploadDiary();
 
     diaryBloc = DiaryBloc(
-        fileToBase64: mockFileToBase64,
-        pickImage: mockPickImage,
-        uploadDiary: mockUploadDiary);
+      fileToBase64: mockFileToBase64,
+      pickImage: mockPickImage,
+      uploadDiary: mockUploadDiary,
+    );
   });
 
   final XFile tImageFile = XFile('test1.png');
@@ -55,13 +56,14 @@ void main() {
       diaryBloc.add(PickImageEvent(imageList: imageList));
 
       await expectLater(
-          diaryBloc.stream,
-          emitsInOrder(
-            [
-              PickImageLoading(),
-              PickImageSuccess(updatedImageList: imageList),
-            ],
-          ));
+        diaryBloc.stream,
+        emitsInOrder(
+          [
+            PickImageLoading(),
+            PickImageSuccess(updatedImageList: imageList),
+          ],
+        ),
+      );
 
       verify(() => mockPickImage(tImageDetails));
     });
@@ -72,13 +74,14 @@ void main() {
       diaryBloc.add(PickImageEvent(imageList: imageList));
 
       await expectLater(
-          diaryBloc.stream,
-          emitsInOrder(
-            [
-              PickImageLoading(),
-              PickImageFailed(),
-            ],
-          ));
+        diaryBloc.stream,
+        emitsInOrder(
+          [
+            PickImageLoading(),
+            PickImageFailed(),
+          ],
+        ),
+      );
 
       verify(() => mockPickImage(tImageDetails));
     });

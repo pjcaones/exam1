@@ -66,6 +66,7 @@ void main() {
             a = 5;
             s = state;
           }
+
           return Container();
         },
       ),
@@ -109,7 +110,7 @@ void main() {
                             Navigator.of(context).pop();
                           },
                           child: const Text('OK'),
-                        )
+                        ),
                       ],
                     );
                   },

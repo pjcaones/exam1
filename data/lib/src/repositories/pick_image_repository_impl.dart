@@ -4,23 +4,20 @@ import 'package:domain/domain.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PickedImageRepositoryImpl implements PickImageRepository {
-  const PickedImageRepositoryImpl({
+class PickImageRepositoryImpl implements PickImageRepository {
+  const PickImageRepositoryImpl({
     required this.pickImageDataSource,
   });
   final PickImageDataSource pickImageDataSource;
 
   @override
-  Future<Either<PickImageFailure, XFile>> getPickedImage(
-      {required ImageDetails imageDetails}) async {
+  Future<Either<PickImageFailure, XFile>> getPickedImage({
+    required ImageDetails imageDetails,
+  }) async {
     final pickedImage = await pickImageDataSource.getPickedImage(
       imageDetails: imageDetails,
     );
 
-    if (pickedImage != null) {
-      return Right(pickedImage);
-    } else {
-      return Left(PickImageFailure());
-    }
+    return pickedImage != null ? Right(pickedImage) : Left(PickImageFailure());
   }
 }

@@ -34,7 +34,7 @@ void main() {
   final ConcreteDiaryEvent diaryEvent = ConcreteDiaryEvent();
 
   group('diary events', () {
-    test('pick image event', () async {
+    test('pick image event', () {
       final List<Object?> props = [
         fileList,
         ImageSource.gallery,
@@ -43,7 +43,7 @@ void main() {
       expect(pickImageEvent.props, props);
     });
 
-    test('remove image event', () async {
+    test('remove image event', () {
       final List<Object?> props = [
         1,
         fileList,
@@ -52,7 +52,7 @@ void main() {
       expect(removeImageEvent.props, props);
     });
 
-    test('upload diary event', () async {
+    test('upload diary event', () {
       final List<Object?> props = [
         'Sample location',
         fileList,

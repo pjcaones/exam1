@@ -65,28 +65,33 @@ void main() {
   }
 
   group('with mock bloc', () {
-    testWidgets('should return updated image list after tapping remove',
-        (tester) async {
-      final btnFinder = find.byKey(const Key('remove_image_button_1'));
-      when(() => mockDiaryBloc.state).thenReturn(RemoveImageSuccess(
-        updatedImageList: tUpdatedImageList,
-      ));
+    testWidgets(
+      'should return updated image list after tapping remove',
+      (tester) async {
+        final btnFinder = find.byKey(const Key('remove_image_button_1'));
+        when(() => mockDiaryBloc.state).thenReturn(RemoveImageSuccess(
+          updatedImageList: tUpdatedImageList,
+        ));
 
-      await tester.pumpWidget(widgetUnderTest());
-      expect(find.byIcon(Icons.close), findsNWidgets(imageList.length));
-      expect(btnFinder, findsOneWidget);
+        await tester.pumpWidget(widgetUnderTest());
+        expect(find.byIcon(Icons.close), findsNWidgets(imageList.length));
+        expect(btnFinder, findsOneWidget);
 
-      await tester.tap(btnFinder);
-      await tester.pumpAndSettle();
+        await tester.tap(btnFinder);
+        await tester.pumpAndSettle();
 
-      verify(
-        () => mockDiaryBloc.add(RemoveImageEvent(
-          imageList: imageList,
-          index: 1,
-        )),
-      ).called(1);
+        verify(
+          () => mockDiaryBloc.add(RemoveImageEvent(
+            imageList: imageList,
+            index: 1,
+          )),
+        ).called(1);
 
-      expect(find.byIcon(Icons.close), findsNWidgets(tUpdatedImageList.length));
-    });
+        expect(
+          find.byIcon(Icons.close),
+          findsNWidgets(tUpdatedImageList.length),
+        );
+      },
+    );
   });
 }

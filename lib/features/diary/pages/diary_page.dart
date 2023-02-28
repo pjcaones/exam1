@@ -27,10 +27,7 @@ class DiaryPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.close_sharp),
           padding: const EdgeInsets.only(left: 12),
-          onPressed: () async {
-            //Just for test of app closing
-            await SystemNavigator.pop();
-          },
+          onPressed: () => SystemNavigator.pop,
         ),
       ),
       body: BlocProvider<DiaryBloc>.value(

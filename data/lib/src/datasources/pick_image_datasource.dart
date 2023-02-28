@@ -19,10 +19,11 @@ class PickImageDataSourceImpl implements PickImageDataSource {
     required ImageDetails imageDetails,
   }) async {
     final XFile? pickedFile = await picker.pickImage(
-        source: imageDetails.imageSource,
-        maxHeight: imageDetails.maxHeight,
-        maxWidth: imageDetails.maxWidth,
-        imageQuality: imageDetails.quality);
+      source: imageDetails.imageSource,
+      maxHeight: imageDetails.maxHeight,
+      maxWidth: imageDetails.maxWidth,
+      imageQuality: imageDetails.quality,
+    );
 
     return pickedFile;
   }

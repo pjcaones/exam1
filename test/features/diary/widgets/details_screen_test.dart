@@ -33,22 +33,23 @@ void main() {
       ],
       supportedLocales: S.delegate.supportedLocales,
       home: DetailsScreen(
-          areas: areas,
-          categories: categories,
-          diaryDateController: diaryDateController,
-          areaID: areaID,
-          categoryID: categoryID,
-          tagsController: tagsController,
-          onSelectAreas: (value) {
-            if (value != null) {
-              areaID = value;
-            }
-          },
-          onSelectCategory: (value) {
-            if (value != null) {
-              categoryID = value;
-            }
-          }),
+        areas: areas,
+        categories: categories,
+        diaryDateController: diaryDateController,
+        areaID: areaID,
+        categoryID: categoryID,
+        tagsController: tagsController,
+        onSelectAreas: (value) {
+          if (value != null) {
+            areaID = value;
+          }
+        },
+        onSelectCategory: (value) {
+          if (value != null) {
+            categoryID = value;
+          }
+        },
+      ),
     );
   }
 

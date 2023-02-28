@@ -13,8 +13,12 @@ class MockUploadDiaryRemoteDataSource extends Mock
 
 class MockHttpClient extends Mock implements http.Client {
   @override
-  Future<http.Response> post(Uri url,
-          {Map<String, String>? headers, Object? body, Encoding? encoding}) =>
+  Future<http.Response> post(
+    Uri url, {
+    Map<String, String>? headers,
+    Object? body,
+    Encoding? encoding,
+  }) =>
       super.noSuchMethod(Invocation.getter(#uri));
 }
 
@@ -30,7 +34,8 @@ void main() {
   setUp(() {
     mockUploadDiaryRemoteDataSource = MockUploadDiaryRemoteDataSource();
     repositoryImpl = DiaryRepositoryImpl(
-        diaryRemoteDataSource: mockUploadDiaryRemoteDataSource);
+      diaryRemoteDataSource: mockUploadDiaryRemoteDataSource,
+    );
 
     mockHttpClient = MockHttpClient();
     dataSourceImpl = DiaryRemoteDataSourceImpl(client: mockHttpClient);
@@ -39,32 +44,34 @@ void main() {
   });
 
   final Diary tDiary = Diary(
-      location: 'Sample location',
-      imageList: const [
-        'test1',
-        'test2',
-        'test3'
-      ], //Sample converted base64 image
-      comment: 'Sample Comment',
-      diaryDateInMillis: DateTime.now().millisecondsSinceEpoch,
-      areaID: 1,
-      taskCategoryID: 1,
-      tags: 'Sample tag',
-      eventID: 1);
+    location: 'Sample location',
+    imageList: const [
+      'test1',
+      'test2',
+      'test3',
+    ], //Sample converted base64 image
+    comment: 'Sample Comment',
+    diaryDateInMillis: DateTime.now().millisecondsSinceEpoch,
+    areaID: 1,
+    taskCategoryID: 1,
+    tags: 'Sample tag',
+    eventID: 1,
+  );
 
   final DiaryModel tDiaryModel = DiaryModel(
-      location: 'Sample location',
-      imageList: const [
-        'test1',
-        'test2',
-        'test3'
-      ], //Sample converted base64 image
-      comment: 'Sample Comment',
-      diaryDateInMillis: DateTime.now().millisecondsSinceEpoch,
-      areaID: 1,
-      taskCategoryID: 1,
-      tags: 'Sample tag',
-      eventID: 1);
+    location: 'Sample location',
+    imageList: const [
+      'test1',
+      'test2',
+      'test3',
+    ], //Sample converted base64 image
+    comment: 'Sample Comment',
+    diaryDateInMillis: DateTime.now().millisecondsSinceEpoch,
+    areaID: 1,
+    taskCategoryID: 1,
+    tags: 'Sample tag',
+    eventID: 1,
+  );
 
   const tUploadedDiaryResultModel = UploadedDiaryResultModel(id: '1');
 
@@ -79,13 +86,14 @@ void main() {
         await repositoryImpl.getResultFromUploadedDiary(diary: tDiary);
 
     verify(() => mockUploadDiaryRemoteDataSource.getResultFromUploadedDiary(
-        diary: tDiary));
+          diary: tDiary,
+        ));
     expect(result, const Right(tUploadedDiaryResultModel));
   });
 
   group('actual uploading of data', () {
     final Map<String, String> header = {
-      'Content-Type': 'application/json; charset=UTF-8'
+      'Content-Type': 'application/json; charset=UTF-8',
     };
 
     final String uploadedBody = jsonEncode(tDiaryModel.toJson());
@@ -100,12 +108,13 @@ void main() {
       final result =
           await dataSourceImpl.getResultFromUploadedDiary(diary: tDiary);
       verify(
-          () => mockHttpClient.post(url, headers: header, body: uploadedBody));
+        () => mockHttpClient.post(url, headers: header, body: uploadedBody),
+      );
 
       expect(result, tUploadedDiaryResultModel);
     });
 
-    test('should perform failed uploading of data', () async {
+    test('should perform failed uploading of data', () {
       //Response 413 is an example of failed response
       when(() => mockHttpClient.post(url, headers: header, body: uploadedBody))
           .thenAnswer((_) async => http.Response(resultResponseBody, 413));

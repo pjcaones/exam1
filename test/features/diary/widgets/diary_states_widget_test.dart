@@ -19,17 +19,18 @@ void main() {
 
   Widget widgetUnderTest() {
     return MaterialApp(
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        home: BlocProvider<DiaryBloc>.value(
-          value: diaryBloc,
-          child: const DiaryStatesWidget(),
-        ));
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      home: BlocProvider<DiaryBloc>.value(
+        value: diaryBloc,
+        child: const DiaryStatesWidget(),
+      ),
+    );
   }
 
   group('test for diary states', () {
