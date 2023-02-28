@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 class MockFileToBase64 extends Mock implements FileToBase64 {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late MockFileToBase64 mockFileToBase64;
 
   setUp(() {
@@ -44,8 +45,7 @@ void main() {
   });
 
   group('sample', () {
-    final actualFile = File(
-        '/Users/jpcaones/Library/Developer/CoreSimulator/Devices/EE8D9367-6B36-4497-9C67-E7A299A373A5/data/Containers/Data/Application/809DDE96-A11B-43C7-B131-4D8EF7E078BF/tmp/image_picker_58AEF2C8-4B90-4A69-B27B-9DBF3C3B3CB8-16576-00000031EA461CE9.jpg');
+    final File actualFile = File('../assets/images/sample_image1.jpeg');
     final fileBaseTo64 = FileToBase64();
 
     test('single conversion', () async {
