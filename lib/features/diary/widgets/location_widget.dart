@@ -16,7 +16,7 @@ class LocationWidget extends StatelessWidget {
           ),
           Expanded(
             child: Text(location),
-          )
+          ),
         ],
       ),
     );

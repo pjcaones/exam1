@@ -6,29 +6,33 @@ class DetailsScreenRobot {
 
   final WidgetTester tester;
   Future<void> selectArea({String? areaSelected}) async {
+    final Future<void> pumpWidget = tester.pump();
+
     final areaFinder = find.byKey(const Key('area'));
     final String area = areaSelected ?? 'Area 1';
 
     expect(areaFinder, findsOneWidget);
     await tester.ensureVisible(areaFinder);
     await tester.tap(areaFinder);
-    await tester.pump();
+    await pumpWidget;
 
     await tester.tap(find.text(area).last);
-    await tester.pump();
+    await pumpWidget;
   }
 
   Future<void> selectCategory({String? categorySelected}) async {
+    final Future<void> pumpWidget = tester.pump();
+
     final categoryFinder = find.byKey(const Key('category'));
     final String category = categorySelected ?? 'Task Category 1';
 
     expect(categoryFinder, findsOneWidget);
     await tester.ensureVisible(categoryFinder);
     await tester.tap(categoryFinder);
-    await tester.pump();
+    await pumpWidget;
 
     await tester.tap(find.text(category).last);
-    await tester.pump();
+    await pumpWidget;
   }
 
   Future<void> inputTags({String? tagInput}) async {

@@ -26,9 +26,10 @@ void main() {
     mockUploadDiary = MockUploadDiary();
 
     diaryBloc = DiaryBloc(
-        fileToBase64: mockFileToBase64,
-        pickImage: mockPickImage,
-        uploadDiary: mockUploadDiary);
+      fileToBase64: mockFileToBase64,
+      pickImage: mockPickImage,
+      uploadDiary: mockUploadDiary,
+    );
   });
 
   late int indexToRemove;
@@ -49,11 +50,12 @@ void main() {
     );
 
     await expectLater(
-        diaryBloc.stream,
-        emitsInOrder([
-          RemoveImageLoading(),
-          RemoveImageSuccess(updatedImageList: imageList)
-        ]));
+      diaryBloc.stream,
+      emitsInOrder([
+        RemoveImageLoading(),
+        RemoveImageSuccess(updatedImageList: imageList),
+      ]),
+    );
   });
 
   test('diary remove image bloc error', () async {
@@ -67,10 +69,11 @@ void main() {
     );
 
     await expectLater(
-        diaryBloc.stream,
-        emitsInOrder([
-          RemoveImageLoading(),
-          RemoveImageFailed(),
-        ]));
+      diaryBloc.stream,
+      emitsInOrder([
+        RemoveImageLoading(),
+        RemoveImageFailed(),
+      ]),
+    );
   });
 }

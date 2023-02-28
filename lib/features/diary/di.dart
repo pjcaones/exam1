@@ -46,7 +46,7 @@ void registerDomainInstances() {
       ),
     )
     ..registerLazySingleton<PickImageRepository>(
-      () => PickedImageRepositoryImpl(
+      () => PickImageRepositoryImpl(
         pickImageDataSource: serviceLocator(),
       ),
     );

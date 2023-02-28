@@ -11,23 +11,26 @@ class CommentScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 9),
       child: Card(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomCardTitle(title: S.of(context).diaryTitleComments),
-                  const Divider(),
-                  TextField(
-                    key: Key(S.of(context).keyComment),
-                    controller: commentController,
-                    decoration: InputDecoration(
-                        labelText: S.of(context).textfieldLabelComment,
-                        contentPadding: const EdgeInsets.symmetric()),
-                  )
-                ],
-              ))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CardTitleWidget(title: S.of(context).diaryTitleComments),
+              const Divider(),
+              TextField(
+                key: Key(S.of(context).keyComment),
+                controller: commentController,
+                decoration: InputDecoration(
+                  labelText: S.of(context).textfieldLabelComment,
+                  contentPadding: const EdgeInsets.symmetric(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

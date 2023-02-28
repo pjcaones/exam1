@@ -11,7 +11,7 @@ class MockPickImageDataSource extends Mock implements PickImageDataSource {}
 void main() {
   final tXFile = XFile('sample.png');
   final mockPickImageDataSource = MockPickImageDataSource();
-  late PickedImageRepositoryImpl pickedImageRepositoryImpl;
+  late PickImageRepositoryImpl pickedImageRepositoryImpl;
 
   const ImageDetails tImageDetails = ImageDetails(
     imageSource: ImageSource.gallery,
@@ -25,12 +25,13 @@ void main() {
         ),
       ).thenAnswer((_) async => tXFile);
 
-      pickedImageRepositoryImpl = PickedImageRepositoryImpl(
+      pickedImageRepositoryImpl = PickImageRepositoryImpl(
         pickImageDataSource: mockPickImageDataSource,
       );
 
       final result = await pickedImageRepositoryImpl.getPickedImage(
-          imageDetails: tImageDetails);
+        imageDetails: tImageDetails,
+      );
 
       verify(
         () => mockPickImageDataSource.getPickedImage(
@@ -48,12 +49,13 @@ void main() {
         ),
       ).thenAnswer((_) async => null);
 
-      pickedImageRepositoryImpl = PickedImageRepositoryImpl(
+      pickedImageRepositoryImpl = PickImageRepositoryImpl(
         pickImageDataSource: mockPickImageDataSource,
       );
 
       final result = await pickedImageRepositoryImpl.getPickedImage(
-          imageDetails: tImageDetails);
+        imageDetails: tImageDetails,
+      );
 
       verify(
         () => mockPickImageDataSource.getPickedImage(

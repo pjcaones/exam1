@@ -25,10 +25,10 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
   final PickImage pickImage;
   final UploadDiary uploadDiary;
 
-  Future<void> _getInitialDiaryInformation(
+  void _getInitialDiaryInformation(
     DiaryInitialEvent event,
     Emitter<DiaryState> emit,
-  ) async {
+  ) {
     emit(DiaryInitialLoading());
 
     const String location = '20041075 | TAP-NS TAP-North Strathfield';
@@ -77,20 +77,23 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
       ),
     );
 
-    failOrImage.fold((fail) {
-      emit(PickImageFailed());
-    }, (imageFile) {
-      imageList.add(imageFile);
-      emit(PickImageSuccess(
-        updatedImageList: imageList,
-      ));
-    });
+    failOrImage.fold(
+      (fail) {
+        emit(PickImageFailed());
+      },
+      (imageFile) {
+        imageList.add(imageFile);
+        emit(PickImageSuccess(
+          updatedImageList: imageList,
+        ));
+      },
+    );
   }
 
-  Future<void> _removeImage(
+  void _removeImage(
     RemoveImageEvent event,
     Emitter<DiaryState> emit,
-  ) async {
+  ) {
     try {
       emit(RemoveImageLoading());
 
@@ -116,14 +119,15 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
         await fileToBase64.listConversion(fileList: fileList);
 
     final diary = Diary(
-        location: event.location,
-        imageList: fileListToBase64,
-        comment: event.comment,
-        diaryDateInMillis: event.diaryDate,
-        areaID: event.areaID,
-        taskCategoryID: event.taskCategoryID,
-        tags: event.tags,
-        eventID: event.eventID);
+      location: event.location,
+      imageList: fileListToBase64,
+      comment: event.comment,
+      diaryDateInMillis: event.diaryDate,
+      areaID: event.areaID,
+      taskCategoryID: event.taskCategoryID,
+      tags: event.tags,
+      eventID: event.eventID,
+    );
 
     final failureOrUploadedDiaryResult = await uploadDiary(diary);
 
@@ -135,11 +139,13 @@ class DiaryBloc extends Bloc<DiaryEvent, DiaryState> {
             errorMessage: 'Failed to upload the diary.',
           ),
         );
+
         return;
       },
       (uploadedDiaryResult) {
         if (int.parse(uploadedDiaryResult.id) > 0) {
           emit(UploadDiarySuccess());
+
           return;
         } else {
           emit(

@@ -24,13 +24,13 @@ void main() {
   runApp(
     ModularApp(
       module: DiaryModule(),
-      child: const MyApp(),
+      child: const Main(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Main extends StatelessWidget {
+  const Main({super.key});
 
   //color of current objects in the project
   Color get objColor => const Color.fromARGB(255, 165, 212, 66);
@@ -48,20 +48,25 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.black,
-              toolbarHeight: 100,
-              titleTextStyle: TextStyle(fontSize: 30)),
-          cardTheme: const CardTheme(elevation: 8),
-          checkboxTheme: CheckboxThemeData(
-            fillColor: MaterialStatePropertyAll(objColor),
+        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          toolbarHeight: 100,
+          titleTextStyle: TextStyle(fontSize: 30),
+        ),
+        cardTheme: const CardTheme(elevation: 8),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStatePropertyAll(objColor),
+        ),
+        disabledColor: Colors.grey[700],
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: objColor,
+            elevation: 8,
           ),
-          disabledColor: Colors.grey[700],
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: objColor, elevation: 8)),
-          fontFamily: GoogleFonts.roboto().fontFamily),
+        ),
+        fontFamily: GoogleFonts.roboto().fontFamily,
+      ),
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
     );

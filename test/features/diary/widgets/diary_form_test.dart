@@ -22,26 +22,27 @@ void main() {
 
   Widget widgetUnderTest({List<XFile>? imageList}) {
     return MaterialApp(
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        home: BlocProvider<DiaryBloc>.value(
-          value: diaryBloc,
-          child: BlocListener<DiaryBloc, DiaryState>(
-            listener: (context, state) {
-              returnedState = state;
-            },
-            child: SingleChildScrollView(
-              child: DiaryForm(
-                imageList: imageList,
-              ),
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      home: BlocProvider<DiaryBloc>.value(
+        value: diaryBloc,
+        child: BlocListener<DiaryBloc, DiaryState>(
+          listener: (context, state) {
+            returnedState = state;
+          },
+          child: SingleChildScrollView(
+            child: DiaryForm(
+              imageList: imageList,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   final XFile tImage = XFile('test1.png');
@@ -50,23 +51,24 @@ void main() {
   void setMockDiaryInitialSuccessState() {
     when(() => diaryBloc.state).thenReturn(
       DiaryInitialLoadSuccess(
-          location: '20041075 | TAP-NS TAP-North Strathfield',
-          areas: const {
-            1: 'Area 1',
-            2: 'Area 2',
-            3: 'Area 3',
-          },
-          categories: const {
-            1: 'Task Category 1',
-            2: 'Task Category 2',
-            3: 'Task Category 3',
-          },
-          events: const {
-            1: 'Event 1',
-            2: 'Event 2',
-            3: 'Event 3',
-          },
-          diaryDate: DateTime.now().millisecondsSinceEpoch),
+        location: '20041075 | TAP-NS TAP-North Strathfield',
+        areas: const {
+          1: 'Area 1',
+          2: 'Area 2',
+          3: 'Area 3',
+        },
+        categories: const {
+          1: 'Task Category 1',
+          2: 'Task Category 2',
+          3: 'Task Category 3',
+        },
+        events: const {
+          1: 'Event 1',
+          2: 'Event 2',
+          3: 'Event 3',
+        },
+        diaryDate: DateTime.now().millisecondsSinceEpoch,
+      ),
     );
   }
 
@@ -79,14 +81,15 @@ void main() {
       //Picking of image
       final btnAddPhotoFinder = find.byKey(const Key('add_photo'));
       whenListen(
-          diaryBloc,
-          Stream.fromIterable(
-            [
-              PickImageLoading(),
-              PickImageSuccess(updatedImageList: tUpdatedImageList)
-            ],
-          ),
-          initialState: DiaryInitial());
+        diaryBloc,
+        Stream.fromIterable(
+          [
+            PickImageLoading(),
+            PickImageSuccess(updatedImageList: tUpdatedImageList),
+          ],
+        ),
+        initialState: DiaryInitial(),
+      );
 
       await tester.pumpWidget(widgetUnderTest());
       expect(btnAddPhotoFinder, findsOneWidget);
@@ -103,14 +106,15 @@ void main() {
       ];
 
       whenListen(
-          diaryBloc,
-          Stream.fromIterable(
-            [
-              RemoveImageLoading(),
-              const RemoveImageSuccess(updatedImageList: [])
-            ],
-          ),
-          initialState: DiaryInitial());
+        diaryBloc,
+        Stream.fromIterable(
+          [
+            RemoveImageLoading(),
+            const RemoveImageSuccess(updatedImageList: []),
+          ],
+        ),
+        initialState: DiaryInitial(),
+      );
 
       final removePhotoFinder = find.byKey(const Key('remove_image_button_0'));
       await tester.pumpWidget(widgetUnderTest(imageList: tUpdatedImageList));
@@ -218,13 +222,14 @@ void main() {
     final buttonFinder = find.byKey(const Key('next'));
 
     whenListen(
-        diaryBloc,
-        Stream.fromIterable(
-          [
-            UploadDiarySuccess(),
-          ],
-        ),
-        initialState: DiaryInitial());
+      diaryBloc,
+      Stream.fromIterable(
+        [
+          UploadDiarySuccess(),
+        ],
+      ),
+      initialState: DiaryInitial(),
+    );
 
     await tester.pumpWidget(widgetUnderTest());
     expect(buttonFinder, findsOneWidget);

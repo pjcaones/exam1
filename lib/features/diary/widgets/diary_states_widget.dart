@@ -19,10 +19,11 @@ class DiaryStatesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> diaryDialog(
-        {required String title,
-        required String message,
-        required void Function() onPressed}) async {
+    Future<void> diaryDialog({
+      required String title,
+      required String message,
+      required void Function() onPressed,
+    }) async {
       return showDialog(
         context: context,
         builder: (context) {
@@ -33,7 +34,7 @@ class DiaryStatesWidget extends StatelessWidget {
               TextButton(
                 onPressed: onPressed,
                 child: Text(S.of(context).buttonOK),
-              )
+              ),
             ],
           );
         },
@@ -48,30 +49,28 @@ class DiaryStatesWidget extends StatelessWidget {
           isDismissible: false,
         );
 
-        if (progressDialog.isShowing()) {
+        final bool isDialogShowing = progressDialog.isShowing();
+
+        if (isDialogShowing) {
           progressDialog.hide();
         }
 
-        if (state is UploadDiaryLoading ||
-            state is PickImageLoading ||
-            state is DiaryInitialEvent) {
-          if (!progressDialog.isShowing()) {
+        if (state is UploadDiaryLoading || state is PickImageLoading) {
+          if (!isDialogShowing) {
             progressDialog.show();
           }
         } else if (state is UploadDiaryFailed) {
           diaryDialog(
-              title: S.of(context).uploadFailed,
-              message: state.errorMessage ?? S.of(context).errorMessageDefault,
-              onPressed: () {
-                Navigator.of(context).pop();
-              });
+            title: S.of(context).uploadFailed,
+            message: state.errorMessage ?? S.of(context).errorMessageDefault,
+            onPressed: () => Navigator.of(context).pop(),
+          );
         } else if (state is UploadDiarySuccess) {
           diaryDialog(
-              title: S.of(context).uploadSuccess,
-              message: S.of(context).uploadDiarySuccessMessage,
-              onPressed: () {
-                Navigator.of(context).pop();
-              });
+            title: S.of(context).uploadSuccess,
+            message: S.of(context).uploadDiarySuccessMessage,
+            onPressed: () => Navigator.of(context).pop(),
+          );
         }
       },
       child: SingleChildScrollView(

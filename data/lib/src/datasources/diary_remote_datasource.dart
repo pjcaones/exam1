@@ -1,10 +1,9 @@
 import 'dart:convert';
 
+import 'package:core/core.dart';
 import 'package:data/src/models/models.dart';
 import 'package:domain/domain.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:core/core.dart';
 
 abstract class DiaryRemoteDataSource {
   Future<UploadedDiaryResultModel> getResultFromUploadedDiary({
@@ -17,22 +16,24 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
   final http.Client client;
 
   @override
-  Future<UploadedDiaryResultModel> getResultFromUploadedDiary(
-      {required Diary diary}) async {
+  Future<UploadedDiaryResultModel> getResultFromUploadedDiary({
+    required Diary diary,
+  }) async {
     final url = Uri.parse('https://reqres.in/api/users/');
     final Map<String, String> header = {
       'Content-Type': 'application/json; charset=UTF-8',
     };
 
     final diaryModel = DiaryModel(
-        location: diary.location,
-        imageList: diary.imageList,
-        comment: diary.comment,
-        diaryDateInMillis: diary.diaryDateInMillis,
-        areaID: diary.areaID,
-        taskCategoryID: diary.taskCategoryID,
-        tags: diary.tags,
-        eventID: diary.eventID);
+      location: diary.location,
+      imageList: diary.imageList,
+      comment: diary.comment,
+      diaryDateInMillis: diary.diaryDateInMillis,
+      areaID: diary.areaID,
+      taskCategoryID: diary.taskCategoryID,
+      tags: diary.tags,
+      eventID: diary.eventID,
+    );
 
     final String body = jsonEncode(diaryModel.toJson());
     final response = await client.post(url, headers: header, body: body);

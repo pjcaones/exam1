@@ -8,8 +8,9 @@ class DiaryRepositoryImpl implements DiaryRepository {
   final DiaryRemoteDataSource diaryRemoteDataSource;
 
   @override
-  Future<Either<Failure, UploadedDiaryResult>> getResultFromUploadedDiary(
-      {required Diary diary}) async {
+  Future<Either<Failure, UploadedDiaryResult>> getResultFromUploadedDiary({
+    required Diary diary,
+  }) async {
     try {
       final uploadDiaryResult =
           await diaryRemoteDataSource.getResultFromUploadedDiary(

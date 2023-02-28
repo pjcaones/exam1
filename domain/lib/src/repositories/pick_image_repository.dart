@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 
 abstract class PickImageRepository {
-  Future<Either<PickImageFailure, XFile>> getPickedImage(
-      {required ImageDetails imageDetails});
+  Future<Either<PickImageFailure, XFile>> getPickedImage({
+    required ImageDetails imageDetails,
+  });
 }

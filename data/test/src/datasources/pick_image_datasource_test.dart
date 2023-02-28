@@ -62,7 +62,8 @@ void main() {
 
   group('actual pick of image', () {
     final actualFile = XFile(
-        '/Users/jpcaones/Library/Developer/CoreSimulator/Devices/EE8D9367-6B36-4497-9C67-E7A299A373A5/data/Containers/Data/Application/8908687F-BBCC-4C55-82CA-62EC1595CCF6/tmp/image_picker_1876576C-4AFB-413B-9D59-C8B5E7050B9B-18115-0000003FBEA874E1.jpg');
+      '/Users/jpcaones/Library/Developer/CoreSimulator/Devices/EE8D9367-6B36-4497-9C67-E7A299A373A5/data/Containers/Data/Application/8908687F-BBCC-4C55-82CA-62EC1595CCF6/tmp/image_picker_1876576C-4AFB-413B-9D59-C8B5E7050B9B-18115-0000003FBEA874E1.jpg',
+    );
     final mockImagePicker = MockImagePicker();
     late PickImageDataSourceImpl pickImageDataSourceImpl;
 
@@ -95,33 +96,37 @@ void main() {
       expect(result, actualFile);
     });
 
-    test('''
-should return null when failed or error''', () async {
-      when(
-        () => mockImagePicker.pickImage(
+    test(
+      '''
+should return null when failed or error''',
+      () async {
+        when(
+          () => mockImagePicker.pickImage(
             source: tImageDetails.imageSource,
             maxHeight: tImageDetails.maxHeight,
             maxWidth: tImageDetails.maxWidth,
-            imageQuality: tImageDetails.quality),
-      ).thenAnswer((_) async => null);
+            imageQuality: tImageDetails.quality,
+          ),
+        ).thenAnswer((_) async => null);
 
-      pickImageDataSourceImpl =
-          PickImageDataSourceImpl(picker: mockImagePicker);
+        pickImageDataSourceImpl =
+            PickImageDataSourceImpl(picker: mockImagePicker);
 
-      final result = await pickImageDataSourceImpl.getPickedImage(
-        imageDetails: tImageDetails,
-      );
+        final result = await pickImageDataSourceImpl.getPickedImage(
+          imageDetails: tImageDetails,
+        );
 
-      verify(
-        () => mockImagePicker.pickImage(
-          source: tImageDetails.imageSource,
-          maxHeight: tImageDetails.maxHeight,
-          maxWidth: tImageDetails.maxWidth,
-          imageQuality: tImageDetails.quality,
-        ),
-      );
+        verify(
+          () => mockImagePicker.pickImage(
+            source: tImageDetails.imageSource,
+            maxHeight: tImageDetails.maxHeight,
+            maxWidth: tImageDetails.maxWidth,
+            imageQuality: tImageDetails.quality,
+          ),
+        );
 
-      expect(result, null);
-    });
+        expect(result, null);
+      },
+    );
   });
 }

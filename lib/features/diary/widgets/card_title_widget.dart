@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomCardTitle extends StatelessWidget {
-  const CustomCardTitle({super.key, required this.title});
+class CardTitleWidget extends StatelessWidget {
+  const CardTitleWidget({super.key, required this.title});
   final String title;
 
   @override

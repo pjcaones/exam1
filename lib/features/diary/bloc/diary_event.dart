@@ -40,15 +40,16 @@ class RemoveImageEvent extends DiaryEvent {
 }
 
 class UploadDiaryEvent extends DiaryEvent {
-  const UploadDiaryEvent(
-      {required this.location,
-      required this.imageList,
-      required this.comment,
-      required this.diaryDate,
-      required this.areaID,
-      required this.taskCategoryID,
-      required this.tags,
-      required this.eventID});
+  const UploadDiaryEvent({
+    required this.location,
+    required this.imageList,
+    required this.comment,
+    required this.diaryDate,
+    required this.areaID,
+    required this.taskCategoryID,
+    required this.tags,
+    required this.eventID,
+  });
   final String location;
   final List<XFile> imageList;
   final String comment;
@@ -67,6 +68,6 @@ class UploadDiaryEvent extends DiaryEvent {
         areaID,
         taskCategoryID,
         tags,
-        eventID
+        eventID,
       ];
 }

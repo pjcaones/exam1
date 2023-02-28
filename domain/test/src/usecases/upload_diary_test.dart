@@ -34,7 +34,8 @@ void main() {
 
   group('upload diary usecase', () {
     void stubUploadDiaryRepository(
-        Either<Failure, UploadedDiaryResult> result) {
+      Either<Failure, UploadedDiaryResult> result,
+    ) {
       when(
         () => mockUploadDiaryRepository.getResultFromUploadedDiary(
           diary: tDiary,
