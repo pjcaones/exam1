@@ -2,8 +2,7 @@ name: Build Version Actions
 on:
   push:
     branches:
-      - jp/ci/update-main-workflow
-      # - main
+      - main
 
 jobs:
   build-version-actions:
