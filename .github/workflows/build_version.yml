@@ -28,16 +28,16 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Run analyzation
+      - name: Run analization
         run: flutter analyze
 
       - name: Run tests
         run: flutter test
 
-      # - name: Install lcov
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install lcov
+      - name: Install lcov
+        run: |
+          sudo apt-get update
+          sudo apt-get install lcov
 
       # - name: Check test coverage for presentation layer
       #   run: |
@@ -45,16 +45,19 @@ jobs:
       #     lcov --remove coverage/lcov.info 'lib/generated/*' -o coverage/lcov.info
       #     genhtml coverage/lcov.info -o coverage/html
 
-      # - name: Check test coverage for domain layer
-      #   run: |
-      #     cd domain
-      #     flutter test --coverage
-      #     genhtml coverage/lcov.info -o coverage/html
+      - name: Check test coverage for domain layer
+        run: |
+          pwd
+          ls
+          cd domain
+          flutter test --coverage
+          genhtml coverage/lcov.info -o coverage/html
 
       - name: Check test coverage for data layer
         run: |
           pwd
           ls
+          cd ..
         # run: |
         #   cd ../data
         #   flutter test --coverage
