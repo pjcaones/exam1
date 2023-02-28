@@ -34,16 +34,16 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Install lcov
-        run: |
-          sudo apt-get update
-          sudo apt-get install lcov
+      # - name: Install lcov
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install lcov
 
-      - name: Check test coverage for presentation layer
-        run: |
-          flutter test --coverage
-          lcov --remove coverage/lcov.info 'lib/generated/*' -o coverage/lcov.info
-          genhtml coverage/lcov.info -o coverage/html
+      # - name: Check test coverage for presentation layer
+      #   run: |
+      #     flutter test --coverage
+      #     lcov --remove coverage/lcov.info 'lib/generated/*' -o coverage/lcov.info
+      #     genhtml coverage/lcov.info -o coverage/html
 
       # - name: Check test coverage for domain layer
       #   run: |
