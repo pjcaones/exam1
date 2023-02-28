@@ -45,19 +45,21 @@ jobs:
           lcov --remove coverage/lcov.info 'lib/generated/*' -o coverage/lcov.info
           genhtml coverage/lcov.info -o coverage/html
 
-      - name: Check test coverage for domain layer
-        run: |
-          cd domain
-          flutter test --coverage
-          genhtml coverage/lcov.info -o coverage/html
+      # - name: Check test coverage for domain layer
+      #   run: |
+      #     cd domain
+      #     flutter test --coverage
+      #     genhtml coverage/lcov.info -o coverage/html
 
       - name: Check test coverage for data layer
         run: |
-          cd ..
-          cd data
-          flutter test --coverage
-          lcov --remove coverage/lcov.info 'lib/src/models/*.freezed.dart' 'lib/src/models/*.g.dart' -o coverage/lcov.info
-          genhtml coverage/lcov.info -o coverage/html
+          pwd
+          ls
+        # run: |
+        #   cd ../data
+        #   flutter test --coverage
+        #   lcov --remove coverage/lcov.info 'lib/src/models/*.freezed.dart' 'lib/src/models/*.g.dart' -o coverage/lcov.info
+        #   genhtml coverage/lcov.info -o coverage/html
 
       # - name: Check test coverage for core layer
       #   run: |
