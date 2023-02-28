@@ -45,3 +45,9 @@ app.*.map.json
 
 # fvm
 .fvm/flutter_sdk
+
+# coverage
+/coverage/
+/core/coverage/
+/data/coverage/
+/domain/coverage/
