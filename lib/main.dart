@@ -10,7 +10,6 @@ import 'package:localizely_sdk/localizely_sdk.dart';
 import 'features/diary/di.dart' as get_it;
 
 void main() {
-  //Initializing things in the project
   get_it.init();
 
   const sdkToken = 'af46981a623c443f8ac5c5e28ec376bc1648cd15';
