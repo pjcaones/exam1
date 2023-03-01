@@ -1,0 +1,5 @@
+workflows:
+  test-workflow:
+    name: Test Workflow
+    scripts:
+      - echo "Hello World!"
