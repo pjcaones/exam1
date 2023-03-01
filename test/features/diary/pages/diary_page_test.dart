@@ -8,7 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  //Just a test for codemagic workflow 3
+  //Just a test for codemagic workflow 4
 
   get_it.init();
 
