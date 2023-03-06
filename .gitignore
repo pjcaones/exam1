@@ -51,3 +51,6 @@ app.*.map.json
 /core/coverage/
 /data/coverage/
 /domain/coverage/
+
+# golden test
+**/failures/

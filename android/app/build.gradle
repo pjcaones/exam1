@@ -53,6 +53,27 @@ android {
         versionName flutterVersionName
     }
 
+    flavorDimensions "diary"
+    productFlavors {
+        production {
+            dimension "diary"
+            resValue "string", "app_name", "My Diary"
+            applicationIdSuffix ""
+        }
+
+        staging {
+            dimension "diary"
+            resValue "string", "app_name", "My Diary (Staging)"
+            applicationIdSuffix ".staging"
+        }
+
+        development {
+            dimension "diary"
+            resValue "string", "app_name", "My Diary (Dev)"
+            applicationIdSuffix ".dev"
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
