@@ -63,13 +63,13 @@ android {
 
         staging {
             dimension "diary"
-            resValue "string", "app_name", "My Diary (Staging)"
+            resValue "string", "app_name", "MyDiary-STG"
             applicationIdSuffix ".staging"
         }
 
         development {
             dimension "diary"
-            resValue "string", "app_name", "My Diary (Dev)"
+            resValue "string", "app_name", "MyDiary-Dev"
             applicationIdSuffix ".dev"
         }
     }
