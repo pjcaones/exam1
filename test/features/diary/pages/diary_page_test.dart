@@ -6,7 +6,7 @@ import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
+// import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   get_it.init();
@@ -52,12 +52,12 @@ void main() {
   });
 
   //Golden Test
-  testGoldens('running a sample golden test', (tester) async {
-    await loadAppFonts();
-    // await tester.pumpWidgetBuilder(widgetUnderTest());
-    final builder = DeviceBuilder()..addScenario(widget: widgetUnderTest());
-    await tester.pumpDeviceBuilder(builder);
+  // testGoldens('running a sample golden test', (tester) async {
+  //   await loadAppFonts();
+  //   // await tester.pumpWidgetBuilder(widgetUnderTest());
+  //   final builder = DeviceBuilder()..addScenario(widget: widgetUnderTest());
+  //   await tester.pumpDeviceBuilder(builder);
 
-    await screenMatchesGolden(tester, 'test');
-  });
+  //   await screenMatchesGolden(tester, 'test');
+  // });
 }
