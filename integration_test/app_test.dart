@@ -52,7 +52,7 @@ void main() {
           isTestMode: true,
           testImageList: testImageList,
         ),
-        child: const Main(),
+        child: const MainProd(),
       ),
     );
   }
