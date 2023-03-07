@@ -13,6 +13,11 @@ import 'features/diary/di.dart' as get_it;
 void main() {
   get_it.init();
 
+  EnvConfig.initialize(
+    env: Environment.staging,
+    apiUrl: 'https://reqres.in/',
+  );
+
   Localizely.init(
     LocalizationKeys.sdkToken,
     LocalizationKeys.distributionId,
@@ -21,13 +26,13 @@ void main() {
   runApp(
     ModularApp(
       module: DiaryModule(),
-      child: const Main(),
+      child: const MainStaging(),
     ),
   );
 }
 
-class Main extends StatelessWidget {
-  const Main({super.key});
+class MainStaging extends StatelessWidget {
+  const MainStaging({super.key});
 
   //color of current objects in the project
   Color get objColor => const Color.fromARGB(255, 165, 212, 66);
