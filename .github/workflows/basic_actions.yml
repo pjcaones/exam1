@@ -24,6 +24,21 @@ jobs:
       - name: Run analyzation
         run: flutter analyze
 
-      - name: Run tests
+      - name: Run tests for presentation layer
         run: flutter test
+
+      - name: Run tests for core layer
+        run: |
+          cd core
+          flutter test
+
+      - name: Run tests for data layer
+        run: |
+          cd data
+          flutter test
+
+      - name: Run tests for domain layer
+        run: |
+          cd domain
+          flutter test
 
