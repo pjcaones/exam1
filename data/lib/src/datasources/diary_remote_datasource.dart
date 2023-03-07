@@ -19,7 +19,7 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
   Future<UploadedDiaryResultModel> getResultFromUploadedDiary({
     required Diary diary,
   }) async {
-    final url = Uri.parse('https://reqres.in/api/users/');
+    final url = Uri.parse('${EnvConfig.instance.apiUrl}api/users/');
     final Map<String, String> header = {
       'Content-Type': 'application/json; charset=UTF-8',
     };
