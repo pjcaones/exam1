@@ -41,6 +41,11 @@ void main() {
     dataSourceImpl = DiaryRemoteDataSourceImpl(client: mockHttpClient);
 
     registerFallbackValue(url);
+
+    EnvConfig.initialize(
+      env: Environment.dev,
+      apiUrl: 'https://reqres.in/',
+    );
   });
 
   final Diary tDiary = Diary(
