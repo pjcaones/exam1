@@ -2,7 +2,7 @@ name: Golden Tests Workflow
 on:   
   push:
     branches:
-      - jp/tests/golden_toolkit
+      - jp/tests/golden-toolkit
 
 jobs:
   golden-tests-workflow: 
