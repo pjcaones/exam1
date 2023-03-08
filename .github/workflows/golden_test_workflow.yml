@@ -1,11 +1,11 @@
-name: Basic Flutter Actions
+name: Golden Tests Workflow
 on:   
   push:
     branches:
       - jp/tests/golden_toolkit
 
 jobs:
-  basic-flutter-actions: 
+  golden-tests-workflow: 
     runs-on: ubuntu-latest
 
     steps:
