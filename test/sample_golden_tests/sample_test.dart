@@ -50,7 +50,6 @@ void main() {
     await screenMatchesGolden(tester, 'content1');
   });
 
-  //Test in multiple devices
   testGoldens('test run for device builder', (tester) async {
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(
