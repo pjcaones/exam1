@@ -15,7 +15,6 @@ class MyTestWidget extends StatefulWidget {
 
 class _MyTestWidgetState extends State<MyTestWidget> {
   String? content;
-  Color color = Colors.red;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class _MyTestWidgetState extends State<MyTestWidget> {
         Text(
           content ?? 'No Content',
           style: TextStyle(
-            color: color,
+            color: widget.color,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -53,6 +52,12 @@ void main() {
           GoldenTestScenario(
             name: 'initial ui',
             child: const MyTestWidget(),
+          ),
+          GoldenTestScenario(
+            name: 'different text color',
+            child: const MyTestWidget(
+              color: Colors.green,
+            ),
           ),
         ],
       ),
