@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:exam1/presentation.dart';
-import 'package:exam1/presentation.dart' as get_it;
+import 'package:exam1/main_dev.dart';
+import 'package:exam1/src/features/diary/diary.dart' as get_it;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';

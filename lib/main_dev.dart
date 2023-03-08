@@ -1,14 +1,13 @@
 import 'package:core/core.dart';
-import 'package:exam1/features/diary/pages/pages.dart';
 import 'package:exam1/generated/l10n.dart';
+import 'package:exam1/src/features/diary/diary.dart';
+import 'package:exam1/src/features/diary/diary.dart' as get_it;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localizely_sdk/localizely_sdk.dart';
-
-import 'features/diary/di.dart' as get_it;
 
 void main() {
   get_it.init();
