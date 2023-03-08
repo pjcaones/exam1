@@ -54,4 +54,5 @@ app.*.map.json
 
 # golden test
 **/failures/
-**/goldens/
+**/goldens/*
+!**/goldens/ci/

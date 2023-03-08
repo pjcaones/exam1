@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "52.0.0"
+  alchemist:
+    dependency: "direct dev"
+    description:
+      name: alchemist
+      sha256: "3888bf8477d560bc18055939dda28105ffdaac638efbce8f2b7975762bf986d0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   analyzer:
     dependency: transitive
     description:
@@ -1168,4 +1176,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.0 <4.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=3.4.0-34.1.pre"
