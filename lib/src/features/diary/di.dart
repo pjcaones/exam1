@@ -1,7 +1,7 @@
 import 'package:core/core.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
-import 'package:exam1/features/diary/bloc/diary_bloc.dart';
+import 'package:exam1/src/features/diary/diary.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;

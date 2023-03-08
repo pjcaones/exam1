@@ -1,5 +1,5 @@
-import 'package:exam1/features/diary/widgets/widgets.dart';
 import 'package:exam1/generated/l10n.dart';
+import 'package:exam1/src/features/diary/diary.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

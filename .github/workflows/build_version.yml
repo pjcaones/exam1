@@ -67,10 +67,10 @@ jobs:
         uses: codecov/codecov-action@v3
 
       - name: Build apk
-        run: flutter build apk --release
+        run: flutter build apk --release --flavor production -t lib/main_prod.dart
 
       - name: Upload apk
         uses: actions/upload-artifact@v2
         with:
           name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+          path: build/app/outputs/apk/release/app-production-release.apk
