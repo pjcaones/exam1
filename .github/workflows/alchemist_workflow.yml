@@ -1,0 +1,29 @@
+name: Alchemist Golden Test
+on:   
+  push:
+    branches:
+      - jp/tests/alchemist
+
+jobs:
+  alchemist-golden-test: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.0'
+          channel: 'stable'
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run analyzation
+        run: flutter analyze
+
+      - name: Run tests including golden tests
+        run: flutter test
+
