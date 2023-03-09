@@ -45,6 +45,7 @@ class _MyTestWidgetState extends State<MyTestWidget> {
 }
 
 void main() {
+  //Just to have something to commit
   group('test for alchemist package', () {
     goldenTest(
       'renders correctly',
