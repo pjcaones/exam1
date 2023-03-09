@@ -80,13 +80,9 @@ void main() {
         expect(finder, findsOneWidget);
         await tester.tap(finder);
       },
-      builder: () => GoldenTestGroup(
-        children: [
-          GoldenTestScenario(
-            name: 'changed text after button pressed',
-            child: const MyTestWidget(),
-          ),
-        ],
+      builder: () => GoldenTestScenario(
+        name: 'changed text after button pressed',
+        child: const MyTestWidget(),
       ),
     );
 
@@ -108,13 +104,9 @@ void main() {
           ),
         );
       },
-      builder: () => GoldenTestGroup(
-        children: [
-          GoldenTestScenario(
-            name: 'using material app',
-            child: const MyTestWidget(),
-          ),
-        ],
+      builder: () => GoldenTestScenario(
+        name: 'using material app',
+        child: const MyTestWidget(),
       ),
     );
   });
