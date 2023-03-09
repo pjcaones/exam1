@@ -1,5 +1,7 @@
 import 'package:alchemist/alchemist.dart';
+import 'package:exam1/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class MyTestWidget extends StatefulWidget {
@@ -54,10 +56,63 @@ void main() {
             child: const MyTestWidget(),
           ),
           GoldenTestScenario(
-            name: 'different text color',
+            name: 'with green text color',
             child: const MyTestWidget(
               color: Colors.green,
             ),
+          ),
+          GoldenTestScenario(
+            name: 'with blue text color',
+            child: const MyTestWidget(
+              color: Colors.blue,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    goldenTest(
+      'just another test',
+      fileName: 'button_pressed',
+      pumpBeforeTest: (tester) async {
+        final finder = find.byType(ElevatedButton);
+
+        expect(finder, findsOneWidget);
+        await tester.tap(finder);
+      },
+      builder: () => GoldenTestGroup(
+        children: [
+          GoldenTestScenario(
+            name: 'changed text after button pressed',
+            child: const MyTestWidget(),
+          ),
+        ],
+      ),
+    );
+
+    goldenTest(
+      'test for material app',
+      fileName: 'material_app',
+      pumpWidget: (tester, widget) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            title: 'My Test Widget',
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            home: widget,
+          ),
+        );
+      },
+      builder: () => GoldenTestGroup(
+        children: [
+          GoldenTestScenario(
+            name: 'using material app',
+            child: const MyTestWidget(),
           ),
         ],
       ),
