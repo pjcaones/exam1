@@ -47,7 +47,7 @@ class _MyTestWidgetState extends State<MyTestWidget> {
 void main() {
   group('test for alchemist package', () {
     goldenTest(
-      'test run for alchemist package',
+      'renders correctly',
       fileName: 'initial',
       builder: () => GoldenTestGroup(
         children: [
@@ -72,7 +72,7 @@ void main() {
     );
 
     goldenTest(
-      'just another test',
+      'test for button pressed',
       fileName: 'button_pressed',
       pumpBeforeTest: (tester) async {
         final finder = find.byType(ElevatedButton);
